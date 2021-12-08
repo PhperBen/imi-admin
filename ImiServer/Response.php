@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace ImiApp\ImiServer;
 
-use Hyperf\HttpMessage\Stream\SwooleStream;
+use Imi\Util\Stream\MemoryStream;
 use Imi\Server\Http\Message\Proxy\ResponseProxy;
 use Imi\Util\Http\Consts\ResponseHeader;
 use Imi\Util\Http\Consts\MediaType;
+use Imi\Bean\Annotation\Inherit;
+use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @Inherit
+ */
 class Response extends ResponseProxy
 {
     /**
@@ -16,9 +21,9 @@ class Response extends ResponseProxy
      * @param string $message
      * @param mixed|array $data
      * @param int $code
-     * @return Response|ResponseProxy
+     * @return ResponseInterface
      */
-    public function error(string $message = '', mixed $data = [], int $code = 500): Response|ResponseProxy
+    public function error(string $message = '', mixed $data = [], int $code = 500): ResponseInterface
     {
         $data = [
             'code' => $code,
@@ -33,9 +38,9 @@ class Response extends ResponseProxy
      * @param string $message
      * @param mixed|array $data
      * @param int $code
-     * @return Response|ResponseProxy
+     * @return ResponseInterface
      */
-    public function success(string $message = '', mixed $data = [], int $code = 200): Response|ResponseProxy
+    public function success(string $message = '', mixed $data = [], int $code = 200): ResponseInterface
     {
         $data = [
             'code' => $code,
@@ -49,10 +54,10 @@ class Response extends ResponseProxy
      * json数据
      * @param array $data 内容
      * @param int $code 状态码
-     * @return Response|ResponseProxy
+     * @return ResponseInterface
      */
-    public function json(array $data, int $code = 200): Response|ResponseProxy
+    public function json(array $data, int $code = 200): ResponseInterface
     {
-        return $this->withHeader(ResponseHeader::CONTENT_TYPE, MediaType::APPLICATION_JSON_UTF8)->withStatus(200)->withBody(new SwooleStream(json_encode($data, 256 | 64)));
+        return $this->withHeader(ResponseHeader::CONTENT_TYPE, MediaType::APPLICATION_JSON_UTF8)->withStatus(200)->withBody(new MemoryStream(json_encode($data, 256 | 64)));
     }
 }
