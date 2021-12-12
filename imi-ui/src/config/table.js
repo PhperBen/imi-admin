@@ -8,7 +8,7 @@ export default {
 	parseData: function (res) {			//数据分析
 		return {
 			data: res.data,				//分析无分页的数据字段结构
-			rows: res.data.rows,		//分析行数据字段结构
+			rows: res.data.list,		//分析行数据字段结构
 			total: res.data.total,		//分析总数字段结构
 			msg: res.message,			//分析描述字段结构
 			code: res.code				//分析状态字段结构

@@ -9,12 +9,12 @@ use Imi\Model\Annotation\Column;
 use Imi\Model\Annotation\DDL;
 use Imi\Model\Annotation\Entity;
 use Imi\Model\Annotation\Table;
-use Imi\Model\Model as Model;
+use ImiApp\ImiServer\AbstractModel as Model;
 
 /**
  * 管理员操作日志 基类.
  *
- * @Entity(camel=true, bean=true)
+ * @Entity(camel=false, bean=true)
  * @Table(name=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdminOperateLog.name", default="so_admin_operate_log"), id={"id"}, dbPoolName=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdminOperateLog.poolName"))
  * @DDL(sql="CREATE TABLE `so_admin_operate_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,

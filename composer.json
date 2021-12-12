@@ -8,10 +8,10 @@
         "imiphp/imi-fpm": "~2.0.0",
         "imiphp/imi-jwt": "^2.0",
         "imiphp/imi-workerman": "~2.0.0",
-        "phpben/imi-auth": "^0.1.0",
-        "phpben/imi-config-center": "^0.0.2",
-        "phpben/imi-module-route": "^0.1.0",
-        "phpben/imi-validate": "^0.0.1"
+        "phpben/imi-auth": "^1.0",
+        "phpben/imi-config-center": "^1.0",
+        "phpben/imi-module-route": "^1.0",
+        "phpben/imi-validate": "^1.0"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.7"
@@ -19,7 +19,10 @@
     "autoload": {
         "psr-4": {
             "ImiApp\\": "./"
-        }
+        },
+        "files": [
+            "./ImiServer/Functions.php"
+        ]
     },
     "config": {
         "sort-packages": true

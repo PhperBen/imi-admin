@@ -9,12 +9,12 @@ use Imi\Model\Annotation\Column;
 use Imi\Model\Annotation\DDL;
 use Imi\Model\Annotation\Entity;
 use Imi\Model\Annotation\Table;
-use Imi\Model\Model as Model;
+use ImiApp\ImiServer\AbstractModel as Model;
 
 /**
  * 权限菜单 基类.
  *
- * @Entity(camel=true, bean=true)
+ * @Entity(camel=false, bean=true)
  * @Table(name=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAuthRule.name", default="so_auth_rule"), id={"id"}, dbPoolName=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAuthRule.poolName"))
  * @DDL(sql="CREATE TABLE `so_auth_rule` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -22,11 +22,11 @@ use Imi\Model\Model as Model;
   `status` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '状态',
   `pid` int unsigned NOT NULL COMMENT '父亲',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
+  `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '别名',
   `icon` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '图标',
-  `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由',
-  `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '重定向',
-  `type` enum('menu','iframe','button','redirect') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'menu' COMMENT '类型',
-  `view` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '视图',
+  `rule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规则',
+  `type` enum('menu','iframe','button','link') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'menu' COMMENT '类型',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
   `create_time` int unsigned NOT NULL COMMENT '创建时间',
   `update_time` int unsigned DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -37,11 +37,11 @@ use Imi\Model\Model as Model;
  * @property int|null $status 状态
  * @property int|null $pid 父亲
  * @property string|null $name 名称
+ * @property string|null $alias 别名
  * @property string|null $icon 图标
- * @property string|null $route 路由
- * @property string|null $redirect 重定向
+ * @property string|null $rule 规则
  * @property string|null $type 类型
- * @property string|null $view 视图
+ * @property string|null $path 地址
  * @property int|null $createTime 创建时间
  * @property int|null $updateTime 更新时间
  */
@@ -192,6 +192,35 @@ abstract class SoAuthRuleBase extends Model
     }
 
     /**
+     * 别名.
+     * alias
+     * @Column(name="alias", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var string|null
+     */
+    protected ?string $alias = NULL;
+
+    /**
+     * 获取 alias - 别名.
+     *
+     * @return string|null
+     */
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    /**
+     * 赋值 alias - 别名.
+     * @param string|null $alias alias
+     * @return static
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = null === $alias ? null : (string)$alias;
+        return $this;
+    }
+
+    /**
      * 图标.
      * icon
      * @Column(name="icon", type="varchar", length=64, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
@@ -221,60 +250,31 @@ abstract class SoAuthRuleBase extends Model
     }
 
     /**
-     * 路由.
-     * route
-     * @Column(name="route", type="varchar", length=255, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * 规则.
+     * rule
+     * @Column(name="rule", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|null
      */
-    protected ?string $route = NULL;
+    protected ?string $rule = NULL;
 
     /**
-     * 获取 route - 路由.
+     * 获取 rule - 规则.
      *
      * @return string|null
      */
-    public function getRoute(): ?string
+    public function getRule(): ?string
     {
-        return $this->route;
+        return $this->rule;
     }
 
     /**
-     * 赋值 route - 路由.
-     * @param string|null $route route
+     * 赋值 rule - 规则.
+     * @param string|null $rule rule
      * @return static
      */
-    public function setRoute($route)
+    public function setRule($rule)
     {
-        $this->route = null === $route ? null : (string)$route;
-        return $this;
-    }
-
-    /**
-     * 重定向.
-     * redirect
-     * @Column(name="redirect", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
-     * @var string|null
-     */
-    protected ?string $redirect = NULL;
-
-    /**
-     * 获取 redirect - 重定向.
-     *
-     * @return string|null
-     */
-    public function getRedirect(): ?string
-    {
-        return $this->redirect;
-    }
-
-    /**
-     * 赋值 redirect - 重定向.
-     * @param string|null $redirect redirect
-     * @return static
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = null === $redirect ? null : (string)$redirect;
+        $this->rule = null === $rule ? null : (string)$rule;
         return $this;
     }
 
@@ -308,31 +308,31 @@ abstract class SoAuthRuleBase extends Model
     }
 
     /**
-     * 视图.
-     * view
-     * @Column(name="view", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * 地址.
+     * path
+     * @Column(name="path", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|null
      */
-    protected ?string $view = NULL;
+    protected ?string $path = NULL;
 
     /**
-     * 获取 view - 视图.
+     * 获取 path - 地址.
      *
      * @return string|null
      */
-    public function getView(): ?string
+    public function getPath(): ?string
     {
-        return $this->view;
+        return $this->path;
     }
 
     /**
-     * 赋值 view - 视图.
-     * @param string|null $view view
+     * 赋值 path - 地址.
+     * @param string|null $path path
      * @return static
      */
-    public function setView($view)
+    public function setPath($path)
     {
-        $this->view = null === $view ? null : (string)$view;
+        $this->path = null === $path ? null : (string)$path;
         return $this;
     }
 

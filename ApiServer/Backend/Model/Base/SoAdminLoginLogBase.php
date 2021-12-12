@@ -9,12 +9,12 @@ use Imi\Model\Annotation\Column;
 use Imi\Model\Annotation\DDL;
 use Imi\Model\Annotation\Entity;
 use Imi\Model\Annotation\Table;
-use Imi\Model\Model as Model;
+use ImiApp\ImiServer\AbstractModel as Model;
 
 /**
  * 管理员登陆日志 基类.
  *
- * @Entity(camel=true, bean=true)
+ * @Entity(camel=false, bean=true)
  * @Table(name=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdminLoginLog.name", default="so_admin_login_log"), id={"id"}, dbPoolName=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdminLoginLog.poolName"))
  * @DDL(sql="CREATE TABLE `so_admin_login_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,

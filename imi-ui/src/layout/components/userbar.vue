@@ -96,8 +96,8 @@
 		},
 		created() {
 			var userInfo = this.$TOOL.data.get("USER_INFO");
-			this.userName = userInfo.userName;
-			this.userNameF = this.userName.substring(0,1);
+			this.username = userInfo.username;
+			this.userNameF = this.username.substring(0,1);
 		},
 		methods: {
 			//个人信息
@@ -109,16 +109,24 @@
 					this.$router.push({path: '/cmd'});
 				}
 				if(command == "clearCache"){
-					this.$confirm('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？','提示', {
+					this.$confirm('清除缓存-刷新菜单权限','提示', {
 						type: 'info',
 					}).then(() => {
 						const loading = this.$loading()
-						this.$TOOL.data.clear()
-						this.$router.replace({path: '/login'})
-						setTimeout(()=>{
-							loading.close()
-							location.reload()
-						},1000)
+						this.$API.common.auth.get().then(res=>{
+							if (res.code == 200) {
+								this.$TOOL.data.set("MENU", res.data.menu)
+								this.$TOOL.data.set("PERMISSIONS", res.data.permissions)
+								loading.close()
+								this.$message.success('清理成功，即将刷新页面')
+								setTimeout(() => {
+									location.reload();
+								}, 1000);
+							} else {
+								loading.close()
+								this.$message.warning(res.message)
+							}
+						})
 					}).catch(() => {
 						//取消
 					})
@@ -129,7 +137,14 @@
 						confirmButtonText: '退出',
 						confirmButtonClass: 'el-button--danger'
 					}).then(() => {
-						this.$router.replace({path: '/login'});
+						this.$API.common.logout.get().then(res=>{
+							if (res.code == 200) {
+								this.$message.success(res.message)
+								this.$router.replace({path: '/login'});
+							} else {
+								this.$message.warning(res.message)
+							}
+						})
 					}).catch(() => {
 						//取消退出
 					})

@@ -27,15 +27,23 @@ export default {
 		},
 		{
 			label: '包含',
-			value: 'include',
+			value: 'like',
 		},
 		{
 			label: '不包含',
-			value: 'notinclude',
+			value: 'not like',
+		},
+		{
+			label: '区间',
+			value: 'between',
+		},
+		{
+			label: '不在区间',
+			value: 'not between',
 		}
 	],
 	//过滤结果运算符的分隔符
-	separator: '|',
+	separator: '|||||',
 	//获取我的常用
 	getMy: function (name) {
 		return new Promise((resolve) => {

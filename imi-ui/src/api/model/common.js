@@ -15,5 +15,12 @@ export default {
 		get: async function(){
 			return await http.get(this.url);
 		}
-	}
+	},
+	logout: {
+		url: `${config.API_URL}/auth/logout`,
+		name: "退出登陆",
+		get: async function(){
+			return await http.get(this.url);
+		}
+	},
 }

@@ -12,4 +12,8 @@ use Imi\Bean\Annotation\Inherit;
  */
 class Request extends RequestProxy
 {
+    public function getRaw()
+    {
+        return json_decode($this->getSwooleRequest()->rawContent(), true);
+    }
 }

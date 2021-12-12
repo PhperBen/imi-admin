@@ -14,5 +14,13 @@ use ImiApp\ApiServer\Backend\Model\Base\SoAuthRuleBase;
  */
 class SoAuthRule extends SoAuthRuleBase
 {
+    public static function getSortBy(): string
+    {
+        return 'desc';
+    }
 
+    public static function getSortPk(): string
+    {
+        return 'sort';
+    }
 }

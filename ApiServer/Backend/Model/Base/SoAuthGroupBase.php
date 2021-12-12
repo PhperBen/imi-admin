@@ -9,12 +9,12 @@ use Imi\Model\Annotation\Column;
 use Imi\Model\Annotation\DDL;
 use Imi\Model\Annotation\Entity;
 use Imi\Model\Annotation\Table;
-use Imi\Model\Model as Model;
+use ImiApp\ImiServer\AbstractModel as Model;
 
 /**
  * 权限分组 基类.
  *
- * @Entity(camel=true, bean=true)
+ * @Entity(camel=false, bean=true)
  * @Table(name=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAuthGroup.name", default="so_auth_group"), id={"id"}, dbPoolName=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAuthGroup.poolName"))
  * @DDL(sql="CREATE TABLE `so_auth_group` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,

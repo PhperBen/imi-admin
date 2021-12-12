@@ -68,7 +68,8 @@
 		},
 		created() {
 			var menu = this.$router.sc_getMenu()
-			var dashboardRoute = this.treeFind(menu, node => node.path==this.$CONFIG.DASHBOARD_URL)
+			var path = this.$TOOL.data.get("DEFAULT_ROUTE_PATH")
+			var dashboardRoute = this.treeFind(menu, node => node.path==path)
 			if(dashboardRoute){
 				dashboardRoute.fullPath = dashboardRoute.path
 				this.addViewTags(dashboardRoute)

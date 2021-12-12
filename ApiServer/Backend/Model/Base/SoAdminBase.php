@@ -9,12 +9,12 @@ use Imi\Model\Annotation\Column;
 use Imi\Model\Annotation\DDL;
 use Imi\Model\Annotation\Entity;
 use Imi\Model\Annotation\Table;
-use Imi\Model\Model as Model;
+use ImiApp\ImiServer\AbstractModel as Model;
 
 /**
  * 管理员列表 基类.
  *
- * @Entity(camel=true, bean=true)
+ * @Entity(camel=false, bean=true)
  * @Table(name=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdmin.name", default="so_admin"), id={"id"}, dbPoolName=@ConfigValue(name="@app.models.ImiApp\ApiServer\Backend\Model\SoAdmin.poolName"))
  * @DDL(sql="CREATE TABLE `so_admin` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ use Imi\Model\Model as Model;
   `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '手机号码',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '头像',
   `failures` int unsigned DEFAULT '0' COMMENT '失败次数',
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'TOKEN',
+  `token` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'TOKEN',
   `home_rule` int unsigned DEFAULT '0' COMMENT '默认菜单',
   `create_time` int unsigned NOT NULL COMMENT '创建时间',
   `update_time` int unsigned DEFAULT '0' COMMENT '更新时间',
@@ -312,10 +312,10 @@ abstract class SoAdminBase extends Model
     /**
      * TOKEN.
      * token
-     * @Column(name="token", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @Column(name="token", type="longtext", length=0, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|null
      */
-    protected ?string $token = '';
+    protected ?string $token = NULL;
 
     /**
      * 获取 token - TOKEN.

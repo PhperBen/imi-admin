@@ -207,6 +207,7 @@ return [
             $rootPath . '.idea',
             $rootPath . '.vscode',
             $rootPath . 'vendor',
+            $rootPath . 'imi-ui',
         ], // 要排除的路径数组，支持通配符*
     ],
     'JWT' => [
@@ -215,7 +216,7 @@ return [
                 'signer' => 'Rsa',
                 'algo' => 'Sha256',
                 'id' => 'default',
-                'expires' => 86400,
+                'expires' => 86400 * 7,
                 'privateKey' => '-----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDPYjpnWby7X2fCtwLZ78B4Quc9L7t1QTChRq5E9TanTuf9t3xL
 mzCfJyNCA2U22kdfT5OBcAAwcyDaF5RxeSajXucl+rUDPTvuqqhqgAdw0NChsDrp

@@ -24,7 +24,8 @@ const DEFAULT_CONFIG = {
 	TOKEN_PREFIX: "Bearer ",
 
 	//追加其他头
-	HEADERS: {},
+	HEADERS: {
+	},
 
 	//请求是否开启缓存
 	REQUEST_CACHE: false,
