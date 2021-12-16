@@ -24,6 +24,13 @@ export default {
                 return await http.post(this.url,params);
             }
         },
+        exec:{
+            url: `${config.API_URL}/system/autocode/exec`,
+            name: "exec",
+            post: async function(params = {}){
+                return await http.post(this.url,params);
+            }
+        },
     },
     config:{
         read:{

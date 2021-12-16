@@ -56,7 +56,21 @@ class AutocodeController extends CommonController
      */
     public function create($data): ResponseInterface
     {
-        return $this->service->build($data) ? $this->response->success("操作成功") : $this->response->error($this->service->getError());
+        $service = $this->service->build($data);
+        return $service ? $this->response->success("操作成功", $service) : $this->response->error($this->service->getError());
+    }
+
+    /**
+     * @Action
+     * @Route(url="exec",method="POST")
+     * @Validate(security=false)
+     * @param $data
+     * @return ResponseInterface
+     */
+    public function exec($data): ResponseInterface
+    {
+        $service = $this->service->exec($data);
+        return $service ? $this->response->success("操作成功", $service) : $this->response->error($this->service->getError());
     }
 
     /**

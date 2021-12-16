@@ -19,13 +19,13 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @DDL(sql="CREATE TABLE `so_attachment` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'local' COMMENT '存储类型',
-  `admin_id` int unsigned NOT NULL COMMENT '管理员ID',
+  `admin_id` int unsigned NOT NULL DEFAULT '0' COMMENT '管理员ID',
   `user_id` int unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '存储路径',
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '在线地址',
   `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件名称',
   `size` int unsigned NOT NULL COMMENT '文件大小',
-  `mimetype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件类型',
+  `mediatype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件类型',
   `extension` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件后缀',
   `create_time` int unsigned NOT NULL COMMENT '创建时间',
   `update_time` int unsigned DEFAULT '0' COMMENT '更新时间',
@@ -41,7 +41,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @property string|null $url 在线地址
  * @property string|null $filename 文件名称
  * @property int|null $size 文件大小
- * @property string|null $mimetype 文件类型
+ * @property string|null $mediatype 文件类型
  * @property string|null $extension 文件后缀
  * @property int|null $createTime 创建时间
  * @property int|null $updateTime 更新时间
@@ -109,7 +109,7 @@ abstract class SoAttachmentBase extends Model
     /**
      * 管理员ID.
      * admin_id
-     * @Column(name="admin_id", type="int unsigned", length=0, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @Column(name="admin_id", type="int unsigned", length=0, accuracy=0, nullable=false, default="0", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var int|null
      */
     protected ?int $adminId = NULL;
@@ -282,30 +282,30 @@ abstract class SoAttachmentBase extends Model
 
     /**
      * 文件类型.
-     * mimetype
-     * @Column(name="mimetype", type="varchar", length=255, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * mediatype
+     * @Column(name="mediatype", type="varchar", length=255, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|null
      */
-    protected ?string $mimetype = NULL;
+    protected ?string $mediatype = NULL;
 
     /**
-     * 获取 mimetype - 文件类型.
+     * 获取 mediatype - 文件类型.
      *
      * @return string|null
      */
-    public function getMimetype(): ?string
+    public function getMediatype(): ?string
     {
-        return $this->mimetype;
+        return $this->mediatype;
     }
 
     /**
-     * 赋值 mimetype - 文件类型.
-     * @param string|null $mimetype mimetype
+     * 赋值 mediatype - 文件类型.
+     * @param string|null $mediatype mediatype
      * @return static
      */
-    public function setMimetype($mimetype)
+    public function setMediatype($mediatype)
     {
-        $this->mimetype = null === $mimetype ? null : (string)$mimetype;
+        $this->mediatype = null === $mediatype ? null : (string)$mediatype;
         return $this;
     }
 

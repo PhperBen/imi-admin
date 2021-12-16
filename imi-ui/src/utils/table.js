@@ -83,6 +83,9 @@ table.eolSplit = function(text){
 
 table.assign = function(that,data,more){
     for(const i in that.form){
+        if(Number.isInteger(data[i]) && that.form[i] == ''){
+            that.form[i] = 0;
+        }
         if(data[i] !== undefined) {
             if(that.form[i] instanceof Array && !(data[i] instanceof Array)){
                 that.form[i] = data[i] ? data[i].split(',') : data[i];

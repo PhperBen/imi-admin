@@ -232,6 +232,28 @@ return [
 
         ],
     ],
+    'Upload' => [
+        // 存储 local本地/aliyun阿里OSS
+        'save' => 'local',
+        // 最大上传大小
+        'maxsize' => '20m',
+        // 可上传的文件类型
+        'mediatype' => ['image/gif', 'image/jpg', 'image/jpeg', 'image/bmp', 'image/png', 'text/plain'],
+        // 可上传的文件后缀
+        'suffix' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'txt'],
+        // 上传目录
+        'root' => "/public/uploads",
+        // 获取图片Domain（oss则填oss地址）
+        'domain' => "http://127.0.0.1:8088/uploads",
+        // Aliyun oss配置
+        'aliyun' => [
+            'accessId' => '',
+            'accessSecret' => '',
+            'bucket' => '',
+            'endpoint' => 'oss-cn-shanghai.aliyuncs.com',
+            'isCName' => false,
+        ],
+    ],
     'hotUpdate' => [
         // 'status'    =>    false, // 关闭热更新去除注释，不设置即为开启，建议生产环境关闭
 

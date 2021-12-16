@@ -66,9 +66,7 @@
                 },
                 rules: {
                 },
-                <?php foreach($columns as $column){ ?><?php if($column['option']){ ?>
-                '<?php echo $column["key"]; ?>_option':<?php echo $column['option']; ?>,
-                <?php } ?><?php } echo "\n"; ?>
+<?php foreach($columns as $column){ ?><?php if($column['option']){ ?><?php echo "\t\t\t\t";echo $column["key"]; ?>_option:<?php echo $column['option']; ?>,<?php echo "\n";} ?><?php } ?>
             }
         },
         methods: {

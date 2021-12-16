@@ -10,7 +10,7 @@ use ImiApp\ImiServer\AbstractService;
 use Imi\Bean\Annotation\Bean;
 use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Exception\ServiceException;
-use <?php echo $model; ?> as Model
+use <?php echo $model; ?> as Model;
 
 /**
  * @Inherit

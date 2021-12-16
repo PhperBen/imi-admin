@@ -3,7 +3,7 @@
         <el-header>
             <div class="left-panel">
                 <el-button type="primary" icon="el-icon-plus" v-auth="'<?php echo $auth; ?>.create'" @click="create"></el-button>
-                <el-button type="danger" plain icon="el-icon-delete" v-auth="'<?php echo $auth; ?>.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="deletes"></el-button>
+                <el-button type="danger" plain icon="el-icon-delete" v-auth="'<?php echo $auth; ?>.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="dels"></el-button>
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
@@ -30,11 +30,11 @@
                 <?php } echo "\n"; ?>
                 <el-table-column label="操作" fixed="right" align="right" width="140">
                     <template #default="scope">
-                        <el-button type="text" v-auth="'<?php echo $auth; ?>.update'" size="small" @click="update(scope.row, scope.$index)">编辑
+                        <el-button type="text" v-auth="'<?php echo $auth; ?>.update'" size="small" @click="update(scope.row)">编辑
                         </el-button>
-                        <el-popconfirm title="确定删除吗？" v-auth="'<?php echo $auth; ?>.delete'" @confirm="delete(scope.row, scope.$index)">
+                        <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
                             <template #reference>
-                                <el-button type="text" size="small">删除</el-button>
+                                <el-button type="text" v-auth="'<?php echo $auth; ?>.delete'" size="small">删除</el-button>
                             </template>
                         </el-popconfirm>
                     </template>
@@ -45,11 +45,13 @@
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
 </template>
 <script>
-    import saveDialog from './save'
+    import saveDialog from './save';
+    import imiFilterBar from '@/components/imiFilterBar';
     export default {
         name: '<?php echo $auth; ?>',
         components: {
             saveDialog,
+            imiFilterBar
         },
         data() {
             return {
@@ -93,7 +95,7 @@
                     this.$refs.saveDialog.open('update').setData(row)
                 })
             },
-            async delete(row) {
+            async del(row) {
                 var res = await this.$API.<?php echo $api; ?>.delete.post({ids: row.id});
                 if (res.code == 200) {
                     this.$refs.table.refresh()
@@ -102,7 +104,7 @@
                     this.$alert(res.message, "提示", {type: 'error'})
                 }
             },
-            async deletes() {
+            async dels() {
                 if (!this.selection.length) {
                     this.$message.warning("请选择要删除的数据")
                     return false;

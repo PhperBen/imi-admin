@@ -5,7 +5,7 @@
 				<el-col :span="24">
 				<el-row>
 				<el-col :span="12">
-					<el-card class="box-card" style="height:22rem" shadow="never">
+					<el-card class="box-card" style="height:25rem" shadow="never">
 						<template #header>
 						<div class="card-header">
 							<span>选择模型</span>
@@ -18,13 +18,14 @@
 							</slot>
 						</el-alert>
 						<br>
+						<br>
 						<el-select v-model="model" @change="modelChange" style="width:100%" placeholder="请选择模型">
 							<el-option v-for="item in models" :key="item" :label="item" :value="item"></el-option>
 						</el-select>
 					</el-card>
 				</el-col>
 				<el-col :span="12">
-					<el-card class="box-card" style="height:22rem" shadow="never">
+					<el-card class="box-card" style="height:25rem" shadow="never">
 						<template #header>
 						<div class="card-header">
 							<span>执行命令</span>
@@ -37,6 +38,8 @@
 						</el-alert>
 						<br>
 						<el-input type="textarea" rows="4" v-model="command"></el-input>
+						<div style="clear:both;margin-top:10px"></div>
+						<el-button type="primary" @click="exec" icon="sc-icon-code">执行命令</el-button>
 					</el-card>
 				</el-col>
 				</el-row>
@@ -226,10 +229,30 @@
 			</el-row>
 		</el-main>
 		<el-footer>
-			<el-button type="primary" @click="submit(false)" icon="sc-icon-code">生成到目录</el-button>
-			<el-button type="warning" @click="submit(true)" icon="el-icon-download">下载压缩包</el-button>
+			<el-button type="info" @click="submit('code')" icon="sc-icon-code">预览代码</el-button>
+			<el-button type="primary" @click="submit('build')" icon="el-icon-folder">生成到目录</el-button>
+			<el-button type="warning" @click="submit('download')" icon="el-icon-download">下载压缩包</el-button>
+			<el-popconfirm title="确定删除吗？模型与菜单数据不会进行删除" @confirm="submit('delete')">
+				<template #reference>
+					<el-button type="danger" icon="el-icon-close-bold">删除模式</el-button>
+				</template>
+			</el-popconfirm>
 		</el-footer>
 	</el-container>
+
+	<el-dialog title="代码预览" v-model="codeVisible" top="1%" width="60%" append-to-body destroy-on-close>
+		<el-button-group>
+			<el-button @click="codes('controller')" type="default" >控制器</el-button>
+			<el-button @click="codes('service')" type="default" >服务层</el-button>
+			<el-button @click="codes('model')" type="default">模型</el-button>
+			<el-button @click="codes('validate')" type="default">验证器</el-button>
+			<el-button @click="codes('index')" type="default">index.vue</el-button>
+			<el-button @click="codes('save')" type="default">save.vue</el-button>
+			<el-button @click="codes('api')" type="default">api.js</el-button>
+			<el-button @click="codes('auth_rule')" type="default">auth_rule.sql</el-button>
+		</el-button-group>
+		<pre contenteditable class="code">{{ code }}</pre>
+	</el-dialog>
 </template>
 
 <script>
@@ -250,6 +273,8 @@
 		name: 'autocode-list',
 		data() {
 			return {
+				codeVisible:false,
+				code:'',
 				operator: config.operator,
 				relation: {
 					name: "",
@@ -279,28 +304,38 @@
 				command:"",
 				className:"",
 				info:[],
+				codeContent:{},
 			}
 		},
 		mounted(){
 			this.class();
 		},
 		methods: {
-			submit(download){
+			codes(type){
+				if(!type) type = 'controller';
+				this.code = this.codeContent[type];
+				this.codeVisible = true;
+			},
+			submit(type){
 				var data = {
 					path:this.path,
 					column:this.column,
 					other:this.other,
 					relation:this.relation.name,
-					download:download,
+					type:type,
 					model:this.model
-
 				}
 				this.$API.system.autocode.create.post(data).then(res=>{
 					if(res.code == 200){
-						this.$message.success(res.message);
-						if(download){
+						if(type == 'download'){
 							this.createFile('build.zip')
 						}
+						if(type == 'code'){
+							this.codeContent = res.data;
+							this.codes();
+							return false;
+						}
+						this.$message.success(res.message);
 					}else{
 						this.$message.error(res.message)
 					}
@@ -312,6 +347,22 @@
 				element.setAttribute('download', name)
 				element.style.display = 'none'
 				element.click()
+			},
+			exec(){
+				var command = this.command;
+				if(!command){
+					this.$message.error('请输入命令');
+					return false;
+				}
+				const loading = this.$loading();
+				this.$API.system.autocode.exec.post({command:command}).then(res=>{
+					loading.close();
+					this.$alert("<h2>code:</h2>"+res.data.code+"<br><h2>err:</h2>"+res.data.err+"<br><h2>out:</h2>"+res.data.out, "返回信息",{
+						confirmButtonText: '确定',
+						dangerouslyUseHTMLString:true,
+						customClass:'message_box_alert'
+					})
+				});
 			},
 			modelChange(){
 				var model = this.model;
@@ -342,5 +393,8 @@
 </script>
 
 <style scoped>
-	.code {height:400px;overflow: auto;background: #333;color: #999;padding:20px;font-size: 14px;font-family: "consolas";line-height: 1.5;}
+	:deep(.message_box_alert) {
+		word-break: break-all !important;
+	}
+	.code {height:100%;overflow: auto;background: #333;color: #999;padding:20px;font-size: 14px;font-family: "consolas";line-height: 1.5;}
 </style>

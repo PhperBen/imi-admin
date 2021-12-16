@@ -11,6 +11,8 @@ use Imi\Server\Http\Route\Annotation\Route;
 use Phpben\Imi\Validate\Annotation\Validate;
 use Psr\Http\Message\ResponseInterface;
 use Imi\Aop\Annotation\Inject;
+use Phpben\Imi\Auth\Annotation\Auth;
+
 use <?php echo $controller; ?> as CommonController;
 
 /**

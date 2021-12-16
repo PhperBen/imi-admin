@@ -16,4 +16,5 @@ class Request extends RequestProxy
     {
         return json_decode($this->getSwooleRequest()->rawContent(), true);
     }
+
 }

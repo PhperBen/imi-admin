@@ -30,7 +30,34 @@ class AutocodeService extends AbstractService
      */
     public $model = null;
 
-    public function build($data)
+    public function exec($data)
+    {
+        return $this->execute($data->command);
+    }
+
+    protected function execute($cmd, $workdir = null): array
+    {
+        if (is_null($workdir)) {
+            $workdir = File::path(App::get(AppContexts::APP_PATH), '/');
+        }
+        $descriptorspec = array(
+            0 => array("pipe", "r"),  // stdin
+            1 => array("pipe", "w"),  // stdout
+            2 => array("pipe", "w"),  // stderr
+        );
+        $process = proc_open($cmd, $descriptorspec, $pipes, $workdir, null);
+        $stdout = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
+        return [
+            'code' => proc_close($process),
+            'out' => str_replace("\n","<br>",trim($stdout)),
+            'err' => trim($stderr),
+        ];
+    }
+
+    public function build($data): bool|array
     {
         $column = $data->column; // 字段列表
         $path = $data->path; // 路径配置
@@ -38,7 +65,9 @@ class AutocodeService extends AbstractService
         $relation = $data->relation; // 关联模型
         $other = $data->other; // 其他配置
         $model = str_replace('\\\\', '\\', $data->model); // 模型
-        $download = $data->download ?? false;// 下载
+        $download = $data->type == 'download';// 下载
+        $del = $data->type == 'delete';// 删除
+        $code = $data->type == 'code';// 预览
         if (!class_exists($model)) {
             $this->setError('模型不存在');
             return false;
@@ -91,10 +120,25 @@ class AutocodeService extends AbstractService
         }
         $controllerClass = $controllerNamespace . '\\' . $this->getClassName($path['controller']) . '::';
         $sql = $this->getSql($controllerClass, $path['name'], $vueAuth, $controller['operate'], $controller['sort']);
+        if ($code) {
+            return [
+                'controller' => $this->renderTemplate('Controller', $controller),
+                'model' => $modelContent,
+                'validate' => $this->renderTemplate('Validate', $validate),
+                'service' => $this->renderTemplate('Service', $service),
+                'index' => $this->renderTemplate('vue/index', $index),
+                'save' => $this->renderTemplate('vue/save', $save),
+                'api' => $this->renderTemplate('vue/api', $api),
+                'auth_rule' => $sql,
+            ];
+        }
         if ($download) {
             $rootPath = File::path(App::get(AppContexts::APP_PATH), '/.runtime') . '/' . mt_rand(11111, 99999);
         } else {
-            $rootPath = File::path(App::get(AppContexts::APP_PATH), '/');
+            $rootPath = rtrim(File::path(App::get(AppContexts::APP_PATH), '/'), '/');
+        }
+        if ($del) {
+            $rootPath = rtrim(File::path(App::get(AppContexts::APP_PATH), '/'), '/');
         }
         $controllerPath = $rootPath . $path['controller'];
         $modelPath = $rootPath . str_replace(File::path(App::get(AppContexts::APP_PATH), '/'), '/', $modelPath);
@@ -104,6 +148,21 @@ class AutocodeService extends AbstractService
         $savePath = $rootPath . '/' . ltrim($path['vue'], '/') . 'views/' . $path['name'] . '/save.vue';
         $apiPath = $rootPath . '/' . ltrim($path['vue'], '/') . 'api/model/' . $path['name'] . '.js';
         $sqlPath = $rootPath . '/auth_rule.sql';
+        if ($del) {
+            @unlink($controllerPath);
+            @unlink($validatePath);
+            @unlink($servicePath);
+            @unlink($indexPath);
+            @unlink($savePath);
+            @unlink($apiPath);
+            return true;
+        }
+        if (!$download) {
+            if (file_exists($controllerPath) || file_exists($validatePath) || file_exists($servicePath) || file_exists($indexPath) || file_exists($savePath) || file_exists($apiPath)) {
+                $this->setError('已有文件存在，请先删除再生成');
+                return false;
+            }
+        }
         File::putContents($controllerPath, $this->renderTemplate('Controller', $controller));
         File::putContents($modelPath, $modelContent);
         File::putContents($validatePath, $this->renderTemplate('Validate', $validate));
@@ -140,7 +199,7 @@ class AutocodeService extends AbstractService
     {
         $pid = SoAuthRule::find(['name' => 'Autocode'])?->getId() ?: false;
         $sql = 'SET @id = (SELECT max(id) from `so_auth_rule`) + 1;' . "\n";
-        !$pid && $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values(@id,@id,1,0,"Autocode","sc-icon-code",null,null,"menu","/autocode",' . time() . ');' . "\n";
+        !$pid && $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values(@id,0,1,0,"Autocode","sc-icon-code",null,null,"menu","/autocode",' . time() . ');' . "\n";
         $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values((@id+1),(@id+1),1,' . ($pid ?: '@id') . ',"' . $name . '","sc-icon-code",null,null,"menu","' . ('/' . $name . '/index') . '",' . time() . ');' . "\n";
         $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`alias`,`rule`,`type`,`create_time`) values((@id+2),(@id+2),1,(@id+1),"创建","' . ($alias . '.create') . '","' . ($class . 'create') . '","button",' . time() . ');' . "\n";
         $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`alias`,`rule`,`type`,`create_time`) values((@id+3),(@id+3),1,(@id+1),"编辑","' . ($alias . '.update') . '","' . ($class . 'update') . '","button",' . time() . ');' . "\n";
