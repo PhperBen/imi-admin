@@ -21,6 +21,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
   `pid` int unsigned NOT NULL COMMENT '父亲',
   `sort` int unsigned NOT NULL DEFAULT '50' COMMENT '排序',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `create_time` int unsigned NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='配置分组'", decode="")
@@ -29,6 +30,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @property int|null $pid 父亲
  * @property int|null $sort 排序
  * @property string|null $name 名称
+ * @property int|null $status 状态
  * @property int|null $createTime 创建时间
  */
 abstract class SoConfigGroupBase extends Model
@@ -145,6 +147,35 @@ abstract class SoConfigGroupBase extends Model
     public function setName($name)
     {
         $this->name = null === $name ? null : (string)$name;
+        return $this;
+    }
+
+    /**
+     * 状态.
+     * status
+     * @Column(name="status", type="tinyint", length=1, accuracy=0, nullable=false, default="1", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var int|null
+     */
+    protected ?int $status = 1;
+
+    /**
+     * 获取 status - 状态.
+     *
+     * @return int|null
+     */
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    /**
+     * 赋值 status - 状态.
+     * @param int|null $status status
+     * @return static
+     */
+    public function setStatus($status)
+    {
+        $this->status = null === $status ? null : (int)$status;
         return $this;
     }
 

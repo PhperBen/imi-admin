@@ -30,6 +30,9 @@
 						</el-menu>
 					</el-scrollbar>
 				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
+				</div>
 			</div>
 			<Side-m v-if="ismobile"></Side-m>
 			<div class="aminui-body el-container">
@@ -68,6 +71,9 @@
 							<NavMenu :navMenus="menu"></NavMenu>
 						</el-menu>
 					</el-scrollbar>
+				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
 				</div>
 			</div>
 			<Side-m v-if="ismobile"></Side-m>
@@ -123,6 +129,11 @@
 	<template v-else>
 		<section class="aminui-wrapper">
 			<div v-if="!ismobile" class="aminui-side-split">
+				<div class="aminui-side-split-top">
+					<router-link :to="$CONFIG.DASHBOARD_URL">
+						<img class="logo" :title="$CONFIG.APP_NAME" src="img/logo-r.png">
+					</router-link>
+				</div>
 				<div class="adminui-side-split-scroll">
 					<el-scrollbar>
 						<ul>
@@ -146,6 +157,9 @@
 						</el-menu>
 					</el-scrollbar>
 				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
+				</div>
 			</div>
 			<Side-m v-if="ismobile"></Side-m>
 			<div class="aminui-body el-container">
@@ -164,6 +178,8 @@
 			</div>
 		</section>
 	</template>
+
+	<div class="main-maximize-exit" @click="exitMaximize"><el-icon><el-icon-close /></el-icon></div>
 
 	<div class="layout-setting" @click="openSetting"><el-icon><el-icon-brush-filled /></el-icon></div>
 
@@ -257,7 +273,7 @@
 			showMenu(route) {
 				this.pmenu = route;
 				this.nextMenu = this.filterUrl(route.children);
-				if(!route.children && route.component){
+				if((!route.children || route.children.length == 0) && route.component){
 					this.$router.push({path: route.path})
 				}
 			},
@@ -281,6 +297,10 @@
 					newMap.push(item)
 				})
 				return newMap;
+			},
+			//退出最大化
+			exitMaximize(){
+				document.getElementById('app').classList.remove('main-maximize')
 			}
 		}
 	}

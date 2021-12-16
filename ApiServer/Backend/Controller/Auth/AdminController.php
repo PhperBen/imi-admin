@@ -70,13 +70,5 @@ class AdminController extends CommonController
         return $this->service->delete() ? $this->response->success('删除成功') : $this->response->error($this->service->getError());
     }
 
-    /**
-     * @Action
-     * @Route(url="operate",method="POST")
-     * @return ResponseInterface
-     */
-    public function operate(): ResponseInterface
-    {
-        return $this->service->operate() ? $this->response->success('操作成功') : $this->response->error($this->service->getError());
-    }
+
 }

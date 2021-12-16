@@ -9,7 +9,7 @@ module.exports = {
 
 	//开发服务,build后的生产模式还需nginx代理
 	devServer: {
-		open: false, //运行后自动打开游览器
+		open: false, //运行后自动打开浏览器
 		port: 2800, //挂载端口
 		// proxy: {
 		// 	'/api': {
@@ -57,6 +57,10 @@ module.exports = {
 					echarts: {
 						name: "echarts",
 						test: /[\\/]node_modules[\\/]echarts[\\/]/
+					},
+					xgplayer: {
+						name: "xgplayer",
+						test: /[\\/]node_modules[\\/]xgplayer.*[\\/]/
 					}
 				}
 			}

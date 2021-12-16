@@ -6,10 +6,10 @@ const DEFAULT_CONFIG = {
 	DASHBOARD_URL: "/dashboard",
 
 	//版本号
-	APP_VER: "1.4.0",
+	APP_VER: "1.4.1",
 
 	//内核版本号
-	CORE_VER: "1.4.0",
+	CORE_VER: "1.4.1",
 
 	//接口地址
 	API_URL: "http://127.0.0.1:8088/super",
@@ -24,8 +24,7 @@ const DEFAULT_CONFIG = {
 	TOKEN_PREFIX: "Bearer ",
 
 	//追加其他头
-	HEADERS: {
-	},
+	HEADERS: {},
 
 	//请求是否开启缓存
 	REQUEST_CACHE: false,

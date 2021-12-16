@@ -7,14 +7,6 @@ a:-webkit-any-link {text-decoration: none;}
 a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: border-box;outline:none !important; -webkit-appearance: none;}
 * {margin: 0;padding: 0;box-sizing: border-box;outline: none;}
 
-/* 全局滚动条样式 */
-.scrollable {-webkit-overflow-scrolling: touch;}
-::-webkit-scrollbar {width: 5px;height: 5px;}
-::-webkit-scrollbar-thumb {background-color: rgba(50, 50, 50, 0.3);}
-::-webkit-scrollbar-thumb:hover {background-color: rgba(50, 50, 50, 0.6);}
-::-webkit-scrollbar-track {background-color: rgba(50, 50, 50, 0.1);}
-::-webkit-scrollbar-track:hover {background-color: rgba(50, 50, 50, 0.2);}
-
 /* 大布局样式 */
 .aminui {display: flex;flex-flow: column;}
 .aminui-wrapper {display: flex;flex:1;overflow: auto;}
@@ -47,8 +39,11 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-header-menu .el-menu .el-menu-item.is-active {color: #fff!important;background: var(--el-color-primary-light-2);border-bottom-color:transparent;}
 
 /* 左侧菜单 */
-.aminui-side-split {width:65px;flex-shrink:0;background: #222b45;}
-.adminui-side-split-scroll {overflow: auto;overflow-x:hidden;height: 100%;}
+.aminui-side-split {width:65px;flex-shrink:0;background: #222b45;display: flex;flex-flow: column;}
+.aminui-side-split-top {height: 49px;}
+.aminui-side-split-top a {display: inline-block;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;}
+.aminui-side-split-top .logo {height:30px;vertical-align: bottom;}
+.adminui-side-split-scroll {overflow: auto;overflow-x:hidden;height: 100%;flex: 1;}
 .aminui-side-split li {cursor: pointer;width: 65px;height: 65px;color: #fff;text-align: center;display: flex;flex-direction: column;align-items: center;justify-content: center;}
 .aminui-side-split li i {font-size: 18px;}
 .aminui-side-split li p {margin-top:5px;}
@@ -64,7 +59,10 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-side-top {border-bottom: 1px solid #ebeef5;height:50px;line-height: 50px;}
 .adminui-side-top h2 {padding:0 20px;font-size: 17px;color: #3c4a54;}
 .adminui-side-scroll {overflow: auto;overflow-x:hidden;flex: 1;}
-.aminui-side.isCollapse {width: 64px;}
+.adminui-side-bottom {border-top: 1px solid #ebeef5;height:35px;cursor: pointer;display: flex;align-items: center;justify-content: center;}
+.adminui-side-bottom i {font-size: 16px;}
+.adminui-side-bottom:hover {color: var(--el-color-primary);}
+.aminui-side.isCollapse {width: 65px;}
 
 /* 右侧内容 */
 .aminui-body {flex: 1;display: flex;flex-flow: column;}
@@ -75,10 +73,6 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 
 .right-panel-search {display: flex;align-items: center;}
 .right-panel-search > * + * {margin-left:10px;}
-
-.adminui-topbar .menu-collapse {height: 50px;width: 60px;padding: 0 20px;display: flex;align-items: center;cursor: pointer;}
-.adminui-topbar .menu-collapse i {font-size: 16px;}
-.adminui-topbar .menu-collapse:hover {background-image: linear-gradient(90deg, #d9ecff, transparent);}
 
 .adminui-tags {height:35px;background: #fff;border-bottom: 1px solid #e6e6e6;}
 .adminui-tags ul {display: flex;overflow: hidden;}
@@ -93,3 +87,12 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-tags li.sortable-ghost {opacity: 0;}
 
 .adminui-main {overflow: auto;background-color: #f6f8f9;flex: 1;}
+
+/*页面最大化*/
+.aminui.main-maximize {
+	.main-maximize-exit {display: block;}
+	.aminui-side-split, .aminui-side, .adminui-header, .adminui-topbar, .adminui-tags {display: none;}
+}
+.main-maximize-exit {display: none;position: fixed;z-index: 3000;top:-20px;left:50%;margin-left: -20px;border-radius: 50%;width: 40px;height: 40px;cursor: pointer;background: rgba(0,0,0,0.2);text-align: center;}
+.main-maximize-exit i {font-size: 14px;margin-top: 22px;color: #fff;}
+.main-maximize-exit:hover {background: rgba(0,0,0,0.4);}

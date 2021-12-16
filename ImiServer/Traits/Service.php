@@ -348,7 +348,7 @@ trait Service
             }
             $orWhere && $query = $query->whereEx($orWhere);
         }
-        // 关联模型join查询，因imi咱不支持where查询关联数据
+        // 关联模型join查询，因imi暂不支持where查询关联数据
         if ($withAttribute) {
             $joinData = $this->model::getJoin();
             foreach ($withFilter as $attr => $_where) {

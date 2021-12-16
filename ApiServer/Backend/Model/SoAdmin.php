@@ -41,9 +41,8 @@ class SoAdmin extends SoAdminBase
         return $this;
     }
 
-    public static function getWithAttribute(): array
-    {
-        return ['authGroupAccess'];
-    }
-
+	public static function getWithAttribute(): array
+	{
+		return ['authGroupAccess'];
+	}
 }

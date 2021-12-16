@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 		<el-aside width="300px" v-loading="menuloading">
-			<el-container>
+			<el-container v-auth="'auth.rule.read'">
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
 				</el-header>
@@ -22,8 +22,8 @@
 					</el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button type="primary" size="mini" icon="el-icon-plus" @click="add()"></el-button>
-					<el-button type="danger" size="mini" plain icon="el-icon-delete" @click="delMenu"></el-button>
+					<el-button type="primary" size="mini" icon="el-icon-plus" v-auth="'auth.rule.create'" @click="add()"></el-button>
+					<el-button type="danger" size="mini" plain icon="el-icon-delete" v-auth="'auth.rule.delete'" @click="delMenu"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>

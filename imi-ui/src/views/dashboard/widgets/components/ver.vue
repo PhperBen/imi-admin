@@ -27,7 +27,8 @@
 		},
 		methods: {
 			async getVer(){
-				this.ver = 1
+				const ver = await this.$API.demo.ver.get()
+				this.ver = ver.data
 			},
 			golog(){
 				window.open("https://gitee.com/lolicode/scui/releases")

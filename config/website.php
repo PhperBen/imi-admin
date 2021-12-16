@@ -1,0 +1,26 @@
+<?php 
+
+return array (
+  'name' => 'Imi-Admin',
+  'title' => 'Imi-Admin 后台管理框架',
+  'keywords' => 'imi-admin,imi,swoole,php,admin',
+  'description' => '基于Imi+Scui打造，快速开发后台框架',
+  'beian' => 'xxxxx',
+  'version' => '1.0.0',
+  'mail_type' => 0,
+  'mail_host' => 'smtp.qq.com',
+  'mail_port' => 465,
+  'mail_user' => '',
+  'mail_pass' => '',
+  'mail_vertify' => 2,
+  'mail_from' => '',
+  'mail_name' => 'CEO',
+  'sms_type' => 1,
+  'sms_id' => '',
+  'sms_key' => '',
+  'sms_token' => '',
+  'sms_template' => '',
+  'login' => '1',
+  'register' => '1',
+  'test' => '',
+);

@@ -1,26 +1,27 @@
-<?php
+<?php declare(strict_types=1);
+echo '<?php'; ?>
 
 declare(strict_types=1);
 
-namespace ImiApp\ApiServer\Backend\Controller\System;
+namespace <?php echo $namespace; ?>;
 
 use Imi\Server\Http\Route\Annotation\Action;
 use Imi\Server\Http\Route\Annotation\Controller;
 use Imi\Server\Http\Route\Annotation\Route;
-use ImiApp\ApiServer\Backend\Controller\CommonController;
-use Phpben\Imi\Auth\Annotation\Auth;
 use Phpben\Imi\Validate\Annotation\Validate;
 use Psr\Http\Message\ResponseInterface;
 use Imi\Aop\Annotation\Inject;
+use <?php echo $controller; ?> as CommonController;
 
 /**
- * @Auth("backend")
- * @Controller("/system/config/group/")
+ * <?php if($auth){ ?>@Auth(name="<?php echo $auth; ?>")<?php }else{ ?>@Auth<?php } ?>
+
+ * @Controller("<?php echo $route; ?>")
  */
-class ConfigGroupController extends CommonController
+class <?php echo $class; ?> extends CommonController
 {
     /**
-     * @Inject("SystemConfigGroupService")
+     * @Inject("<?php echo $service; ?>")
      */
     protected $service;
 
@@ -31,7 +32,7 @@ class ConfigGroupController extends CommonController
      */
     public function read(): ResponseInterface
     {
-        return $this->response->success(null, $this->service->read());
+        return $this->response->success(null, $this->service->read() ?: []);
     }
 
     /**
@@ -68,13 +69,26 @@ class ConfigGroupController extends CommonController
         return $this->service->delete() ? $this->response->success('删除成功') : $this->response->error($this->service->getError());
     }
 
-    /**
+    <?php if ($operate) {  ?>/**
      * @Action
      * @Route(url="operate",method="POST")
      * @return ResponseInterface
-     */
+    */
     public function operate(): ResponseInterface
     {
         return $this->service->operate() ? $this->response->success('操作成功') : $this->response->error($this->service->getError());
-    }
+    }<?php } echo "\n"; ?>
+
+    <?php if ($sort) { ?>/**
+     * @Action
+     * @Route(url="sort",method="POST")
+     * @Validate
+     * @param $data
+     * @return ResponseInterface
+    */
+    public function sort($data): ResponseInterface
+    {
+        return $this->service->draggable($data) ? $this->response->success('排序成功') : $this->response->error($this->service->getError());
+    }<?php } ?>
+    <?php echo "\n";?>
 }

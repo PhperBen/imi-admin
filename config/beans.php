@@ -107,7 +107,7 @@ return [
             // IMI-缓存配置名称
             'cache' => "redis",
             // 一个账号只能一个人登陆
-            'unique' => true,
+            'unique' => false,
             // 是否判断权限规则
             'check' => true,
             // JWT配置 结合IMI-JWT组件使用
@@ -188,6 +188,48 @@ return [
                     'group_id' => 'gid'
                 ]
             ]
+        ],
+    ],
+    'ConfigCenter' => [
+        // 同步配置间隔时间
+        'interval' => 5,
+        // 驱动类名
+        'driver' => \Phpben\Imi\ConfigCenter\Driver\File::class,
+        // 阿里云MSENacos配置
+        'aliyun_mse_nacos' => [
+            // endpoint
+            'endpoint' => "mse-xxxxxx-p.nacos-ans.mse.aliyuncs.com",
+            // SK
+            'secret_key' => "",
+            // AK
+            'access_key' => "",
+            // 实例ID
+            'instance_id' => "",
+            // DATA_ID
+            'data_id' => "",
+            // GROUPID
+            'group' => "",
+            // 命名空间
+            'namespace' => "",
+        ],
+        // 阿里云ACM配置
+        'aliyun_acm' => [
+            // 命名空间
+            'namespace' => "",
+            // GROUPID
+            'group' => "",
+            // SK
+            'secret_key' => "",
+            // AK
+            'access_key' => "",
+            // endpoint
+            'endpoint' => "acm.aliyun.com",
+            // DATA_ID
+            'data_id' => "",
+        ],
+        // FILE文件驱动配置
+        'file' => [
+
         ],
     ],
     'hotUpdate' => [

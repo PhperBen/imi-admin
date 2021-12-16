@@ -1,9 +1,10 @@
 <template>
+
 	<el-container>
 		<el-header>
 			<div class="left-panel">
-				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
+				<el-button type="primary" icon="el-icon-plus" v-auth="'auth.group.create'" @click="add"></el-button>
+				<el-button type="danger" plain icon="el-icon-delete" v-auth="'auth.group.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
 			</div>
 		</el-header>
 		<el-main class="nopadding">
@@ -20,9 +21,9 @@
 				<el-table-column label="操作" fixed="right" align="right" width="140">
 					<template #default="scope">
                         <div v-if="scope.row.rules == '*'">超级管理</div>
-						<el-button type="text" v-if="scope.row.rules !== '*'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+						<el-button type="text" v-auth="'auth.group.update'" v-if="scope.row.rules !== '*'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 						<el-divider direction="vertical" v-if="scope.row.rules !== '*'"></el-divider>
-						<el-popconfirm title="确定删除吗？" v-if="scope.row.rules !== '*'" @confirm="table_del(scope.row, scope.$index)">
+						<el-popconfirm title="确定删除吗？" v-auth="'auth.group.delete'" v-if="scope.row.rules !== '*'" @confirm="table_del(scope.row, scope.$index)">
 							<template #reference>
 								<el-button type="text" size="small">删除</el-button>
 							</template>
@@ -53,6 +54,7 @@
 					save: false,
 					permission: false
 				},
+				visible: false,
 				apiObj: this.$API.auth.group.read,
 				selection: [],
 				search: {

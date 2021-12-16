@@ -17,7 +17,7 @@
 			<li @click="closeTabs()" :class="contextMenuItem.meta.affix?'disabled':''"><el-icon><el-icon-close/></el-icon>关闭标签</li>
 			<li @click="closeOtherTabs()"><el-icon><el-icon-folder-delete/></el-icon>关闭其他标签</li>
 			<hr>
-			<li @click="screen()"><el-icon><el-icon-full-screen/></el-icon>全屏当前标签</li>
+			<li @click="maximize()"><el-icon><el-icon-full-screen/></el-icon>最大化</li>
 			<li @click="openWindow()"><el-icon><el-icon-copy-document/></el-icon>在新的窗口中打开</li>
 		</ul>
 	</transition>
@@ -196,8 +196,8 @@
 				})
 				this.contextMenuVisible = false
 			},
-			//TAB 全屏标签
-			screen(){
+			//TAB 最大化
+			maximize(){
 				var nowTag = this.contextMenuItem;
 				this.contextMenuVisible = false
 				//判断是否当前路由，否的话跳转
@@ -207,8 +207,7 @@
 						query: nowTag.query
 					})
 				}
-				var element = document.getElementById('adminui-main')
-				this.$TOOL.screen(element)
+				document.getElementById('app').classList.add('main-maximize')
 			},
 			//新窗口打开
 			openWindow(){

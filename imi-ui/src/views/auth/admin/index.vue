@@ -3,7 +3,7 @@
 		<el-aside width="200px" v-if="groupShow" v-auth="'auth.group.read'" v-loading="showGrouploading">
 			<el-container>
 				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="groupFilterText" clearable></el-input>
+					<el-input placeholder="搜索" v-model="groupFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
 					<el-tree ref="group" class="menu" node-key="id" :props="groupProps" :data="group" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
@@ -13,12 +13,19 @@
 		<el-container>
 				<el-header>
 					<div class="left-panel">
-						<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-						<el-button type="danger" plain icon="el-icon-delete" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
+						<el-button type="primary" icon="el-icon-plus" v-auth="'auth.admin.create'" @click="add"></el-button>
+						<el-button type="danger" plain icon="el-icon-delete"  v-auth="'auth.admin.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
+					</div>
+					<div class="right-panel">
+						<div class="right-panel-search">
+							<el-input v-model="search" placeholder="搜索" @clear="this.$TABLE.searchSubmit(this)" clearable></el-input>
+							<el-button type="primary" icon="el-icon-search" @click="this.$TABLE.searchSubmit(this)"></el-button>
+							<imiFilterBar :options="options" @filterChange="filterChange"></imiFilterBar>
+						</div>
 					</div>
 				</el-header>
 				<el-main class="nopadding">
-					<scTable ref="table" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort remoteFilter>
+					<scTable ref="table" :apiObj="apiObj" :params="params" @selection-change="selectionChange" stripe remoteSort remoteFilter>
 						<el-table-column type="selection" width="50"></el-table-column>
 						<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
 						<el-table-column label="头像" width="80">
@@ -43,8 +50,8 @@
 				        <el-table-column label="更新时间" prop="update_time" align="right" width="180" :formatter="this.$TABLE.datetime"></el-table-column>
 						<el-table-column label="操作" fixed="right" align="right" width="140">
 							<template #default="scope">
-								<el-button type="text" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+								<el-button type="text" v-auth="'auth.admin.update'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+								<el-popconfirm title="确定删除吗？" v-auth="'auth.admin.delete'" @confirm="table_del(scope.row, scope.$index)">
 									<template #reference>
 										<el-button type="text" size="small">删除</el-button>
 									</template>
@@ -64,13 +71,66 @@
 <script>
 	import saveDialog from './save'
     import filterBar from '@/config/filterBar'
+	import imiFilterBar from '@/components/imiFilterBar';
 	export default {
 		name: 'user',
 		components: {
-			saveDialog
+			saveDialog,
+			imiFilterBar
 		},
 		data() {
 			return {
+				options: [
+					{
+						label: 'ID',
+						value: 'id',
+						type: 'text'
+					},
+					{
+						label: '邮箱',
+						value: 'email',
+						type: 'text'
+					},
+					{
+						label: '手机号码',
+						value: 'mobile',
+						type: 'text'
+					},
+					{
+						label: '账号',
+						value: 'username',
+						type: 'text'
+					},
+					{
+						label: '状态',
+						value: 'type',
+						type: 'select',
+						extend: {
+							data:[
+								{
+									label: "开启",
+									value: 1
+								},
+								{
+									label: "关闭",
+									value: 0
+								}
+							]
+						}
+					},
+					{
+						label: '创建时间',
+						value: 'create_time',
+						type: 'datetimerange',
+						operator:"between",
+					},
+					{
+						label: '更新时间',
+						value: 'update_time',
+						type: 'datetimerange',
+						operator:"between",
+					},
+				],
 				dialog: {
 					save: false
 				},
@@ -79,9 +139,8 @@
 				group: [],
 				apiObj: this.$API.auth.admin.read,
 				selection: [],
-				search: {
-					name: null
-				},
+				search:'',
+				params:{},
                 groupShow:true,
                 groupProps: {
 					value: "id",
@@ -100,6 +159,9 @@
 			this.getGroup()
 		},
 		methods: {
+			filterChange(data){
+				this.$TABLE.filter(data,this);
+			},
             // statusChange(ids,value){
             //     this.$API.auth.admin.operate.post({ids:ids,status:value}).then(res=>{
             //         if(res.code != 200){
@@ -178,7 +240,7 @@
 			//树过滤
 			groupFilterNode(value, data){
 				if (!value) return true;
-				return data.label.indexOf(value) !== -1;
+				return data.name.indexOf(value) !== -1;
 			},
 			//树点击事件
 			groupClick(data){

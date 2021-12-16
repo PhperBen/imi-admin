@@ -11,6 +11,7 @@ return [
     // 配置文件
     'configs'    =>    [
         'beans'        =>    __DIR__.'/beans.php',
+        'website'        =>    __DIR__.'/website.php',
     ],
 
     'caches'    =>    [

@@ -201,4 +201,13 @@ abstract class AbstractModel extends Model
     {
         return '|||||';
     }
+
+    /**
+     * 上级字段
+     * @return string
+     */
+    public static function getParentPk(): string
+    {
+        return 'pid';
+    }
 }

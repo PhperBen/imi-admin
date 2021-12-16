@@ -9,12 +9,19 @@ use Phpben\Imi\Validate\Validate;
 class ConfigValidate extends Validate
 {
     protected $rule = [
+        'pid' => "require|integer",
+        'name' => "require",
+        'type' => "require|alpha",
+        'key' => "require|alphaDash",
+        'value' => "",
+        'tip' => "",
+        'variable' => "",
     ];
 
     protected $message = [
-        'password.require' => '请输入密码',
     ];
 
     protected $scene = [
+        'create' => ['pid', 'name', 'type', 'key', 'value', 'tip', 'variable'],
     ];
 }
