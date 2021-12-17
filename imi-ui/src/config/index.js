@@ -1,6 +1,6 @@
 const DEFAULT_CONFIG = {
 	//标题
-	APP_NAME: "SCUI",
+	APP_NAME: "imi-admin",
 
 	//首页地址
 	DASHBOARD_URL: "/dashboard",

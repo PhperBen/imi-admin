@@ -130,7 +130,7 @@
 		<section class="aminui-wrapper">
 			<div v-if="!ismobile" class="aminui-side-split">
 				<div class="aminui-side-split-top">
-					<router-link :to="$CONFIG.DASHBOARD_URL">
+					<router-link :to="$TOOL.data.get('DEFAULT_ROUTE_PATH')">
 						<img class="logo" :title="$CONFIG.APP_NAME" src="img/logo-r.png">
 					</router-link>
 				</div>

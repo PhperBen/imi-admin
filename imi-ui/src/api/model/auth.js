@@ -38,6 +38,27 @@ export default {
                 return await http.post(this.url,params);
             }
         },
+        profile:{
+            url: `${config.API_URL}/auth/admin/profile`,
+            name: "管理员资料",
+            post: async function(params = {}){
+                return await http.post(this.url,params);
+            }
+        },
+        operatelog:{
+            url: `${config.API_URL}/auth/admin/operatelog`,
+            name: "管理员操作日志",
+            get: async function(params = {}){
+                return await http.get(this.url,params);
+            }
+        },
+        loginlog:{
+            url: `${config.API_URL}/auth/admin/loginlog`,
+            name: "管理员登陆日志",
+            get: async function(params = {}){
+                return await http.get(this.url,params);
+            }
+        },
     },
     group:{
         read:{

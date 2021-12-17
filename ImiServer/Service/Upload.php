@@ -97,10 +97,12 @@ class Upload
             Log::error($e);
             return false;
         }
+        $parent = explode('/', trim(str_replace(basename($path), '', $path), '/'));
         return [
             'filename' => $filename,
             'url' => $url,
             'path' => $path,
+            'parent' => end($parent),
             'size' => $size,
             'mediatype' => $mediatype,
             'extension' => $extension,
@@ -117,7 +119,7 @@ class Upload
     {
         try {
             if ($this->config['save'] == 'local') {
-                unlink($path);
+                unlink(File::path(App::get(AppContexts::APP_PATH), $path));
             } elseif ($this->config['save'] == 'aliyun') {
                 $aliyun = new OssAdapter($this->config['aliyun']);
                 $filesystem = new Filesystem($aliyun);

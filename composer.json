@@ -14,7 +14,9 @@
         "phpben/imi-module-route": "^1.0",
         "phpben/imi-validate": "^1.0",
         "reasno/swoole-aliyunoss-addon": "^1.0",
-        "xxtime/flysystem-aliyun-oss": "^1.5"
+        "xxtime/flysystem-aliyun-oss": "^1.5",
+        "yurunsoft/phpmailer-swoole": "^1.0",
+        "yurunsoft/yurun-http": "^4.3"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.7"

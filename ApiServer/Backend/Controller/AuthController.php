@@ -39,6 +39,7 @@ class AuthController extends CommonController
             return $this->response->success('登陆成功', [
                 'token' => $user->token,
                 'username' => $user->username,
+                'email' => $user->email,
                 'avatar' => $user->avatar,
             ]);
         }

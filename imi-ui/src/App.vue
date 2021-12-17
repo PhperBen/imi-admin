@@ -26,4 +26,7 @@
 <style lang="scss">
 	@import '@/style/style.scss';
 	@import '@/style/theme/dark.scss';
+	.msgBox{
+		word-break: break-all !important;
+    }
 </style>

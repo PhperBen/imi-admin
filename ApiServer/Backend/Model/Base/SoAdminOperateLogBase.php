@@ -21,7 +21,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
   `admin_id` int unsigned NOT NULL COMMENT '管理员ID',
   `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '管理员账号',
   `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由地址',
-  `route_name` varbinary(255) NOT NULL DEFAULT '' COMMENT '路由名称',
+  `route_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由名称',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求内容',
   `ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IP地址',
   `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'User-Agent',
@@ -159,7 +159,7 @@ abstract class SoAdminOperateLogBase extends Model
     /**
      * 路由名称.
      * route_name
-     * @Column(name="route_name", type="varbinary", length=255, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @Column(name="route_name", type="varchar", length=255, accuracy=0, nullable=false, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|null
      */
     protected ?string $routeName = '';

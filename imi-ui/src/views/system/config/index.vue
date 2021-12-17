@@ -58,12 +58,12 @@
                                     </template>
                                     <template v-else-if="input.type == 'file'">
                                         <el-form-item :label="input.name">
-                                            <el-input v-model="inputs[input.key]">
-                                                <template #append>
-                                                    <el-button @click="upload_visible = true;upload_key = input.key">上传</el-button>
-                                                </template>
-                                            </el-input>
-                                            <div class="el-form-item-msg" v-if="input.tip">{{input.tip}}</div>
+                                        <el-input v-model="inputs[input.key]">
+                                            <template #append>
+                                                <el-button @click="upload(input.key,false)" icon="el-icon-folder-add"></el-button>
+                                            </template>
+                                        </el-input>
+                                        <div class="el-form-item-msg" v-if="input.tip">{{input.tip}}</div>
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'text'">
@@ -118,13 +118,23 @@
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'image'">
-                                        <el-form-item :label="input.name" class="imglist">
-                                            <sc-upload v-model="inputs[input.key]" :title="input.tip" icon="el-icon-picture-outline"></sc-upload>
+                                        <el-form-item :label="input.name">
+                                        <el-input v-model="inputs[input.key]">
+                                            <template #append>
+                                                <el-button @click="upload(input.key,false)" icon="el-icon-folder-add"></el-button>
+                                            </template>
+                                        </el-input>
+                                        <div class="el-form-item-msg" v-if="input.tip">{{input.tip}}</div>
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'images'">
-                                        <el-form-item :label="input.name" class="imglist">
-                                            <sc-upload-multiple v-model="inputs[input.key]"></sc-upload-multiple>
+                                         <el-form-item :label="input.name">
+                                        <el-input v-model="inputs[input.key]">
+                                            <template #append>
+                                                <el-button @click="upload(input.key,true)" icon="el-icon-folder-add"></el-button>
+                                            </template>
+                                        </el-input>
+                                        <div class="el-form-item-msg" v-if="input.tip">{{input.tip}}</div>
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'switch'">
@@ -245,23 +255,28 @@
 		</el-container>
 	</el-container>
 	<group-dialog v-if="dialog.group" ref="groupDialog" @closed="groupClosed"></group-dialog>
+	<attachment-dialog v-if="dialog.attachment" :multiple="upload_multiple" ref="attachmentDialog" @success="uploadSuccess" @closed="groupClosed"></attachment-dialog>
 
 </template>
 
 <script>
     import groupDialog from '@/views/system/config_group/index'
+    import attachmentDialog from '@/views/system/attachment/select'
     import { defineAsyncComponent } from 'vue';
 	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
 	export default {
 		name: 'user',
         components: {
 			groupDialog,
-            scEditor
+            scEditor,
+            attachmentDialog
 		},
 		data() {
 			return {
+                upload_multiple:false,
 				dialog: {
 					group: false,
+                    attachment:false
 				},
 				showGrouploading: false,
 				groupFilterText: '',
@@ -308,6 +323,22 @@
 			this.getGroup(true)
 		},
 		methods: {
+            upload(key,multiple){
+                this.dialog.attachment = true;
+                this.$nextTick(() => {
+					this.$refs.attachmentDialog.open()
+				})
+                this.upload_key = key;
+                this.upload_multiple = multiple;
+            },
+            uploadSuccess(value){
+                if(value instanceof Array){
+                    this.inputs[this.upload_key] = value.join();
+                }else{
+                    this.inputs[this.upload_key] = value;
+                }
+                this.dialog.attachment = false;
+            },
             addSubmit:function(){
 				this.loading = true;
 				this.$API.system.config.create.post(this.add).then(res=>{
@@ -398,7 +429,9 @@
 								}else{
 									if (parseFloat(item.value).toString() !== "NaN") {
 										this.inputs[item.key] = parseFloat(item.value);
-									}
+									}else{
+                                        this.inputs[item.key] = item.value
+                                    }
 								}
 							}else if(item.type == 'switch'){
 								this.inputs[item.key]=(item.value)+"";
@@ -409,7 +442,9 @@
 								}else{
 									if (parseFloat(item.value).toString() !== "NaN") {
 										this.inputs[item.key] = parseFloat(item.value);
-									}
+									}else{
+                                        this.inputs[item.key] = item.value
+                                    }
 								}
 							}else if(item.type == 'tableselect' || item.type == 'tableselects'){
 								// index/test,user/id/id,id/user

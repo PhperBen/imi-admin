@@ -3,20 +3,20 @@
 		<div class="welcome">
 			<div class="logo">
 				<img src="img/logo.png">
-				<h2>欢迎体验 SCUI</h2>
+				<h2>欢迎体验 imi-admin</h2>
 			</div>
 			<div class="tips">
 				<div class="tips-item">
 					<div class="tips-item-icon"><el-icon><el-icon-menu/></el-icon></div>
-					<div class="tips-item-message">这里是项目控制台，你可以点击右上方的“自定义”按钮来添加移除或者移动部件。</div>
+					<div class="tips-item-message"><a target="_blank" href="https://gitee.com/phpben/imi-admin"><span style="font-weight: bold;font-size: 15px;color:red">imi-admin</span> 后台管理框架</a></div>
 				</div>
 				<div class="tips-item">
-					<div class="tips-item-icon"><el-icon><el-icon-promotion/></el-icon></div>
-					<div class="tips-item-message">在提高前端算力、减少带宽请求和代码执行力上多次优化，并且持续着。</div>
+					<div class="tips-item-icon"><el-icon><el-icon-menu/></el-icon></div>
+					<div class="tips-item-message"><a target="_blank" href="https://www.imiphp.com/"><span style="font-weight: bold;font-size: 15px;color:red">imi</span> PHP长连接微服务分布式开发框架</a></div>
 				</div>
 				<div class="tips-item">
-					<div class="tips-item-icon"><el-icon><el-icon-milk-tea/></el-icon></div>
-					<div class="tips-item-message">项目目的：让前端工作更快乐</div>
+					<div class="tips-item-icon"><el-icon><el-icon-menu/></el-icon></div>
+					<div class="tips-item-message"><a target="_blank" href="https://gitee.com/lolicode/scui"><span style="font-weight: bold;font-size: 15px;color:red">SCUI</span> 让前端开发更快乐</a></div>
 				</div>
 			</div>
 			<div class="actions">
@@ -38,7 +38,7 @@
 		},
 		methods: {
 			godoc(){
-				window.open("https://lolicode.gitee.io/scui-doc/")
+				window.open("https://www.kancloud.cn/phpben/imi-admin")
 			}
 		}
 	}

@@ -22,6 +22,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
   `admin_id` int unsigned NOT NULL DEFAULT '0' COMMENT '管理员ID',
   `user_id` int unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '存储路径',
+  `parent` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父级',
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '在线地址',
   `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件名称',
   `size` int unsigned NOT NULL COMMENT '文件大小',
@@ -30,7 +31,13 @@ use ImiApp\ImiServer\AbstractModel as Model;
   `create_time` int unsigned NOT NULL COMMENT '创建时间',
   `update_time` int unsigned DEFAULT '0' COMMENT '更新时间',
   `delete_time` int unsigned DEFAULT '0' COMMENT '删除时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `filename` (`filename`),
+  KEY `url` (`url`),
+  KEY `path` (`path`),
+  KEY `admin_id` (`admin_id`),
+  KEY `user_id` (`user_id`),
+  KEY `parent` (`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='附件列表'", decode="")
  *
  * @property int|null $id 
@@ -38,6 +45,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @property int|null $adminId 管理员ID
  * @property int|null $userId 用户ID
  * @property string|null $path 存储路径
+ * @property string|null $parent 父级
  * @property string|null $url 在线地址
  * @property string|null $filename 文件名称
  * @property int|null $size 文件大小
@@ -190,6 +198,35 @@ abstract class SoAttachmentBase extends Model
     public function setPath($path)
     {
         $this->path = null === $path ? null : (string)$path;
+        return $this;
+    }
+
+    /**
+     * 父级.
+     * parent
+     * @Column(name="parent", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var string|null
+     */
+    protected ?string $parent = NULL;
+
+    /**
+     * 获取 parent - 父级.
+     *
+     * @return string|null
+     */
+    public function getParent(): ?string
+    {
+        return $this->parent;
+    }
+
+    /**
+     * 赋值 parent - 父级.
+     * @param string|null $parent parent
+     * @return static
+     */
+    public function setParent($parent)
+    {
+        $this->parent = null === $parent ? null : (string)$parent;
         return $this;
     }
 

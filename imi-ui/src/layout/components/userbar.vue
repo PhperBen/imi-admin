@@ -3,7 +3,7 @@
 		<div class="screen panel-item hidden-sm-and-down" @click="screen">
 			<el-icon><el-icon-full-screen /></el-icon>
 		</div>
-		<div class="msg panel-item" @click="showMsg">
+		<!-- <div class="msg panel-item" @click="showMsg">
 			<el-badge :hidden="msgList.length==0" :value="msgList.length" class="badge" type="danger">
 				<el-icon><el-icon-chat-dot-round /></el-icon>
 			</el-badge>
@@ -38,16 +38,15 @@
 					</el-footer>
 				</el-container>
 			</el-drawer>
-		</div>
+		</div> -->
 		<el-dropdown class="user panel-item" trigger="click" @command="handleUser">
 			<div class="user-avatar">
-				<el-avatar :size="30">{{ userNameF }}</el-avatar>
+				<img style="width:30px;height:30px;border-radius:50%" :src="avatar">
 				<label>{{ userName }}</label>
 				<el-icon class="el-icon--right"><el-icon-arrow-down /></el-icon>
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="uc">个人设置</el-dropdown-item>
 					<el-dropdown-item command="clearCache">清除缓存</el-dropdown-item>
 					<el-dropdown-item divided command="outLogin">退出登录</el-dropdown-item>
 				</el-dropdown-menu>
@@ -61,53 +60,46 @@
 		data(){
 			return {
 				userName: "",
-				userNameF: "",
-				msg: false,
-				msgList: [
-					{
-						id: 1,
-						type: 'user',
-						avatar: "img/avatar.jpg",
-						title: "Skuya",
-						describe: "如果喜欢就点个星星支持一下哦",
-						link: "https://gitee.com/lolicode/scui",
-						time: "5分钟前"
-					},
-					{
-						id: 2,
-						type: 'user',
-						avatar: "img/avatar2.gif",
-						title: "Lolowan",
-						describe: "点进去Gitee获取最新开源版本",
-						link: "https://gitee.com/lolicode/scui",
-						time: "14分钟前"
-					},
-					{
-						id: 3,
-						type: 'system',
-						avatar: "img/logo.png",
-						title: "感谢登录SCUI Admin",
-						describe: "Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。",
-						link: "https://gitee.com/lolicode/scui",
-						time: "2020年7月24日"
-					}
-				]
+				// msg: false,
+				// msgList: [
+				// 	{
+				// 		id: 1,
+				// 		type: 'user',
+				// 		avatar: "img/avatar.jpg",
+				// 		title: "Skuya",
+				// 		describe: "如果喜欢就点个星星支持一下哦",
+				// 		link: "https://gitee.com/lolicode/scui",
+				// 		time: "5分钟前"
+				// 	},
+				// 	{
+				// 		id: 2,
+				// 		type: 'user',
+				// 		avatar: "img/avatar2.gif",
+				// 		title: "Lolowan",
+				// 		describe: "点进去Gitee获取最新开源版本",
+				// 		link: "https://gitee.com/lolicode/scui",
+				// 		time: "14分钟前"
+				// 	},
+				// 	{
+				// 		id: 3,
+				// 		type: 'system',
+				// 		avatar: "img/logo.png",
+				// 		title: "感谢登录SCUI Admin",
+				// 		describe: "Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。",
+				// 		link: "https://gitee.com/lolicode/scui",
+				// 		time: "2020年7月24日"
+				// 	}
+				// ]
 			}
 		},
 		created() {
 			var userInfo = this.$TOOL.data.get("USER_INFO");
 			this.username = userInfo.username;
-			this.userNameF = this.username.substring(0,1);
+			this.avatar = userInfo.avatar;
 		},
 		methods: {
 			//个人信息
 			handleUser(command) {
-				if(command == "uc"){
-					this.$router.push({path: '/usercenter'});
-				}
-				if(command == "cmd"){
-					this.$router.push({path: '/cmd'});
-				}
 				if(command == "clearCache"){
 					this.$confirm('清除缓存-刷新菜单权限','提示', {
 						type: 'info',

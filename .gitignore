@@ -2,3 +2,4 @@
 /.idea
 /.runtime
 /vendor
+.DS_Store

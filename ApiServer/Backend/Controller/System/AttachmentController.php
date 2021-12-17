@@ -34,4 +34,34 @@ class AttachmentController extends CommonController
         $create = $this->service->pull($this->request->getUploadedFiles());
         return $create ? $this->response->success('上传成功', $create) : $this->response->error($this->service->getError());
     }
+
+    /**
+     * @Action
+     * @Route("parents")
+     * @return ResponseInterface
+     */
+    public function parents(): ResponseInterface
+    {
+        return $this->response->success(null, $this->service->getParents());
+    }
+
+    /**
+     * @Action
+     * @Route("read")
+     * @return ResponseInterface
+     */
+    public function read(): ResponseInterface
+    {
+        return $this->response->success(null, $this->service->read());
+    }
+
+    /**
+     * @Action
+     * @Route("delete")
+     * @return ResponseInterface
+     */
+    public function delete(): ResponseInterface
+    {
+        return $this->service->delete() ? $this->response->success('删除成功') : $this->response->error($this->service->getError());
+    }
 }

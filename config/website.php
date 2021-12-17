@@ -8,7 +8,7 @@ return array (
   'beian' => 'xxxxx',
   'version' => '1.0.0',
   'mail_type' => 0,
-  'mail_host' => 'smtp.qq.com',
+  'mail_host' => 'smtp.yeah.net',
   'mail_port' => 465,
   'mail_user' => '',
   'mail_pass' => '',
@@ -23,4 +23,7 @@ return array (
   'login' => '1',
   'register' => '1',
   'test' => '',
+  'tests' => '',
+  'testss' => '',
+  'user_verify' => 'mobile',
 );

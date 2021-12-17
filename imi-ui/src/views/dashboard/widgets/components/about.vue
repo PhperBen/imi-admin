@@ -1,9 +1,9 @@
 <template>
 	<el-card shadow="hover" header="关于项目" class="item-background">
-		<p>高性能 / 精致 / 优雅。基于Vue3 + Element-Plus 的中后台前端解决方案，如果喜欢就点个星星支持一下。</p>
+		<p>基于 后端 Imi + 前端 Scui 进行开发，专注于高效快速开发的后台管理框架。</p>
 		<p>
-			<a href='https://gitee.com/lolicode/scui' target="_blank">
-				<img src='https://gitee.com/lolicode/scui/badge/star.svg?theme=dark' alt='star' style="vertical-align: middle">
+			<a href='https://gitee.com/phpben/imi-admin' target="_blank">
+				<img src='https://gitee.com/phpben/imi-admin/badge/star.svg?theme=dark' alt='star' style="vertical-align: middle">
 			</a>
 		</p>
 	</el-card>
@@ -16,7 +16,7 @@
 		description: "点个星星支持一下",
 		data() {
 			return {
-				
+
 			}
 		}
 	}

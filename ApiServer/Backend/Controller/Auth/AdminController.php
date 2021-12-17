@@ -8,6 +8,7 @@ use Imi\Server\Http\Route\Annotation\Action;
 use Imi\Server\Http\Route\Annotation\Controller;
 use Imi\Server\Http\Route\Annotation\Route;
 use ImiApp\ApiServer\Backend\Model\SoAdmin;
+use ImiApp\ApiServer\Backend\Model\SoAdminOperateLog;
 use ImiApp\ApiServer\Backend\Model\SoAuthGroupAccess;
 use Phpben\Imi\Auth\Annotation\Auth;
 use Phpben\Imi\Validate\Annotation\Validate;
@@ -70,5 +71,39 @@ class AdminController extends CommonController
         return $this->service->delete() ? $this->response->success('删除成功') : $this->response->error($this->service->getError());
     }
 
+    /**
+     * @Action
+     * @Route("operatelog")
+     * @return ResponseInterface
+     */
+    public function operatelog(): ResponseInterface
+    {
+        return $this->response->success(null, $this->service->getOperateLog());
+    }
+
+    /**
+     * @Action
+     * @Route("loginlog")
+     * @return ResponseInterface
+     */
+    public function loginlog(): ResponseInterface
+    {
+        return $this->response->success(null, $this->service->getLoginLog());
+    }
+
+    /**
+     * @Action
+     * @Route(url="profile",method="POST")
+     * @return ResponseInterface
+     */
+    public function profile(): ResponseInterface
+    {
+        $body = $this->request->getParsedBody();
+        return $this->response->success('更新成功', $this->service->updateProfile([
+            'avatar' => $body['avatar'] ?? "",
+            'password' => $body['password'] ?? "",
+            'email' => $body['email'] ?? "",
+        ]));
+    }
 
 }

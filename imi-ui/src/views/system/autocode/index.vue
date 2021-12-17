@@ -13,7 +13,7 @@
 						</template>
 						<el-alert title="模型生成" type="warning" :closable="false">
 							<slot>
-								生成常规代码前，需要使用“<a href="https://doc.imiphp.com/v2.0/dev/generate/model.html" target="_blank">IMI模型生成</a>”生成模型<br><br>
+								生成常规代码前，需要使用“<a href="https://doc.imiphp.com/v2.0/dev/generate/model.html" target="_blank">imi模型生成</a>”生成模型<br><br>
 								生成时需要设置模型基类，并关闭驼峰命名，<br>例：vendor/bin/imi-swoole generate/model "ImiApp\ApiServer\Backend\Model" "ImiApp\ImiServer\AbstractModel" --entity false
 							</slot>
 						</el-alert>
@@ -219,7 +219,7 @@
 												<el-input v-model="other.route"></el-input>
 											</el-form-item>
 										</el-form>
-										
+
 									</el-col>
 								</el-row>
 							</el-tab-pane>
@@ -360,7 +360,7 @@
 					this.$alert("<h2>code:</h2>"+res.data.code+"<br><h2>err:</h2>"+res.data.err+"<br><h2>out:</h2>"+res.data.out, "返回信息",{
 						confirmButtonText: '确定',
 						dangerouslyUseHTMLString:true,
-						customClass:'message_box_alert'
+						customClass:'msgBox'
 					})
 				});
 			},
@@ -391,10 +391,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	:deep(.message_box_alert) {
-		word-break: break-all !important;
-	}
-	.code {height:100%;overflow: auto;background: #333;color: #999;padding:20px;font-size: 14px;font-family: "consolas";line-height: 1.5;}
-</style>

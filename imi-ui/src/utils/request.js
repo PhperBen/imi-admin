@@ -30,7 +30,18 @@ axios.interceptors.request.use(
 // HTTP response 拦截器
 axios.interceptors.response.use(
 	(response) => {
-		return response;
+		if(response.data && response.data.code == 401){
+			ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
+				type: 'error',
+				closeOnClickModal: false,
+				center: true,
+				confirmButtonText: '重新登录'
+			}).then(() => {
+				router.replace({path: '/login'});
+			}).catch(() => {})
+		}else{
+			return response;
+		}
 	},
 	(error) => {
 		if (error.response) {

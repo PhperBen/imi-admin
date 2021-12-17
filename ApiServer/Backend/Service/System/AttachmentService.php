@@ -37,6 +37,12 @@ class AttachmentService extends AbstractService
      */
     protected $upload;
 
+    public function getParents(): array
+    {
+        $list = [['label' => '全部']];
+        return array_merge($list, $this->model::query()->group("parent")->order('parent', 'desc')->fieldRaw("parent as label")->select()->getArray());
+    }
+
     public function pull($files): mixed
     {
         $file = $files['file'] ?? false;
@@ -60,5 +66,17 @@ class AttachmentService extends AbstractService
             $this->model::query()->insert($data);
         }
         return $upload['url'];
+    }
+
+    public function _before_delete(&$ids)
+    {
+        foreach ($ids as $k => $id) {
+            $path = $this->model::find($id);
+            if (!$path) {
+                unset($ids[$k]);
+                continue;
+            }
+            $this->upload->delete($path->toArray()['path']);
+        }
     }
 }

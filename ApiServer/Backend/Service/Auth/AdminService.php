@@ -7,6 +7,8 @@ namespace ImiApp\ApiServer\Backend\Service\Auth;
 use Imi\Bean\Annotation\Inherit;
 use Imi\Util\Random;
 use ImiApp\ApiServer\Backend\Model\SoAdmin;
+use ImiApp\ApiServer\Backend\Model\SoAdminLoginLog;
+use ImiApp\ApiServer\Backend\Model\SoAdminOperateLog;
 use ImiApp\ApiServer\Backend\Model\SoAuthGroup;
 use ImiApp\ApiServer\Backend\Model\SoAuthGroupAccess;
 use ImiApp\ImiServer\AbstractService;
@@ -34,6 +36,49 @@ class AdminService extends AbstractService
 
     protected $grouName = [];
     protected $groups = [];
+
+    public function getOperateLog(): array
+    {
+        $page = (int)$this->request->request('page', 1);
+        $data = SoAdminOperateLog::query()->where('admin_id', '=', $this->auth->user()->id)->order('id', 'desc')->paginate($page, 10);
+        return [
+            'list' => $data->getList(),
+            'total' => $data->getTotal(),
+            'pageSize' => $data->getLimit(),
+            'currentPage' => $data->getPageCount()
+        ];
+    }
+
+    public function getLoginLog(): array
+    {
+        $page = (int)$this->request->request('page', 1);
+        $data = SoAdminLoginLog::query()->where('username', '=', $this->auth->user()->username)->order('id', 'desc')->paginate($page, 10);
+        return [
+            'list' => $data->getList(),
+            'total' => $data->getTotal(),
+            'pageSize' => $data->getLimit(),
+            'currentPage' => $data->getPageCount()
+        ];
+    }
+
+    public function updateProfile($data): bool
+    {
+        $user = $this->model::find($this->auth->user()->id);
+        if ($data['password']) {
+            $data['salt'] = Random::letterAndNumber(6);
+            $data['password'] = md5(md5($data['password']) . $data['salt']);
+        } else {
+            unset($data['password']);
+        }
+        if (!$data['avatar']) {
+            unset($data['avatar']);
+        }
+        if (!$data['email']) {
+            unset($data['email']);
+        }
+        $user->update($data);
+        return true;
+    }
 
     /**
      * 限定查询

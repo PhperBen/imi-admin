@@ -2,6 +2,36 @@ import config from "@/config"
 import http from "@/utils/request"
 
 export default {
+    attachment:{
+        read:{
+            url: `${config.API_URL}/system/attachment/read`,
+            name: "read",
+            get: async function(params = {}){
+                return await http.get(this.url,params);
+            }
+        },
+        parents:{
+            url: `${config.API_URL}/system/attachment/parents`,
+            name: "read",
+            get: async function(params = {}){
+                return await http.get(this.url,params);
+            }
+        },
+        create:{
+            url: `${config.API_URL}/system/attachment/create`,
+            name: "create",
+            post: async function(params = {}){
+                return await http.post(this.url,params);
+            }
+        },
+        delete:{
+            url: `${config.API_URL}/system/attachment/delete`,
+            name: "delete",
+            post: async function(params = {}){
+                return await http.post(this.url,params);
+            }
+        },
+    },
     autocode:{
         models:{
             url: `${config.API_URL}/system/autocode/models`,

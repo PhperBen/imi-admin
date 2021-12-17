@@ -14,5 +14,13 @@ use ImiApp\ApiServer\Backend\Model\Base\SoAttachmentBase;
  */
 class SoAttachment extends SoAttachmentBase
 {
+    public static function getSearchColumns(): array
+    {
+        return ['id', 'path', 'url', 'filename', 'admin_id'];
+    }
 
+    public static function getOrderRaw(): string
+    {
+        return 'update_time desc';
+    }
 }

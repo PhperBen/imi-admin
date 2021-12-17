@@ -21,6 +21,8 @@ use ImiApp\ImiServer\AbstractModel as Model;
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `username` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号',
   `password` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号码',
   `money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
   `create_time` int NOT NULL COMMENT '创建时间',
   `update_time` int NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -31,6 +33,8 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @property int|null $status 状态
  * @property string|null $username 账号
  * @property string|null $password 密码
+ * @property string|null $email 邮箱
+ * @property string|null $mobile 手机号码
  * @property string|float|int|null $money 余额
  * @property int|null $createTime 创建时间
  * @property int|null $updateTime 更新时间
@@ -149,6 +153,64 @@ abstract class UserBase extends Model
     public function setPassword($password)
     {
         $this->password = null === $password ? null : (string)$password;
+        return $this;
+    }
+
+    /**
+     * 邮箱.
+     * email
+     * @Column(name="email", type="varchar", length=255, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var string|null
+     */
+    protected ?string $email = NULL;
+
+    /**
+     * 获取 email - 邮箱.
+     *
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * 赋值 email - 邮箱.
+     * @param string|null $email email
+     * @return static
+     */
+    public function setEmail($email)
+    {
+        $this->email = null === $email ? null : (string)$email;
+        return $this;
+    }
+
+    /**
+     * 手机号码.
+     * mobile
+     * @Column(name="mobile", type="varchar", length=11, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var string|null
+     */
+    protected ?string $mobile = NULL;
+
+    /**
+     * 获取 mobile - 手机号码.
+     *
+     * @return string|null
+     */
+    public function getMobile(): ?string
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * 赋值 mobile - 手机号码.
+     * @param string|null $mobile mobile
+     * @return static
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = null === $mobile ? null : (string)$mobile;
         return $this;
     }
 

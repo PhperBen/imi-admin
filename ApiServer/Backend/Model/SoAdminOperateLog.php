@@ -14,5 +14,14 @@ use ImiApp\ApiServer\Backend\Model\Base\SoAdminOperateLogBase;
  */
 class SoAdminOperateLog extends SoAdminOperateLogBase
 {
+    public static function write($data)
+    {
+        $model = self::newInstance();
+        $data['admin_id'] = $data['user_id'];
+        $data['username'] = SoAdmin::find($data['user_id'])->getUsername();
+        $data['route_name'] = $data['controller'];
+        unset($data['controller'], $data['user_id']);
+        $model->insert($data);
+    }
 
 }
