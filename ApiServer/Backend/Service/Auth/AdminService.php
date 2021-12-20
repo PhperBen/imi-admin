@@ -166,18 +166,18 @@ class AdminService extends AbstractService
         }
         $group = $data['groups'];
         unset($data['groups']);
+        $childrenGroupIds = $this->auth->auth()->getChildrenGroupIds($this->auth->auth()->isSuper());
+        $group = array_intersect($childrenGroupIds, $group);
+        if (!$group) {
+            throw new ServiceException('父组别超出权限范围');
+        }
         $this->group = $group;
     }
 
     protected function _after_update($id, $model)
     {
         SoAuthGroupAccess::query()->where('uid', '=', $id)->delete();
-        $childrenGroupIds = $this->auth->auth()->getChildrenGroupIds($this->auth->auth()->isSuper());
-        $group = array_intersect($childrenGroupIds, $this->group);
-        if (!$group) {
-            throw new ServiceException('父组别超出权限范围');
-        }
-        foreach ($group as $value) {
+        foreach ($this->group as $value) {
             SoAuthGroupAccess::query()->insert(['uid' => $id, 'gid' => $value]);
         }
     }
