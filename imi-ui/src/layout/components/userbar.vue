@@ -42,7 +42,7 @@
 		<el-dropdown class="user panel-item" trigger="click" @command="handleUser">
 			<div class="user-avatar">
 				<img style="width:30px;height:30px;border-radius:50%" :src="avatar">
-				<label>{{ userName }}</label>
+				<label>{{ username }}</label>
 				<el-icon class="el-icon--right"><el-icon-arrow-down /></el-icon>
 			</div>
 			<template #dropdown>
@@ -59,7 +59,7 @@
 	export default {
 		data(){
 			return {
-				userName: "",
+				username: "",
 				// msg: false,
 				// msgList: [
 				// 	{
