@@ -16,6 +16,7 @@ class AdminValidate extends Validate
         'status' => 'require|in:0,1',
         'groups' => 'require',
         'id' => 'require|integer',
+        'avatar' => '',
     ];
 
     protected $message = [
@@ -36,7 +37,7 @@ class AdminValidate extends Validate
     ];
 
     protected $scene = [
-        'create' => ['email', 'mobile', 'username', 'password', 'status', 'groups'],
-        'update' => ['id', 'email', 'mobile', 'username', 'status', 'groups'],
+        'create' => ['email', 'mobile', 'username', 'password', 'status', 'groups', 'avatar'],
+        'update' => ['id', 'email', 'mobile', 'username', 'status', 'groups', 'avatar'],
     ];
 }
