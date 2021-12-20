@@ -16,6 +16,7 @@ use ImiApp\ImiServer\Service\Ems;
 use ImiApp\ImiServer\Service\Sms;
 
 /**
+ * 用户中心
  * @Auth(nologin={"login","register","resetpwd"})
  * @Controller("/user/")
  */

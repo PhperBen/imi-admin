@@ -13,6 +13,7 @@ use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Service\Sms;
 
 /**
+ * 短线验证码
  * @Controller("/sms/")
  */
 class SmsController extends CommonController

@@ -13,6 +13,7 @@ use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Service\Ems;
 
 /**
+ * 邮件验证码接口
  * @Controller("/ems/")
  */
 class EmsController extends CommonController
