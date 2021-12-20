@@ -21,4 +21,16 @@ class UserService extends AbstractService
      */
     public $model = Model::class;
 
+    protected function _before_create(&$data)
+    {
+        $data['password'] = md5($data['password']);
+    }
+
+    protected function _before_update(&$data)
+    {
+        if ($data['password'] ?? false) {
+            $data['password'] = md5($data['password']);
+        }
+    }
+
 }
