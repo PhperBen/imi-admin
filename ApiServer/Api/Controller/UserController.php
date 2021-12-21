@@ -129,7 +129,7 @@ class UserController extends CommonController
             return $this->response->error((config('user_verify') == 'mobile' ? "手机号码" : "邮箱地址") . '错误');
         }
         $user->update(['password' => md5($data->password)]);
-        return $this->response->success('重置密码成功');
+        return $this->response->success('重置密码成功', $user->getUsername());
     }
 
     /**

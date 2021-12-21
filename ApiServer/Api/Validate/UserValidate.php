@@ -37,7 +37,7 @@ class UserValidate extends Validate
     protected $scene = [
         'login' => ['username', 'password'],
         'register' => ['username', 'password', 'mobile', 'email', 'code'],
-        'resetpwd' => ['username', 'password', 'code'],
+        'resetpwd' => ['password', 'code'],
         'changeemail' => ['code', 'email'],
         'changemobile' => ['code', 'mobile'],
         'changepwd' => ['password', 'newpassword'],
