@@ -18,10 +18,10 @@
         <?php }elseif($column['type'] == 'datetime'){ ?>
         <el-date-picker v-model="form.<?php echo $column['key']; ?>" type="datetime"></el-date-picker>
         <?php }elseif($column['type'] == 'radio'){ ?>
-        <el-radio v-model="form.<?php echo $column['key']; ?>" v-for="(item,index) in <?php echo $column['key']; ?>_option" :key="index" :label="item">{{item}}</el-radio>
+        <el-radio v-model="form.<?php echo $column['key']; ?>" v-for="(item,index) in <?php echo $column['key']; ?>_option" :key="index" :label="index">{{item}}</el-radio>
         <?php }elseif($column['type'] == 'checkbox'){ ?>
         <el-checkbox-group v-model="form.<?php echo $column['key']; ?>">
-            <el-checkbox v-for="(item,index) in <?php echo $column['key']; ?>_option" :key="index" :label="item">{{item}}</el-checkbox>
+            <el-checkbox v-for="(item,index) in <?php echo $column['key']; ?>_option" :key="index" :label="index">{{item}}</el-checkbox>
         </el-checkbox-group>
         <?php }elseif($column['type'] == 'switch'){ ?>
         <el-switch v-model="form.<?php echo $column['key']; ?>" :active-value="1" :inactive-value="0"></el-switch>
