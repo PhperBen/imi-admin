@@ -391,3 +391,6 @@
 		}
 	}
 </script>
+<style scoped>
+	.code {height:100%;overflow: auto;background: #333;color: #999;padding:20px;font-size: 14px;font-family: "consolas";line-height: 1.5;}
+</style>
