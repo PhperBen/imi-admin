@@ -17,4 +17,13 @@ class Request extends RequestProxy
         return json_decode($this->getSwooleRequest()->rawContent(), true);
     }
 
+    public function post(?string $name = null, $default = null)
+    {
+        $value = parent::post($name, $default);
+        if (!$value && ($this->getParsedBody()[$name] ?? null)) {
+            return $this->getParsedBody()[$name];
+        }
+        return $value;
+    }
+
 }
