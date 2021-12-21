@@ -1,4 +1,4 @@
-import config from "@/config"
+import tool from "@/utils/tool"
 
 //系统路由
 const routes = [
@@ -6,7 +6,7 @@ const routes = [
 		name: "layout",
 		path: "/",
 		component: () => import(/* webpackChunkName: "layout" */ '@/layout'),
-		redirect: config.DASHBOARD_URL || '/dashboard',
+		redirect: tool.data.get("DEFAULT_ROUTE_PATH"),
 		children: []
 	},
 	{
