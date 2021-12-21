@@ -13,7 +13,6 @@ use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Service\Sms;
 
 /**
- * 短线验证码
  * @Controller("/sms/")
  */
 class SmsController extends CommonController
@@ -30,7 +29,7 @@ class SmsController extends CommonController
     public function send(): ResponseInterface
     {
         $event = (string)$this->request->post('event', 'default');
-        if (!in_array($event, ['login', 'register', 'resetpwd'])) {
+        if (in_array($event, ['login', 'register', 'resetpwd'])) {
             // 不需要登陆
             $mobile = (string)$this->request->post('mobile');
             if (!$mobile) {

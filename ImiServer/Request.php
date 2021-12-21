@@ -20,7 +20,7 @@ class Request extends RequestProxy
     public function post(?string $name = null, $default = null)
     {
         $value = parent::post($name, $default);
-        if (!$value && ($this->getParsedBody()[$name] ?? null)) {
+        if ((!$value || $default == $value) && ($this->getParsedBody()[$name] ?? null)) {
             return $this->getParsedBody()[$name];
         }
         return $value;

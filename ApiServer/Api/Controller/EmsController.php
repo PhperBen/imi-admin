@@ -13,7 +13,6 @@ use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Service\Ems;
 
 /**
- * 邮件验证码接口
  * @Controller("/ems/")
  */
 class EmsController extends CommonController
@@ -30,7 +29,7 @@ class EmsController extends CommonController
     public function send(): ResponseInterface
     {
         $event = (string)$this->request->post('event', 'default');
-        if (!in_array($event, ['login', 'register', 'resetpwd'])) {
+        if (in_array($event, ['login', 'register', 'resetpwd'])) {
             // 不需要登陆
             $email = (string)$this->request->post('email');
             if (!$email) {

@@ -16,7 +16,6 @@ use ImiApp\ImiServer\Service\Ems;
 use ImiApp\ImiServer\Service\Sms;
 
 /**
- * 用户中心
  * @Auth(nologin={"login","register","resetpwd"})
  * @Controller("/user/")
  */
@@ -68,6 +67,15 @@ class UserController extends CommonController
         }
         if (!$check) {
             return $this->response->error('验证码错误');
+        }
+        if (User::find(['username' => $data->username])) {
+            return $this->response->error('账号已存在');
+        }
+        if (User::find(['email' => $data->email])) {
+            return $this->response->error('邮箱已存在');
+        }
+        if (User::find(['mobile' => $data->mobile])) {
+            return $this->response->error('手机已存在');
         }
         $model = User::newInstance();
         $create = $model->insert([
