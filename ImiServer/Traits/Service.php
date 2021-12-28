@@ -102,7 +102,7 @@ trait Service
                 }
                 $this->model::query()->where($prikey, '=', $n)->update([$field => $weighdata[$offset]]);
             }
-            $changepid . '' >= '0' && $this->model::query()->where($prikey, '=', $changeid)->update([$pidKey => $changepid]);
+            $changepid . '' > '0' && $this->model::query()->where($prikey, '=', $changeid)->update([$pidKey => $changepid]);
             Db::getInstance()->commit();
         } catch (ServiceException $e) {
             Db::getInstance()->rollBack();

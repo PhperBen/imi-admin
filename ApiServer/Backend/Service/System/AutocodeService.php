@@ -101,6 +101,7 @@ class AutocodeService extends AbstractService
         $modelContent = file_get_contents($modelPath);
         if ($getSortPk) {
             $modelContent = $this->modelReplace($modelContent, 'getSortPk', $getSortPk);
+            $modelContent = $this->modelReplace($modelContent, 'getOrderRaw', '"' . trim($getSortPk, '"') . ' desc"');
         }
         if ($getOperates) {
             $getOperates = '[' . trim($getOperates, ',') . ']';
@@ -227,7 +228,7 @@ class AutocodeService extends AbstractService
 
     protected function modelReplace($content, $key, $value): array|string
     {
-        $type = in_array($key, ['getSortPk', 'getSortBy']) ? "string" : "array";
+        $type = in_array($key, ['getSortPk', 'getSortBy', 'getOrderRaw']) ? "string" : "array";
         preg_match('!' . $key . '(.*?)}!ms', $content, $yes);
         if ($yes[0] ?? false) {
             $getWithAttribute = $key . "(): " . $type . "\n\t{\n\t\treturn " . $value . ";\n\t}";

@@ -14,7 +14,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable ref="table" :apiObj="apiObj" :params="params" @selection-change="selectionChange" stripe remoteSort remoteFilter>
+            <scTable ref="table" row-key="<?php echo $pri; ?>" :apiObj="apiObj" :params="params" @selection-change="selectionChange" stripe remoteSort remoteFilter>
                 <el-table-column type="selection" width="50"></el-table-column>
                 <?php foreach($columns as $column){ ?><el-table-column label="<?php echo $column['name']; ?>" prop="<?php echo $column['key']; ?>" <?php if($column['type'] == 'datetime'){ echo ' align="right" width="180" :formatter="this.$TABLE.datetime"'; } ?>>
                     <?php if($column['type'] == 'switch'){ ?><template #default="scope">
