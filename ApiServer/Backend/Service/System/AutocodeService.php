@@ -52,7 +52,7 @@ class AutocodeService extends AbstractService
         fclose($pipes[2]);
         return [
             'code' => proc_close($process),
-            'out' => str_replace("\n","<br>",trim($stdout)),
+            'out' => str_replace("\n", "<br>", trim($stdout)),
             'err' => trim($stderr),
         ];
     }
@@ -227,13 +227,14 @@ class AutocodeService extends AbstractService
 
     protected function modelReplace($content, $key, $value): array|string
     {
+        $type = in_array($key, ['getSortPk', 'getSortBy']) ? "string" : "array";
         preg_match('!' . $key . '(.*?)}!ms', $content, $yes);
         if ($yes[0] ?? false) {
-            $getWithAttribute = $key . "(): array\n\t{\n\t\treturn " . $value . ";\n\t}";
+            $getWithAttribute = $key . "(): " . $type . "\n\t{\n\t\treturn " . $value . ";\n\t}";
             $content = str_replace($yes[0], $getWithAttribute, $content);
         } else {
             $content = trim(trim(trim(trim($content), "\n"), '?>'), '}');
-            $content .= "\n\tpublic static function " . $key . "(): array\n\t{\n\t\treturn " . $value . ";\n\t}\n}";
+            $content .= "\n\tpublic static function " . $key . "(): " . $type . "\n\t{\n\t\treturn " . $value . ";\n\t}\n}";
         }
         return $content;
     }
