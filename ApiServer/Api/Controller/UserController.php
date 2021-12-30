@@ -188,7 +188,7 @@ class UserController extends CommonController
     {
         $user = User::find($this->auth->user()->id);
         if ($user->getPassword() == md5($data->password)) {
-            $user->update(['password' => md5($user->newpassword)]);
+            $user->update(['password' => md5($data->newpassword)]);
         } else {
             return $this->response->error('旧密码错误');
         }
