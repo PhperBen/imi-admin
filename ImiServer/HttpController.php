@@ -24,5 +24,8 @@ class HttpController
     public function __construct(IServer $server)
     {
         $this->server = $server;
+        if (method_exists($this, '__init')) {
+            $this->__init();
+        }
     }
 }

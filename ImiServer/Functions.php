@@ -1,4 +1,5 @@
 <?php
+
 if (!function_exists('getControllerFiles')) {
     /**
      * 获取所有控制器
