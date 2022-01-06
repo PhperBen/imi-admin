@@ -58,8 +58,9 @@ class Aliyun
             'PhoneNumbers' => $mobile,
             'TemplateCode' => $template,
             'TemplateParam' => ['code' => $code],
+            'SignName' => config('sms_token'),
         ]);
-        if (isset($res['status']) && $res['status']) {
+        if (isset($res['Code']) && $res['Code'] == 'OK') {
             return true;
         } else {
             $this->setError($res['msg'] ?? $res['Message']);
