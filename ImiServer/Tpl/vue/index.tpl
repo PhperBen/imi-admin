@@ -77,6 +77,8 @@
         },
         created() {
             this.$TABLE.setFilterValue(this);
+        },
+        mounted() {
             <?php if($sort){ ?>this.$TABLE.rowDrop(this,this.$API.<?php echo $api; ?>.sort);<?php } echo "\n"; ?>
         },
         methods: {
