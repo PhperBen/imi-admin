@@ -103,7 +103,7 @@
 				Object.assign(reqData, this.params, this.formData)
 				var res = await this.apiObj.get(reqData);
 				var parseData = config.parseData(res)
-				this.tableData = parseData.rows;
+				this.tableData = parseData.rows ? parseData.rows : res.data;
 				this.total = parseData.total;
 				this.loading = false;
 				//表格默认赋值

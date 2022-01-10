@@ -29,7 +29,7 @@ table.rowDrop = function(that,api,id,pid){
                 'changeid':changeid,
                 'pid':pid,
             });
-            if(res===200){
+            if(res.code===200){
                 _this.$message.success(res.message)
             }else{
                 _this.$message.error(res.message)
