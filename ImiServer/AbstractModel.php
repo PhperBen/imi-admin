@@ -210,4 +210,22 @@ abstract class AbstractModel extends Model
     {
         return 'pid';
     }
+
+    /**
+     * 追加数据
+     * @param string|array $data 键名｜Kv数组
+     * @param mixed|null $value 值，数组不填
+     */
+    public function append(string|array $data, mixed $value = null): void
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $this->__set($k, $v);
+                $this->__fieldNames[] = $k;
+            }
+        } else {
+            $this->__set($data, $value);
+            $this->__fieldNames[] = $data;
+        }
+    }
 }
