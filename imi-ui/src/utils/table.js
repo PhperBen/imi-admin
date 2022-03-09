@@ -4,8 +4,8 @@ import filterBar from '@/config/filterBar';
 const table = {}
 
 table.rowDrop = function(that,api,id,pid){
-	if(!id) id = 'id';
-	if(!pid) pid = 'pid';
+	if(typeof(id) == 'undefined') id = 'id';
+	if(typeof(pid) == 'undefined') pid = 'pid';
 	const _this = that
 	const tbody = that.$refs.table.$el.querySelector('.el-table__body-wrapper tbody')
 	let getChilds = function(data){
