@@ -19,7 +19,7 @@ class SoAttachment extends SoAttachmentBase
         return ['id', 'path', 'url', 'filename', 'admin_id'];
     }
 
-    public static function getOrderRaw(): string
+    public static function getOrderRaw()
     {
         return 'update_time desc';
     }

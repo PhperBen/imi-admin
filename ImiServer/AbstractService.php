@@ -37,7 +37,7 @@ abstract class AbstractService
      * @param string $error
      * @return $this
      */
-    protected function setError(string $error): static
+    protected function setError(string $error)
     {
         $this->_error = $error;
         return $this;

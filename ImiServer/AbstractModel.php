@@ -30,7 +30,7 @@ abstract class AbstractModel extends Model
      * @param array $array
      * @return mixed
      */
-    public static function getChildPk(mixed $data, string $parent_pk = 'pid', ?string $pk = null, array $array = []): mixed
+    public static function getChildPk($data, string $parent_pk = 'pid', ?string $pk = null, array $array = [])
     {
         !$pk && $pk = static::__getMeta()->getFirstId();
         !is_array($data) && $data = [$data];
@@ -170,7 +170,7 @@ abstract class AbstractModel extends Model
      * 2. ['id'=>'desc', 'age'] // 缺省asc.
      * @return mixed
      */
-    public static function getOrderRaw(): mixed
+    public static function getOrderRaw()
     {
         return 'id desc';
     }
@@ -213,10 +213,10 @@ abstract class AbstractModel extends Model
 
     /**
      * 追加数据
-     * @param string|array $data 键名｜Kv数组
-     * @param mixed|null $value 值，数组不填
+     * @param mixed $data 键名｜Kv数组
+     * @param mixed $value 值，数组不填
      */
-    public function append(string|array $data, mixed $value = null): void
+    public function append($data, $value = null): void
     {
         if (is_array($data)) {
             foreach ($data as $k => $v) {

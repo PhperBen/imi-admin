@@ -19,11 +19,12 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @DDL(sql="CREATE TABLE `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `username` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号',
-  `password` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
-  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号码',
+  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号',
+  `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号码',
   `money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
+  `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'TOKEN',
   `create_time` int NOT NULL COMMENT '创建时间',
   `update_time` int NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -36,6 +37,7 @@ use ImiApp\ImiServer\AbstractModel as Model;
  * @property string|null $email 邮箱
  * @property string|null $mobile 手机号码
  * @property string|float|int|null $money 余额
+ * @property string|null $token TOKEN
  * @property int|null $createTime 创建时间
  * @property int|null $updateTime 更新时间
  */
@@ -220,14 +222,14 @@ abstract class UserBase extends Model
      * @Column(name="money", type="decimal", length=10, accuracy=2, nullable=false, default="0.00", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
      * @var string|float|int|null
      */
-    protected string|float|int|null $money = NULL;
+    protected $money = NULL;
 
     /**
      * 获取 money - 余额.
      *
      * @return string|float|int|null
      */
-    public function getMoney(): string|float|int|null
+    public function getMoney()
     {
         return $this->money;
     }
@@ -240,6 +242,35 @@ abstract class UserBase extends Model
     public function setMoney($money)
     {
         $this->money = null === $money ? null : $money;
+        return $this;
+    }
+
+    /**
+     * TOKEN.
+     * token
+     * @Column(name="token", type="text", length=0, accuracy=0, nullable=true, default="", isPrimaryKey=false, primaryKeyIndex=-1, isAutoIncrement=false)
+     * @var string|null
+     */
+    protected ?string $token = NULL;
+
+    /**
+     * 获取 token - TOKEN.
+     *
+     * @return string|null
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * 赋值 token - TOKEN.
+     * @param string|null $token token
+     * @return static
+     */
+    public function setToken($token)
+    {
+        $this->token = null === $token ? null : (string)$token;
         return $this;
     }
 

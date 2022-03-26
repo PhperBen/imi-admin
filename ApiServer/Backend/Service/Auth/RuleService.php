@@ -28,7 +28,7 @@ class RuleService extends AbstractService
      * @param $data
      * @return bool
      */
-    public function create($data): mixed
+    public function create($data)
     {
         $model = $this->model::newInstance();
         $model->insert($data);

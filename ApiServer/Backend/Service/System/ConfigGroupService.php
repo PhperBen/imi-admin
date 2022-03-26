@@ -26,7 +26,7 @@ class ConfigGroupService extends AbstractService
      * @param bool $isPage
      * @return mixed
      */
-    public function read(bool $isPage = true): mixed
+    public function read(bool $isPage = true)
     {
         return $this->model::getAssocList($this->model::query()->order("sort", "desc"));
     }

@@ -24,7 +24,7 @@ class ConfigService extends AbstractService
      */
     public $model = SoConfig::class;
 
-    public function read(bool $isPage = true): mixed
+    public function read(bool $isPage = true)
     {
         $group_id = (int)$this->request->request('group_id');
         if (!$group_id) {
@@ -64,7 +64,7 @@ class ConfigService extends AbstractService
         }
     }
 
-    public function update($data): mixed
+    public function update($data)
     {
         $config = [];
         foreach ($data as $k => $v) {

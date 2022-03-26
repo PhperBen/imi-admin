@@ -57,7 +57,7 @@ class AutocodeService extends AbstractService
         ];
     }
 
-    public function build($data): bool|array
+    public function build($data)
     {
         $column = $data->column; // 字段列表
         $path = $data->path; // 路径配置
@@ -198,7 +198,7 @@ class AutocodeService extends AbstractService
 
     protected function getSql($class, $name, $alias, $operate, $sort): string
     {
-        $pid = SoAuthRule::find(['name' => 'Autocode'])?->getId() ?: false;
+        $pid = SoAuthRule::find(['name' => 'Autocode'])->getId() ?? false;
         $sql = 'SET @id = (SELECT max(id) from `so_auth_rule`) + 1;' . "\n";
         !$pid && $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values(@id,0,1,0,"Autocode","sc-icon-code",null,null,"menu","/autocode",' . time() . ');' . "\n";
         $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values((@id+1),(@id+1),1,' . ($pid ?: '@id') . ',"' . $name . '","sc-icon-code",null,null,"menu","' . ('/' . $name . '/index') . '",' . time() . ');' . "\n";
@@ -226,7 +226,7 @@ class AutocodeService extends AbstractService
         closedir($handler);
     }
 
-    protected function modelReplace($content, $key, $value): array|string
+    protected function modelReplace($content, $key, $value)
     {
         $type = in_array($key, ['getSortPk', 'getSortBy', 'getOrderRaw']) ? "string" : "array";
         preg_match('!' . $key . '(.*?)}!ms', $content, $yes);
@@ -399,7 +399,7 @@ class AutocodeService extends AbstractService
         return $inputType;
     }
 
-    protected function getSaveOption($v): bool|string
+    protected function getSaveOption($v)
     {
         $type = $this->getSaveType($v);
         if ($type == 'radio') {
@@ -434,7 +434,7 @@ class AutocodeService extends AbstractService
         return $option;
     }
 
-    protected function getFilter($v): array|bool
+    protected function getFilter($v)
     {
         $type = $this->getTableType($v);
         if ($type == 'datetime') {

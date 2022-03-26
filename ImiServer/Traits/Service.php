@@ -20,7 +20,7 @@ trait Service
      * @param bool $isPage
      * @return mixed
      */
-    public function read(bool $isPage = true): mixed
+    public function read(bool $isPage = true)
     {
         try {
             $pageSize = (int)$this->request->request('pageSize', 20);
@@ -122,7 +122,7 @@ trait Service
      * @return mixed
      * @throws \Imi\Db\Exception\DbException
      */
-    public function create($data): mixed
+    public function create($data)
     {
         Db::getInstance()->beginTransaction();
         try {
@@ -159,7 +159,7 @@ trait Service
      * @return mixed
      * @throws \Imi\Db\Exception\DbException
      */
-    public function update($data): mixed
+    public function update($data)
     {
         Db::getInstance()->beginTransaction();
         try {
@@ -200,7 +200,7 @@ trait Service
      * @return mixed
      * @throws \Imi\Db\Exception\DbException
      */
-    public function delete(mixed $ids = null): mixed
+    public function delete($ids = null)
     {
         $ids = $ids ?? ($this->request->getParsedBody()['ids'] ?? []);
         if (!$ids) {
@@ -241,7 +241,7 @@ trait Service
      * @param string|null $search
      * @return mixed
      */
-    public function where(?string $filter = null, ?string $search = null): mixed
+    public function where(?string $filter = null, ?string $search = null)
     {
         $filter = $filter ?? json_decode((string)$this->request->request('filter', '{}'), true); // 高级搜索内容
         $search = $search ?? (string)$this->request->request('search', ''); // 模糊搜索内容
@@ -368,7 +368,7 @@ trait Service
      * 快捷操作
      * @return mixed
      */
-    public function operate(): mixed
+    public function operate()
     {
         $ids = $ids ?? ($this->request->getParsedBody()['ids'] ?? []);
         if (!$ids) {

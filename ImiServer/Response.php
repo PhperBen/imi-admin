@@ -19,11 +19,11 @@ class Response extends ResponseProxy
     /**
      * 失败响应
      * @param string|null $message
-     * @param mixed|array $data
+     * @param mixed $data
      * @param int $code
      * @return ResponseInterface
      */
-    public function error(?string $message = null, mixed $data = [], int $code = 500): ResponseInterface
+    public function error(?string $message = null, $data = null, int $code = 500): ResponseInterface
     {
         $data = [
             'code' => $code,
@@ -36,11 +36,11 @@ class Response extends ResponseProxy
     /**
      * 成功响应
      * @param string|null $message
-     * @param mixed|array $data
+     * @param mixed $data
      * @param int $code
      * @return ResponseInterface
      */
-    public function success(?string $message = null, mixed $data = [], int $code = 200): ResponseInterface
+    public function success(?string $message = null, $data = null, int $code = 200): ResponseInterface
     {
         $data = [
             'code' => $code,

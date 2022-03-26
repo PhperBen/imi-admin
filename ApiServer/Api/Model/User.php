@@ -14,5 +14,13 @@ use ImiApp\ApiServer\Api\Model\Base\UserBase;
  */
 class User extends UserBase
 {
+    public static function getOperates(): array
+    {
+        return ["status"];
+    }
 
+    public static function getSearchColumns(): array
+    {
+        return ["id"];
+    }
 }

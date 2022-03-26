@@ -43,7 +43,7 @@ class AttachmentService extends AbstractService
         return array_merge($list, $this->model::query()->group("parent")->order('parent', 'desc')->fieldRaw("parent as label")->select()->getArray());
     }
 
-    public function pull($files): mixed
+    public function pull($files)
     {
         $file = $files['file'] ?? false;
         if (!$file) {

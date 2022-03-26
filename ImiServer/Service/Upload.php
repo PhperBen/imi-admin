@@ -33,7 +33,7 @@ class Upload
      * @return bool|array
      * @throws FilesystemException
      */
-    public function pull(mixed $file): bool|array
+    public function pull($file)
     {
         try {
             $file = (0 === $file->getError()) ? $file : false;

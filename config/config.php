@@ -39,6 +39,7 @@ return [
 
     'ignorePaths' => [
         dirname(__DIR__) . DIRECTORY_SEPARATOR . 'public',
+        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'imi-ui',
     ],
 
     // Swoole 主服务器配置
