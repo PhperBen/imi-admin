@@ -3,3 +3,4 @@
 /.runtime
 /vendor
 .DS_Store
+/.vscode
