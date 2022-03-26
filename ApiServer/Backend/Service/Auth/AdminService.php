@@ -120,12 +120,12 @@ class AdminService extends AbstractService
     protected function _after_read(&$data)
     {
         $adminGroupName = $this->grouName;
-        $list = &$data['list'];
-        foreach ($list as $k => &$v) {
-            $v = $v->toArray();
-            $groups = $adminGroupName[$v['id']] ?? [];
-            $v['groups'] = array_keys($groups);
-            $v['groups_text'] = array_values($groups);
+        foreach ($data['list'] as $k => $v) {
+            $groups = $adminGroupName[$v->getId()] ?? [];
+            $v->append([
+                'groups'=>array_keys($groups),
+                'groups_text'=>array_values($groups),
+            ]);
         }
     }
 

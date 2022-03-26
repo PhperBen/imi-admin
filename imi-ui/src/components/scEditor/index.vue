@@ -72,8 +72,12 @@
 						const data = new FormData();
 						data.append("file", blobInfo.blob() ,blobInfo.filename());
 						try {
-							const res = await API.common.upload.post(data)
-							success(res.data.src)
+							const res = await API.system.attachment.create.post(data)
+							if (res.code === 200){
+								success(res.data)
+							}else{
+								failure(res.message)
+							}
 						}catch (error) {
 							failure("Image upload failed")
 						}

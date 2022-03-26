@@ -31,7 +31,7 @@
                                         <!-- 输入框 -->
                                         <el-input v-if="item.field.type=='text'" v-model="item.value" :placeholder="item.field.placeholder||'请输入'"></el-input>
                                         <!-- 区间 仅限int类型 字符串也可以使用区间 但是要使用标签 因为int类型指1-100区间 字符串指在 xx，xxx，xxxx之间-->
-										<div v-if="item.field.type=='between'" style="display:flex;flex:1;flex-direction:row;width:100%">
+										<div v-if="item.field.type=='between' || item.field.type=='not between'" style="display:flex;flex:1;flex-direction:row;width:100%">
 										<el-input v-model="item.value" :placeholder="item.field.placeholder||'开始值'"></el-input>
 										<span style="color:#999;margin-top:8px;"> — </span>
                                         <el-input v-model="item.valueEnd" :placeholder="item.field.placeholder||'结束值'"></el-input>
@@ -85,6 +85,7 @@
 				drawer: false,
 				operator: config.operator,
 				fields: this.options,
+				bfields:JSON.parse(JSON.stringify(this.options)),
 				filter: [],
 				myFilter: [],
 				filterObjLength: 0,
@@ -161,15 +162,13 @@
 		},
 		methods: {
 			operateChange(index,value){
-				if(value == 'between' || value == 'not between'){
-					this.filter[index].field.dtype = this.filter[index].field.type
-					this.filter[index].field.type = 'between'
+				if (value == 'between' || value == 'not between') {
+					this.filter[index].field.type = value;
 				}else{
-					if(this.filter[index].field.dtype){
-						this.filter[index].field.type = this.filter[index].field.dtype
-						this.filter[index].field.dtype = false;
+					if (this.bfields[index].type == 'between' || this.bfields[index].type == 'not between'){
+						this.filter[index].field.type = 'text';
 					}else{
-						this.filter[index].field.type = 'text'
+						this.filter[index].field.type = this.bfields[index].type;
 					}
 				}
 			},

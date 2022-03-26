@@ -14,7 +14,7 @@
 				<el-header>
 					<div class="left-panel">
 						<el-button type="primary" icon="el-icon-plus" v-auth="'auth.admin.create'" @click="add"></el-button>
-						<el-button type="danger" plain icon="el-icon-delete"  v-auth="'auth.admin.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
+						<el-button type="danger" plain icon="el-icon-delete"  v-auth="'auth.admin.delete'" v-show="selection.length>0" @click="batch_del"></el-button>
 					</div>
 					<div class="right-panel">
 						<div class="right-panel-search">

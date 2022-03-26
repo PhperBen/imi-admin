@@ -4,7 +4,7 @@
 		<el-header>
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" v-auth="'auth.group.create'" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" v-auth="'auth.group.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="batch_del"></el-button>
+				<el-button type="danger" plain icon="el-icon-delete" v-auth="'auth.group.delete'" v-show="selection.length>0" @click="batch_del"></el-button>
 			</div>
 		</el-header>
 		<el-main class="nopadding">
@@ -46,7 +46,7 @@
 		name: 'role',
 		components: {
 			saveDialog,
-			
+
 		},
 		data() {
 			return {
@@ -112,7 +112,7 @@
                             this.$message.error(res.message)
                         }
                     });
-                    
+
 				}).catch(() => {
 
 				})

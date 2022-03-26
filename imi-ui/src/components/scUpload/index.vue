@@ -111,7 +111,7 @@
 			isImg(fileUrl){
 				var strRegex = "(.jpg|.png|.gif|.jpeg)$";
 				var re = new RegExp(strRegex);
-				if (re.test(fileUrl.toLowerCase())){
+				if (fileUrl && re.test(fileUrl.toLowerCase())){
 					this.fileIsImg=true;
 				}else{
 					this.fileIsImg=false;

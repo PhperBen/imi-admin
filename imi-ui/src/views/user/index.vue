@@ -3,7 +3,7 @@
         <el-header>
             <div class="left-panel">
                 <el-button type="primary" icon="el-icon-plus" v-auth="'user.create'" @click="create"></el-button>
-                <el-button type="danger" plain icon="el-icon-delete" v-auth="'user.delete'" v-if="selection.length>0" :disabled="selection.length==0" @click="dels"></el-button>
+                <el-button type="danger" plain icon="el-icon-delete" v-auth="'user.delete'" v-show="selection.length>0" @click="dels"></el-button>
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
