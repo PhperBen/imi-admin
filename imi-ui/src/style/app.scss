@@ -16,7 +16,7 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .layout-setting i {font-size: 18px;color: #fff;}
 
 /* 头部 */
-.adminui-header {height: 60px;background: #222b45;color: #fff;display: flex;justify-content:space-between;}
+.adminui-header {height: 58px;background: #222b45;color: #fff;display: flex;justify-content:space-between;}
 .adminui-header-left {display: flex;align-items: center;padding-left:20px;}
 .adminui-header-right {display: flex;align-items: center;}
 .adminui-header .logo-bar {font-size: 20px;font-weight: bold;display: flex;align-items: center;}
@@ -29,14 +29,6 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-header .user-bar .panel-item:hover {background: rgba(255, 255, 255, 0.1)!important;}
 .adminui-header .user-bar .user label{color: #fff;}
 
-.adminui-header-menu {}
-.adminui-header-menu .el-menu {background: transparent;}
-.adminui-header-menu .el-menu .el-sub-menu__title {color: #fff;}
-.adminui-header-menu .el-menu .el-sub-menu__title:hover {color: #fff;background: var(--el-color-primary-light-2);}
-.adminui-header-menu .el-menu .el-sub-menu.is-active .el-sub-menu__title {color: #fff;background: var(--el-color-primary-light-2);border-bottom-color:transparent;}
-.adminui-header-menu .el-menu .el-menu-item {color: #fff;}
-.adminui-header-menu .el-menu .el-menu-item:hover {color: #fff;background: var(--el-color-primary-light-2);}
-.adminui-header-menu .el-menu .el-menu-item.is-active {color: #fff!important;background: var(--el-color-primary-light-2);border-bottom-color:transparent;}
 
 /* 左侧菜单 */
 .aminui-side-split {width:65px;flex-shrink:0;background: #222b45;display: flex;flex-flow: column;}

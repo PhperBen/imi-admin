@@ -12,11 +12,21 @@ use Imi\Bean\Annotation\Inherit;
  */
 class Request extends RequestProxy
 {
+    /**
+     * 取Swoole原始的POST包体
+     * @return mixed
+     */
     public function getRaw()
     {
         return json_decode($this->getSwooleRequest()->rawContent(), true);
     }
 
+    /**
+     * 获取post(兼容application/json和application/x-www-urlencode)
+     * @param string|null $name
+     * @param $default
+     * @return mixed
+     */
     public function post(?string $name = null, $default = null)
     {
         $value = parent::post($name, $default);

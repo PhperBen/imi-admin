@@ -3,7 +3,7 @@
 	<div class="sc-filterBar">
 		<slot :filterLength="filterObjLength" :openFilter="openFilter">
 			<el-badge :value="filterObjLength" type="danger" :hidden="filterObjLength<=0">
-				<el-button size="small" icon="el-icon-filter" @click="openFilter"></el-button>
+				<el-button icon="el-icon-filter" @click="openFilter"></el-button>
 			</el-badge>
 		</slot>
 		<el-drawer title="高级搜索" v-model="drawer" :size="550" append-to-body>

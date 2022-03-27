@@ -220,12 +220,12 @@ abstract class AbstractModel extends Model
     {
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                $this->__set($k, $v);
                 $this->__fieldNames[] = $k;
+                $this->__set($k, $v);
             }
         } else {
-            $this->__set($data, $value);
             $this->__fieldNames[] = $data;
+            $this->__set($data, $value);
         }
     }
 }

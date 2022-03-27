@@ -11,15 +11,15 @@ module.exports = {
 	devServer: {
 		open: false, //运行后自动打开浏览器
 		port: 2800, //挂载端口
-		// proxy: {
-		// 	'/api': {
-		// 		target: 'https://www.fastmock.site/mock/5039c4361c39a7e3252c5b55971f1bd3/api',
-		// 		ws: true,
-		// 		pathRewrite: {
-		// 			'^/api': '/'
-		// 		}
-		// 	}
-		// }
+		proxy: {
+			'/api': {
+				target: 'https://www.fastmock.site/mock/5039c4361c39a7e3252c5b55971f1bd3/api',
+				ws: true,
+				pathRewrite: {
+					'^/api': '/'
+				}
+			}
+		}
 	},
 
 	chainWebpack: config => {

@@ -69,7 +69,7 @@ class Ems
      */
     public function check($email, $code, $event = 'default')
     {
-        $key = $this->getKey($mobile, $event) . "_code";
+        $key = $this->getKey($email, $event) . "_code";
         $row = Cache::get('redis', $key);
         if ($row && $row . '' == $code . '') {
             return true;
@@ -113,7 +113,7 @@ class Ems
      */
     public function flush($email, $event = 'default')
     {
-        $key = $this->getKey($mobile, $event) . "_code";
+        $key = $this->getKey($email, $event) . "_code";
         Cache::delete('redis', $key);
     }
 

@@ -154,6 +154,11 @@
 	.el-table tr {background: #2e2e2e;}
 	.el-table--striped .el-table__body tr.el-table__row--striped td {background: #2b2b2b;}
 	.el-table .el-table__body-wrapper {background: $--background;}
+	.el-table__header-wrapper tr th.el-table-fixed-column--right {background: var(--el-table-header-bg-color);}
+	.el-table__body-wrapper tr td.el-table-fixed-column--right {background: #2e2e2e;}
+	.el-table__header-wrapper tr th.el-table-fixed-column--left {background: var(--el-table-header-bg-color);}
+	.el-table__body-wrapper tr td.el-table-fixed-column--left {background: #2e2e2e;}
+	.el-table__body tr.hover-row>td.el-table__cell {background-color: var(--el-table-row-hover-bg-color);}
 
 	.el-menu {background: $--card-background;}
 	.el-menu-item {color: $--text-color;}
@@ -218,7 +223,7 @@
 
 	.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {background: #383838;}
 	.el-pagination.is-background .el-pager li:not(.disabled).active {color: #fff;}
-	
+
 	.el-descriptions__body {background: none;}
 
 	.el-alert--info.is-light {background: #383838;}

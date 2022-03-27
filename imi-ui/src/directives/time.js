@@ -61,7 +61,10 @@ var Time = {
 
 export default {
 	mounted(el, binding) {
-		const { value, modifiers} = binding
+		let { value, modifiers} = binding
+		if(value.toString().length == 10){
+			value = value * 1000
+		}
 		if (modifiers.tip) {
 			el.innerHTML = Time.getFormateTime(value)
 			el.__timeout__ = setInterval(() => {

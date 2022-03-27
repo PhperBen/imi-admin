@@ -96,7 +96,7 @@ return [
                 'host' => env("MYSQL_HOST"),
                 'port' => env("MYSQL_PORT"),
                 'username' => env("MYSQL_USERNAME"),
-                'password' => env("MYSQL_PASSWORD"),
+                'password' => (string)env("MYSQL_PASSWORD"),
                 'database' => env("MYSQL_DATABASE"),
                 'charset' => 'utf8mb4',
             ],

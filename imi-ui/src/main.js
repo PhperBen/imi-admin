@@ -12,7 +12,7 @@ const app = createApp(App);
 
 app.use(store);
 app.use(router);
-app.use(ElementPlus, {size: 'small'});
+app.use(ElementPlus, {size: 'default'});
 app.use(i18n);
 app.use(scui);
 

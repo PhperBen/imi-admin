@@ -219,8 +219,8 @@ trait Service
                 $this->_before_delete($ids);
             }
             $this->model::query()->whereIn('id', $ids)->delete();
-            if (method_exists($this, '_before_after')) {
-                $this->_before_after($ids);
+            if (method_exists($this, '_after_delete')) {
+                $this->_after_delete($ids);
             }
             Db::getInstance()->commit();
         } catch (ServiceException $e) {

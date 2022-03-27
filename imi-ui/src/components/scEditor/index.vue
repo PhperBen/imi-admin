@@ -86,7 +86,6 @@
 						editor.on('init', function() {
 							this.getBody().style.fontSize = '14px';
 						})
-
 					}
 				},
 				contentValue: this.modelValue

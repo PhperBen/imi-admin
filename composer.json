@@ -32,5 +32,8 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "imi-admin-install": "ImiApp\\ImiServer\\Command\\Install::run"
     }
 }

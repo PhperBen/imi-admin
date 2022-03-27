@@ -14,6 +14,7 @@
 	.scTable {
 		.el-table,
 		.el-table__body-wrapper {display: block!important;height:auto!important;}
+		.el-scrollbar__wrap {height:auto!important;}
 		.scTable-page {padding: 0 5px!important;}
 		.el-pagination__total,
 		.el-pagination__jump,
@@ -36,4 +37,6 @@
 	.adminui-main > .el-container > .el-main {border-top: 1px solid #ebeef5;border-bottom: 1px solid #ebeef5;margin-top: 15px;}
 	.adminui-main > .el-container > .el-main + .el-aside {border-left: 0!important;border-top: 1px solid #ebeef5;margin-top: 15px;}
 	.adminui-main > .el-container > .el-container > .el-header {@extend .headerPublic}
+	.adminui-main > .el-container > .el-container > .el-header .left-panel {display: block;}
+	.adminui-main > .el-container > .el-container > .el-header .right-panel {display: block;margin-top: 15px;}
 }
