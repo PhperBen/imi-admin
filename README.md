@@ -10,7 +10,7 @@
 
 **基于 后端 <a href="https://www.imiphp.com/">imi</a> + 前端 <a href="https://gitee.com/lolicode/scui">SCUI</a> 进行开发**<br>
 <br>**QQ交流群**：618440872
-###功能说明
+### 功能说明
 
 Auth鉴权与登陆，日志
 
@@ -30,7 +30,7 @@ ThinkPHP6抽离的验证器
 
 前后段php+vue代码生成
 
-###安装说明
+### 安装说明
 
 **后端开始安装**
 ~~~
@@ -57,7 +57,7 @@ vendor/bin/imi-swoole swoole/start
 cd imi-ui && npm run serve
 ~~~
 
-###特别鸣谢
+### 特别鸣谢
 <p style="clear:both;">
 <a href="https://www.php.net/">PHP - <b style="color:red">世界上最好的语言</b></a><br>
 <a href="https://www.swoole.com/">Swoole -  PHP 协程框架</a><br>
