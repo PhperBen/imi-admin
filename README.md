@@ -65,3 +65,6 @@ cd imi-ui && npm run serve
 <a href="https://element-plus.org/#/zh-CN">ElementUi - 桌面端组件库</a><br>
 <a href="https://gitee.com/lolicode/scui">Scui - 企业级中后台前端</a><br>
 </p>
+
+### LICENSE
+<a href="https://gitee.com/phpben/imi-admin/blob/master/LICENSE">Apache License 2.0</a>
