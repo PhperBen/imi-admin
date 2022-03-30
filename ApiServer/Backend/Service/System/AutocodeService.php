@@ -198,7 +198,8 @@ class AutocodeService extends AbstractService
 
     protected function getSql($class, $name, $alias, $operate, $sort): string
     {
-        $pid = SoAuthRule::find(['name' => 'Autocode'])->getId() ?? false;
+        $pid = SoAuthRule::find(['name' => 'Autocode']);
+        $pid = $pid ? $pid->getId() : false;
         $sql = 'SET @id = (SELECT max(id) from `so_auth_rule`) + 1;' . "\n";
         !$pid && $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values(@id,0,1,0,"Autocode","sc-icon-code",null,null,"menu","/autocode",' . time() . ');' . "\n";
         $sql .= 'insert into `so_auth_rule`(`id`,`sort`,`status`,`pid`,`name`,`icon`,`alias`,`rule`,`type`,`path`,`create_time`) values((@id+1),(@id+1),1,' . ($pid ?: '@id') . ',"' . $name . '","sc-icon-code",null,null,"menu","' . ('/' . $name . '/index') . '",' . time() . ');' . "\n";
