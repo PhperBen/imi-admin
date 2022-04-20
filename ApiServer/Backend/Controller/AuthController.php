@@ -22,6 +22,8 @@ class AuthController extends CommonController
 {
     /**
      * @Inject("AuthService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\AuthService
      */
     protected $service;
 

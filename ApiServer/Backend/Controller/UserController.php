@@ -21,6 +21,8 @@ class UserController extends CommonController
 {
     /**
      * @Inject("UserService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\UserService
      */
     protected $service;
 

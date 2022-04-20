@@ -21,6 +21,8 @@ class AttachmentController extends CommonController
 {
     /**
      * @Inject("SystemAttachmentService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\System\AttachmentService
      */
     protected $service;
 

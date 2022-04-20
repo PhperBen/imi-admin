@@ -19,6 +19,8 @@ class EmsController extends CommonController
 {
     /**
      * @Inject(Ems::class)
+     * 
+     * @var \ImiApp\ImiServer\Service\Ems
      */
     protected $ems;
 

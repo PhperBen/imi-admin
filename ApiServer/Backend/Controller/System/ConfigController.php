@@ -21,6 +21,8 @@ class ConfigController extends CommonController
 {
     /**
      * @Inject("SystemConfigService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\System\ConfigService
      */
     protected $service;
 

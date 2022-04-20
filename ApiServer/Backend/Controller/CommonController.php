@@ -13,6 +13,8 @@ class CommonController extends HttpController
     /**
      * Auth
      * @Inject(name=AuthManager::class,args={"backend"})
+     * 
+     * @var \Phpben\Imi\Auth\AuthManager
      */
     protected $auth;
 }

@@ -23,11 +23,15 @@ class UserController extends CommonController
 {
     /**
      * @Inject(Ems::class)
+     * 
+     * @var \ImiApp\ImiServer\Service\Ems
      */
     protected $ems;
 
     /**
      * @Inject(Sms::class)
+     * 
+     * @var \ImiApp\ImiServer\Service\Sms
      */
     protected $sms;
 

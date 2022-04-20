@@ -22,6 +22,8 @@ class GroupController extends CommonController
 {
     /**
      * @Inject("AuthGroupService")
+     *
+     * @var \ImiApp\ApiServer\Backend\Service\Auth\GroupService
      */
     protected $service;
 
