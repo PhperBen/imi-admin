@@ -24,6 +24,8 @@ class AdminController extends CommonController
 {
     /**
      * @Inject("AuthAdminService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\Auth\AdminService
      */
     protected $service;
 

@@ -24,6 +24,8 @@ class AutocodeController extends CommonController
 {
     /**
      * @Inject("SystemAutocodeService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\System\AutocodeService
      */
     protected $service;
 

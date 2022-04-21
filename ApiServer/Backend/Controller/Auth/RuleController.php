@@ -22,6 +22,8 @@ class RuleController extends CommonController
 {
     /**
      * @Inject("AuthRuleService")
+     * 
+     * @var \ImiApp\ApiServer\Backend\Service\Auth\RuleService
      */
     protected $service;
 

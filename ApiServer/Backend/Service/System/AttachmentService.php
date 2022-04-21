@@ -34,6 +34,8 @@ class AttachmentService extends AbstractService
 
     /**
      * @Inject(Upload::class)
+     * 
+     * @var \ImiApp\ImiServer\Service\Upload
      */
     protected $upload;
 

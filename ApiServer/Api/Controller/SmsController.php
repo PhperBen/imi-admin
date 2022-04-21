@@ -19,6 +19,7 @@ class SmsController extends CommonController
 {
     /**
      * @Inject(Sms::class)
+     * @var \ImiApp\ImiServer\Service\Sms
      */
     protected $sms;
 
