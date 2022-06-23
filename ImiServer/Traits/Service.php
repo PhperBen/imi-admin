@@ -213,12 +213,13 @@ trait Service
             $this->setError('未传入ID');
             return false;
         }
+        $pk = $this->model::getPk();
         Db::getInstance()->beginTransaction();
         try {
             if (method_exists($this, '_before_delete')) {
                 $this->_before_delete($ids);
             }
-            $this->model::query()->whereIn('id', $ids)->delete();
+            $this->model::query()->whereIn($pk, $ids)->delete();
             if (method_exists($this, '_after_delete')) {
                 $this->_after_delete($ids);
             }
