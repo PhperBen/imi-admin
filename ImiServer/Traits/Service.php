@@ -135,7 +135,7 @@ trait Service
             if (!$create->isSuccess()) {
                 throw new ServiceException('创建失败');
             }
-            $method = 'get' . ucfirst($pk);
+            $method = 'get' . ucfirst(camelize($pk));
             $key = $model->{$method}() ?: false;
             if (method_exists($this, '_after_create')) {
                 $this->_after_create($key, $create);
