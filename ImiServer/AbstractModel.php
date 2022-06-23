@@ -130,7 +130,7 @@ abstract class AbstractModel extends Model
      */
     public static function getSearchColumns(): array
     {
-        return ['id', 'username', 'name', 'title'];
+        return [self::getPk(), 'username', 'name', 'title'];
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class AbstractModel extends Model
      */
     public static function getSortPk(): string
     {
-        return 'id';
+        return self::getPk();
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class AbstractModel extends Model
      */
     public static function getOrderRaw()
     {
-        return 'id desc';
+        return self::getPk().' desc';
     }
 
     /**
