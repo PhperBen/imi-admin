@@ -27,7 +27,7 @@ trait Model
     public function onBeforeInsert(BeforeInsertEventParam $data)
     {
         if (method_exists($this, 'getSortPk')) {
-            $this::getSortPk() !== $this::getPk() && $data->data->{$this::getSortPk()} = $this::query()->max('id') + 1;
+            $this::getSortPk() !== $this::getPk() && $data->data->{$this::getSortPk()} = $this::query()->max($this::getPk()) + 1;
         }
         $data->data->create_time = time();
     }
