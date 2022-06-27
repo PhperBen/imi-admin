@@ -6,7 +6,7 @@ namespace ImiApp\ImiServer;
 
 use Imi\Aop\Annotation\Inject;
 
-class HttpController extends \Imi\Server\Http\Controller\HttpCOntroller
+class HttpController extends \Imi\Server\Http\Controller\HttpController
 {
     /**
      * 响应
