@@ -10,7 +10,7 @@ use Imi\Bean\Annotation\Inherit;
 /**
  * @Inherit
  */
-class Request extends RequestProxy
+class Request extends \Imi\Server\Http\Message\Proxy\RequestProxyObject
 {
     /**
      * 取Swoole原始的POST包体
