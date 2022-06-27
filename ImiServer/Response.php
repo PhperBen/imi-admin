@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @Inherit
  */
-class Response extends ResponseProxy
+class Response extends \Imi\Server\Http\Message\Proxy\ResponseProxyObject
 {
     /**
      * 失败响应
