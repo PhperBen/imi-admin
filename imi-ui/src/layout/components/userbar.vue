@@ -115,8 +115,10 @@
 		},
 		created() {
 			var userInfo = this.$TOOL.data.get("USER_INFO");
-			this.username = userInfo.username;
-			this.avatar = userInfo.avatar;
+			if(userInfo){
+				this.username = userInfo.username;
+				this.avatar = userInfo.avatar;
+			}
 		},
 		methods: {
 			//个人信息

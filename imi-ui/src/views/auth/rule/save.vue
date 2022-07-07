@@ -183,6 +183,7 @@ export default {
 		setData(data, pid){
 			this.form = data
 			this.form.pid = pid
+
 		}
 	}
 }

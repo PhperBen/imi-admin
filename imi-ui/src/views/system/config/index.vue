@@ -9,29 +9,29 @@
 					<el-tree ref="group" class="menu" node-key="id" :props="groupProps" :data="group" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
 				</el-main>
                 <el-footer style="height:51px;">
-					<el-button type="primary" size="mini" icon="el-icon-menu" style="width: 100%;" @click="conigGroup">分组管理</el-button>
+					<el-button type="primary" size="default" icon="el-icon-menu" style="width: 100%;" @click="conigGroup">分组管理</el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
 		<el-container v-if="isConfig" v-loading="cardLoading">
             <el-main class="nopadding">
 			<el-card shadow="never" body-style="padding: 10px 20px 10px 20px;" style="border:none;border-radius:0px;">
-                <el-form ref="form" :model="inputs" label-position="left" label-width="200px" size="medium">
-                    <el-tabs tab-position="top">
-                        <template v-for="item in config" :key="item.key">
-                            <el-tab-pane :label="item.val">
+                <el-form ref="form" :model="inputs" label-position="left" label-width="200px" size="default">
+                    <el-tabs v-model="tabActive" tab-position="top">
+                        <template v-for="(item,k) in config" :key="k">
+                            <el-tab-pane :name="'v'+k" :label="item.val">
                                 <template v-for="input in item.config" :key="input.id">
                                     <template v-if="input.type == 'array'">
                                         <el-form-item :label="input.name">
                                             <el-table :data="inputs[input.key]" drag-sort stripe border>
                                                 <el-table-column prop="#" width="50">
                                                     <template #header>
-                                                        <el-button type="success" icon="el-icon-plus" size="mini" circle @click="table_add(input.key)"></el-button>
+                                                        <el-button type="success" icon="el-icon-plus" size="small" circle @click="table_add(input.key)"></el-button>
                                                     </template>
                                                     <template #default="scope">
                                                         <el-popconfirm v-if="!scope.row.isSet" title="确定删除吗？" @confirm="table_del(input.key, scope.row, scope.$index)">
                                                             <template #reference>
-                                                                <el-button type="danger" size="mini" icon="el-icon-delete" circle></el-button>
+                                                                <el-button type="danger" size="small" icon="el-icon-delete" circle></el-button>
                                                             </template>
                                                         </el-popconfirm>
                                                     </template>
@@ -47,7 +47,7 @@
                                                     </template>
                                                 </el-table-column>
                                             </el-table>
-                                            
+
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'string'">
@@ -161,7 +161,7 @@
                                     </template>
                                     <template v-else-if="input.type == 'color'">
                                         <el-form-item :label="input.name">
-                                            <el-color-picker v-model="inputs[input.key]" size="mini"></el-color-picker>
+                                            <el-color-picker v-model="inputs[input.key]" size="default"></el-color-picker>
                                         </el-form-item>
                                     </template>
                                     <template v-else-if="input.type == 'tableselect'">
@@ -184,7 +184,7 @@
                                 </el-form-item>
                             </el-tab-pane>
                         </template>
-                        <el-tab-pane v-auth="'system.config.create'">
+                        <el-tab-pane name="create" v-auth="'system.config.create'">
                             <template #label>
                             <span style="font-size:16px;font-weigh:bold"><el-icon-plus style="width: 1em; height: 1em;"/></span>
                             </template>
@@ -236,13 +236,13 @@
 例如：单选/复选/下拉 值为a/b：{'a':'我是a','b':'我=b'}
 
 列表选择（多）格式：system/config/read,name/id/search,id/name
-译：system/config/read  = this.$API.system.config.read.get(), 
+译：system/config/read  = this.$API.system.config.read.get(),
 译：name/id/id              = label字段/value字段/模糊搜索提交参数名称
 译：id/name                  = 显示字段/显示字段
 
 以英文逗号分隔 / 间隔，第一个参数可以有无限个“/”为api接口地址
 第二个参数固定间隔三个参数，第三个参数可以无限“/”为显示在列表的字段"></el-input>
-                            </el-form-item>	
+                            </el-form-item>
                             <el-form-item>
                                 <el-button type="success" @click="addSubmit" :loading="loading">确认添加</el-button>
                             </el-form-item>
@@ -263,6 +263,7 @@
     import groupDialog from '@/views/system/config_group/index'
     import attachmentDialog from '@/views/system/attachment/select'
     import { defineAsyncComponent } from 'vue';
+	import { ref } from 'vue'
 	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
 	export default {
 		name: 'user',
@@ -273,6 +274,7 @@
 		},
 		data() {
 			return {
+				tabActive:"",
                 upload_multiple:false,
 				dialog: {
 					group: false,
@@ -320,6 +322,7 @@
 			}
 		},
 		mounted() {
+			this.tabActive = ref('v0')
 			this.getGroup(true)
 		},
 		methods: {
@@ -469,6 +472,7 @@
 					});
                     if(this.fullLoading)this.fullLoading.close();
                     this.cardLoading = false;
+					this.tabActive = ref('v0')
                 });
 			},
             goInt:function(value){
@@ -502,7 +506,10 @@
 	.el-card:deep(.el-tabs__nav){
 		width: 100%;
 	}
-	.el-card:deep(.el-tabs__item:last-child){
-		float:right;
+	.el-card:deep(#tab-create){
+		float:right!important;
+	}
+	.el-card:deep(#tab-v0){
+		padding-left: 0!important;
 	}
 </style>

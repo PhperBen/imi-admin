@@ -24,7 +24,7 @@ class AdminController extends CommonController
 {
     /**
      * @Inject("AuthAdminService")
-     * 
+     *
      * @var \ImiApp\ApiServer\Backend\Service\Auth\AdminService
      */
     protected $service;
@@ -101,11 +101,22 @@ class AdminController extends CommonController
     public function profile(): ResponseInterface
     {
         $body = $this->request->getParsedBody();
-        return $this->response->success('更新成功', $this->service->updateProfile([
-            'avatar' => $body['avatar'] ?? "",
-            'password' => $body['password'] ?? "",
-            'email' => $body['email'] ?? "",
-        ]));
+        $type = $body['type'] ?? "";
+        if (!in_array($type, ['account', 'password'])) {
+            return $this->response->error('出错了');
+        }
+        if ($type == 'account') {
+            return $this->response->success('更新资料成功', $this->service->updateProfile([
+                'avatar' => $body['avatar'] ?? "",
+                'email' => $body['email'] ?? "",
+            ]));
+        } elseif ($type == 'password') {
+            $updatePass = $this->service->updatePassword([
+                'oldpassword' => $body['oldpassword'] ?? "",
+                'newpassword' => $body['newpassword'] ?? "",
+            ]);
+            return $updatePass ? $this->response->success('修改密码成功') : $this->response->error('修改失败，' . $this->service->getError());
+        }
     }
 
 }

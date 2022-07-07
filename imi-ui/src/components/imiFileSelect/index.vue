@@ -17,7 +17,7 @@
 		<div class="sc-file-select__files" v-loading="listLoading">
 			<div class="sc-file-select__top">
 				<div class="upload">
-					<el-upload style="margin-right:10px" class="sc-file-select__upload" action="" multiple :show-file-list="false" :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore" :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError" :http-request="uploadRequest">
+					<el-upload style="margin-right:10px;display:inline-block" class="sc-file-select__upload" action="" multiple :show-file-list="false" :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore" :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError" :http-request="uploadRequest">
 						<el-button type="primary" v-auth="'system.attachment.create'" icon="el-icon-upload">本地上传</el-button>
 					</el-upload>
 				    <el-button type="info" @click="info" v-auth="'system.attachment.read'" icon="el-icon-info-filled">获取信息</el-button>
@@ -364,5 +364,5 @@
 	.sc-file-select__pagination {margin:15px 0;}
 
 	.sc-file-select__do {text-align: right;}
-	
+
 </style>

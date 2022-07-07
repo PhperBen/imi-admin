@@ -40,7 +40,8 @@ class AdminService extends AbstractService
     public function getOperateLog(): array
     {
         $page = (int)$this->request->request('page', 1);
-        $data = SoAdminOperateLog::query()->where('admin_id', '=', $this->auth->user()->id)->order('id', 'desc')->paginate($page, 10);
+        $pageSize = (int)$this->request->request('pageSize', 20);
+        $data = SoAdminOperateLog::query()->where('admin_id', '=', $this->auth->user()->id)->order('id', 'desc')->paginate($page, $pageSize);
         return [
             'list' => $data->getList(),
             'total' => $data->getTotal(),
@@ -52,7 +53,8 @@ class AdminService extends AbstractService
     public function getLoginLog(): array
     {
         $page = (int)$this->request->request('page', 1);
-        $data = SoAdminLoginLog::query()->where('username', '=', $this->auth->user()->username)->order('id', 'desc')->paginate($page, 10);
+        $pageSize = (int)$this->request->request('pageSize', 20);
+        $data = SoAdminLoginLog::query()->where('username', '=', $this->auth->user()->username)->order('id', 'desc')->paginate($page, $pageSize);
         return [
             'list' => $data->getList(),
             'total' => $data->getTotal(),
@@ -61,15 +63,34 @@ class AdminService extends AbstractService
         ];
     }
 
+    public function updatePassword($data): bool
+    {
+        $user = $this->model::find($this->auth->user()->id);
+        $pass = md5(md5($data['oldpassword']) . $user->getSalt());
+        if ($pass !== $user->getPassword()) {
+            $this->setError('旧密码不正确！');
+            return false;
+        }
+        if ($data['oldpassword'] == $data['newpassword']) {
+            $this->setError('新老密码不能一致！');
+            return false;
+        }
+        if (strlen($data['newpassword']) < 6) {
+            $this->setError('密码不能小于六位！');
+            return false;
+        }
+        $salt = Random::letterAndNumber(6);
+        $data = [
+            'salt' => $salt,
+            'password' => md5(md5($data['newpassword']) . $salt)
+        ];
+        $user->update($data);
+        return true;
+    }
+
     public function updateProfile($data): bool
     {
         $user = $this->model::find($this->auth->user()->id);
-        if ($data['password']) {
-            $data['salt'] = Random::letterAndNumber(6);
-            $data['password'] = md5(md5($data['password']) . $data['salt']);
-        } else {
-            unset($data['password']);
-        }
         if (!$data['avatar']) {
             unset($data['avatar']);
         }

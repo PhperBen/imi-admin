@@ -34,7 +34,7 @@ class AttachmentService extends AbstractService
 
     /**
      * @Inject(Upload::class)
-     * 
+     *
      * @var \ImiApp\ImiServer\Service\Upload
      */
     protected $upload;
@@ -67,7 +67,7 @@ class AttachmentService extends AbstractService
         } else {
             $this->model::query()->insert($data);
         }
-        return $upload['url'];
+        return ['url' => $upload['url'], 'filename' => $upload['filename']];
     }
 
     public function _before_delete(&$ids)

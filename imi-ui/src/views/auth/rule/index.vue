@@ -22,8 +22,8 @@
 					</el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button type="primary" size="mini" icon="el-icon-plus" v-auth="'auth.rule.create'" @click="add()"></el-button>
-					<el-button type="danger" size="mini" plain icon="el-icon-delete" v-auth="'auth.rule.delete'" @click="delMenu"></el-button>
+					<el-button type="primary" size="default" icon="el-icon-plus" v-auth="'auth.rule.create'" @click="add()"></el-button>
+					<el-button type="danger" size="default" plain icon="el-icon-delete" v-auth="'auth.rule.delete'" @click="delMenu"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
@@ -92,9 +92,12 @@ export default {
 		},
 		//树点击
 		menuClick(data, node){
+			console.log(data)
 			var pid = node.level==1?undefined:node.parent.data.id;
-			this.$refs.save.setData(data, pid)
-			this.$refs.main.$el.scrollTop = 0
+			this.$nextTick(() => {
+				this.$refs.save.setData(data, pid)
+				this.$refs.main.$el.scrollTop = 0
+			})
 		},
 		//树过滤
 		menuFilterNode(value, data){

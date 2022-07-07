@@ -7,3 +7,5 @@ MYSQL_DATABASE={mysql_database}
 REDIS_HOST={redis_host}
 REDIS_PORT={redis_port}
 REDIS_PASS={redis_password}
+
+UPLOAD_DOMAIN=http://domain.test/uploads

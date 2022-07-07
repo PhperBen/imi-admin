@@ -38,6 +38,7 @@ router.beforeEach(async (to, from, next) => {
 
 	let token = tool.cookie.get("TOKEN");
 
+
 	if(to.path === "/login"){
 		//删除路由(替换当前layout路由)
 		router.addRoute(routes[0])
@@ -48,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
 		return false;
 	}
 
-	if(routes.findIndex(r => r.path === to.path) >= 0){
+	if(routes.findIndex(r => r.path === to.path) >= 0 && token){
 		next();
 		return false;
 	}
