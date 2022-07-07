@@ -38,7 +38,7 @@
 		},
 		methods: {
 			godoc(){
-				window.open("https://www.kancloud.cn/phpben/imi-admin")
+				window.open("https://phpben.gitee.io/imi-admin-doc/")
 			}
 		}
 	}
