@@ -1,4 +1,6 @@
-module.exports = {
+const { defineConfig } = require('@vue/cli-service')
+
+module.exports = defineConfig({
 	//设置为空打包后不分更目录还是多级目录
 	publicPath:'',
 	//build编译后存放静态文件的目录
@@ -10,10 +12,10 @@ module.exports = {
 	//开发服务,build后的生产模式还需nginx代理
 	devServer: {
 		open: false, //运行后自动打开浏览器
-		port: 2800, //挂载端口
+		port: process.env.VUE_APP_PORT, //挂载端口
 		proxy: {
 			'/api': {
-				target: 'https://www.fastmock.site/mock/5039c4361c39a7e3252c5b55971f1bd3/api',
+				target: process.env.VUE_APP_API_BASEURL,
 				ws: true,
 				pathRewrite: {
 					'^/api': '/'
@@ -29,16 +31,16 @@ module.exports = {
 		config.resolve.alias.set('vue-i18n', 'vue-i18n/dist/vue-i18n.cjs.js');
 	},
 
-	configureWebpack: config => {
+	configureWebpack: {
 		//性能提示
-		config.performance = {
+		performance: {
 			hints: false
-		}
-		config.optimization = {
+		},
+		optimization: {
 			splitChunks: {
 				chunks: "all",
 				automaticNameDelimiter: '~',
-				name: true,
+				name: "scuiChunks",
 				cacheGroups: {
 					//第三方库抽离
 					vendor: {
@@ -48,7 +50,7 @@ module.exports = {
 					},
 					elicons: {
 						name: "elicons",
-						test: /[\\/]node_modules[\\/]@element-plus[\\/]icons[\\/]/
+						test: /[\\/]node_modules[\\/]@element-plus[\\/]icons-vue[\\/]/
 					},
 					tinymce: {
 						name: "tinymce",
@@ -61,10 +63,13 @@ module.exports = {
 					xgplayer: {
 						name: "xgplayer",
 						test: /[\\/]node_modules[\\/]xgplayer.*[\\/]/
+					},
+					codemirror: {
+						name: "codemirror",
+						test: /[\\/]node_modules[\\/]codemirror[\\/]/
 					}
 				}
 			}
 		}
 	}
-
-}
+})

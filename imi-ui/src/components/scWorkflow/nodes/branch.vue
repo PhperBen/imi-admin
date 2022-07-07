@@ -36,7 +36,7 @@
 			<add-node v-model="nodeConfig.childNode"></add-node>
 		</div>
 		<el-drawer title="条件设置" v-model="drawer" destroy-on-close append-to-body :size="600">
-			<template #title>
+			<template #header>
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}<el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon></label>
 					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>
@@ -83,9 +83,9 @@
 										<el-input v-model="scope.row.value" placeholder="值"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column prop="value" label="移除" width="50">
+								<el-table-column prop="value" label="移除" width="55">
 									<template #default="scope">
-										<el-button size="mini" type="text" @click="deleteConditionList(scope.$index)">移除</el-button>
+										<el-link type="danger" :underline="false" @click="deleteConditionList(scope.$index)">移除</el-link>
 									</template>
 								</el-table-column>
 							</el-table>

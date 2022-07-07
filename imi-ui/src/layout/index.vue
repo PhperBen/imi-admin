@@ -9,7 +9,7 @@
 				</div>
 				<ul v-if="!ismobile" class="nav">
 					<li v-for="item in menu" :key="item" :class="pmenu.path==item.path?'active':''" @click="showMenu(item)">
-						<el-icon><component :is="item.meta.icon || el-icon-menu" /></el-icon>
+						<el-icon><component :is="item.meta.icon || 'el-icon-menu'" /></el-icon>
 						<span>{{ item.meta.title }}</span>
 					</li>
 				</ul>
@@ -279,7 +279,7 @@
 				map && map.forEach(item => {
 					item.meta = item.meta?item.meta:{};
 					//处理隐藏
-					if(item.meta.hidden){
+					if(item.meta.hidden || item.meta.type=="button"){
 						return false
 					}
 					//处理http

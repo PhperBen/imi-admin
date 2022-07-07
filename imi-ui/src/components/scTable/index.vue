@@ -1,15 +1,15 @@
 <!--
  * @Descripttion: 数据表格组件
- * @version: 1.7
+ * @version: 1.10
  * @Author: sakuya
  * @Date: 2021年11月29日21:51:15
  * @LastEditors: sakuya
- * @LastEditTime: 2022年2月9日09:59:37
+ * @LastEditTime: 2022年6月4日17:35:26
 -->
 
 <template>
 	<div class="scTable" :style="{'height':_height}" ref="scTableMain" v-loading="loading">
-		<div class="scTable-table">
+		<div class="scTable-table" :style="{'height':_table_height}">
 			<el-table v-bind="$attrs" :data="tableData" :row-key="rowKey" :key="toggleIndex" ref="scTable" :height="height=='auto'?null:'100%'" :size="config.size" :border="config.border" :stripe="config.stripe" :summary-method="remoteSummary?remoteSummaryMethod:summaryMethod" @sort-change="sortChange" @filter-change="filterChange">
 				<slot></slot>
 				<template v-for="(item, index) in userColumn" :key="index">
@@ -27,9 +27,9 @@
 				</template>
 			</el-table>
 		</div>
-		<div class="scTable-page" v-if="!hidePagination&&!hideDo">
+		<div class="scTable-page" v-if="!hidePagination || !hideDo">
 			<div class="scTable-pagination">
-				<el-pagination v-if="!hidePagination" background :small="true" :layout="paginationLayout" :total="total" :page-size="pageSize" v-model:currentPage="currentPage" @current-change="paginationChange"></el-pagination>
+				<el-pagination v-if="!hidePagination" background :small="true" :layout="paginationLayout" :total="total" :page-size="scPageSize" :page-sizes="pageSizes" v-model:currentPage="currentPage" @current-change="paginationChange" @update:page-size="pageSizeChange"></el-pagination>
 			</div>
 			<div class="scTable-do" v-if="!hideDo">
 				<el-button v-if="!hideRefresh" @click="refresh" icon="el-icon-refresh" circle style="margin-left:15px"></el-button>
@@ -81,6 +81,7 @@
 			border: { type: Boolean, default: false },
 			stripe: { type: Boolean, default: false },
 			pageSize: { type: Number, default: config.pageSize },
+			pageSizes: { type: Array, default: config.pageSizes },
 			rowKey: { type: String, default: "" },
 			summaryMethod: { type: Function, default: null },
 			column: { type: Object, default: () => {} },
@@ -91,7 +92,7 @@
 			hideDo: { type: Boolean, default: false },
 			hideRefresh: { type: Boolean, default: false },
 			hideSetting: { type: Boolean, default: false },
-			paginationLayout: { type: String, default: "total, prev, pager, next, jumper" },
+			paginationLayout: { type: String, default: config.paginationLayout },
 		},
 		watch: {
 			//监听从props里拿到值了
@@ -107,10 +108,14 @@
 		computed: {
 			_height() {
 				return Number(this.height)?Number(this.height)+'px':this.height
+			},
+			_table_height() {
+				return this.hidePagination && this.hideDo ? "100%" : "calc(100% - 50px)"
 			}
 		},
 		data() {
 			return {
+				scPageSize: this.pageSize,
 				isActivat: true,
 				emptyText: "暂无数据",
 				toggleIndex: 0,
@@ -166,7 +171,7 @@
 				this.loading = true;
 				var reqData = {
 					[config.request.page]: this.currentPage,
-					[config.request.pageSize]: this.pageSize,
+					[config.request.pageSize]: this.scPageSize,
 					[config.request.prop]: this.prop,
 					[config.request.order]: this.order
 				}
@@ -204,11 +209,16 @@
 					this.summary = response.summary || {};
 					this.loading = false;
 				}
-				this.$refs.scTable.$el.querySelector('.el-table__body-wrapper').scrollTop = 0
+				this.$refs.scTable.setScrollTop(0)
 				this.$emit('dataChange', res, this.tableData)
 			},
 			//分页点击
 			paginationChange(){
+				this.getData();
+			},
+			//条数变化
+			pageSizeChange(size){
+				this.scPageSize = size
 				this.getData();
 			},
 			//刷新数据
@@ -312,6 +322,44 @@
 			configSizeChange(){
 				this.$refs.scTable.doLayout()
 			},
+			//插入行 unshiftRow
+			unshiftRow(row){
+				this.tableData.unshift(row)
+			},
+			//插入行 pushRow
+			pushRow(row){
+				this.tableData.push(row)
+			},
+			//根据key覆盖数据
+			updateKey(row, rowKey=this.rowKey){
+				this.tableData.filter(item => item[rowKey]===row[rowKey] ).forEach(item => {
+					Object.assign(item, row)
+				})
+			},
+			//根据index覆盖数据
+			updateIndex(row, index){
+				Object.assign(this.tableData[index], row)
+			},
+			//根据index删除
+			removeIndex(index){
+				this.tableData.splice(index, 1)
+			},
+			//根据index批量删除
+			removeIndexes(indexes=[]){
+				indexes.forEach(index => {
+					this.tableData.splice(index, 1)
+				})
+			},
+			//根据key删除
+			removeKey(key, rowKey=this.rowKey){
+				this.tableData.splice(this.tableData.findIndex(item => item[rowKey]===key), 1)
+			},
+			//根据keys批量删除
+			removeKeys(keys=[], rowKey=this.rowKey){
+				keys.forEach(key => {
+					this.tableData.splice(this.tableData.findIndex(item => item[rowKey]===key), 1)
+				})
+			},
 			//原生方法转发
 			clearSelection(){
 				this.$refs.scTable.clearSelection()
@@ -350,4 +398,6 @@
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}
 	.scTable:deep(.el-table__footer) .cell {font-weight: bold;}
+	.scTable:deep(.el-table__body-wrapper) .el-scrollbar__bar.is-horizontal {height: 12px;border-radius: 12px;}
+	.scTable:deep(.el-table__body-wrapper) .el-scrollbar__bar.is-vertical {width: 12px;border-radius: 12px;}
 </style>

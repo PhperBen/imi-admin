@@ -6,29 +6,48 @@
  */
 
 import CryptoJS from 'crypto-js';
+import sysConfig from "@/config";
 
 const tool = {}
 
 /* localStorage */
 tool.data = {
-	set(table, settings) {
-		var _set = JSON.stringify(settings)
-		return localStorage.setItem(table, _set);
-	},
-	get(table) {
-		var data = localStorage.getItem(table);
-		try {
-			data = JSON.parse(data)
-		} catch (err) {
-			return null
+	set(key, data, datetime = 0) {
+		//加密
+		if(sysConfig.LS_ENCRYPTION == "AES"){
+			data = tool.crypto.AES.encrypt(JSON.stringify(data), sysConfig.LS_ENCRYPTION_key)
 		}
-		return data;
+        let cacheValue = {
+            content: data,
+            datetime: parseInt(datetime) === 0 ? 0 : new Date().getTime() + parseInt(datetime) * 1000
+        }
+        return localStorage.setItem(key, JSON.stringify(cacheValue))
 	},
-	remove(table) {
-		return localStorage.removeItem(table);
+	get(key) {
+        try {
+            const value = JSON.parse(localStorage.getItem(key))
+            if (value) {
+                let nowTime = new Date().getTime()
+                if (nowTime > value.datetime && value.datetime != 0) {
+                    localStorage.removeItem(key)
+                    return null;
+                }
+				//解密
+				if(sysConfig.LS_ENCRYPTION == "AES"){
+					value.content = JSON.parse(tool.crypto.AES.decrypt(value.content, sysConfig.LS_ENCRYPTION_key))
+				}
+                return value.content
+            }
+            return null
+        } catch (err) {
+            return null
+        }
+	},
+	remove(key) {
+		return localStorage.removeItem(key)
 	},
 	clear() {
-		return localStorage.clear();
+		return localStorage.clear()
 	}
 }
 
@@ -52,6 +71,46 @@ tool.session = {
 	},
 	clear() {
 		return sessionStorage.clear();
+	}
+}
+
+/*cookie*/
+tool.cookie = {
+	set(name, value, config={}) {
+		var cfg = {
+			expires: null,
+			path: null,
+			domain: null,
+			secure: false,
+			httpOnly: false,
+			...config
+		}
+		var cookieStr = `${name}=${escape(value)}`
+		if(cfg.expires){
+			var exp = new Date()
+			exp.setTime(exp.getTime() + parseInt(cfg.expires) * 1000)
+			cookieStr += `;expires=${exp.toGMTString()}`
+		}
+		if(cfg.path){
+			cookieStr += `;path=${cfg.path}`
+		}
+		if(cfg.domain){
+			cookieStr += `;domain=${cfg.domain}`
+		}
+		document.cookie = cookieStr
+	},
+	get(name){
+		var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"))
+		if(arr != null){
+			return unescape(arr[2])
+		}else{
+			return null
+		}
+	},
+	remove(name){
+		var exp = new Date()
+		exp.setTime(exp.getTime() - 1)
+		document.cookie = `${name}=;expires=${exp.toGMTString()}`
 	}
 }
 
@@ -137,17 +196,22 @@ tool.crypto = {
 	},
 	//AES加解密
 	AES: {
-		encrypt(data, secretKey){
+		encrypt(data, secretKey, config={}){
+			if(secretKey.length % 8 != 0){
+				console.warn("[SCUI error]: 秘钥长度需为8的倍数，否则解密将会失败。")
+			}
 			const result = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(secretKey), {
-				mode: CryptoJS.mode.ECB,
-				padding: CryptoJS.pad.Pkcs7
+				iv: CryptoJS.enc.Utf8.parse(config.iv || ""),
+				mode: CryptoJS.mode[config.mode || "ECB"],
+				padding: CryptoJS.pad[config.padding || "Pkcs7"]
 			})
 			return result.toString()
 		},
-		decrypt(cipher, secretKey){
+		decrypt(cipher, secretKey, config={}){
 			const result = CryptoJS.AES.decrypt(cipher, CryptoJS.enc.Utf8.parse(secretKey), {
-				mode: CryptoJS.mode.ECB,
-				padding: CryptoJS.pad.Pkcs7
+				iv: CryptoJS.enc.Utf8.parse(config.iv || ""),
+				mode: CryptoJS.mode[config.mode || "ECB"],
+				padding: CryptoJS.pad[config.padding || "Pkcs7"]
 			})
 			return CryptoJS.enc.Utf8.stringify(result);
 		}

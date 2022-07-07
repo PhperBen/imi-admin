@@ -447,6 +447,9 @@
 				if(val != '5'){
 					this.value.week.type = '5'
 				}
+			},
+			modelValue() {
+				this.defaultValue = this.modelValue
 			}
 		},
 		computed: {

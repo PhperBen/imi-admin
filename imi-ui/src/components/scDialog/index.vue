@@ -1,17 +1,17 @@
 <!--
  * @Descripttion: 弹窗扩展组件
- * @version: 1.0
+ * @version: 2.0
  * @Author: sakuya
  * @Date: 2021年8月27日08:51:52
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2022年5月14日15:13:41
 -->
 
 <template>
 	<div class="sc-dialog" ref="scDialog">
 	<el-dialog ref="dialog" v-model="dialogVisible" :fullscreen="isFullscreen" v-bind="$attrs" :show-close="false">
-		<template #title>
-			<slot name="title">
+		<template #header>
+			<slot name="header">
 				<span class="el-dialog__title">{{ title }}</span>
 			</slot>
 			<div class="sc-dialog__headerbtn">
@@ -41,7 +41,6 @@
 			title: { type: String, default: "" },
 			showClose: { type: Boolean, default: true },
 			showFullscreen: { type: Boolean, default: true },
-			drag: { type: Boolean, default: true },
 			loading: { type: Boolean, default: false }
 		},
 		data() {
@@ -54,15 +53,12 @@
 			modelValue(){
 				this.dialogVisible = this.modelValue
 				if(this.dialogVisible){
-					this.$refs.scDialog.querySelector('.el-dialog').style.top = '0px'
-					this.$refs.scDialog.querySelector('.el-dialog').style.left = '0px'
 					this.isFullscreen = false
 				}
 			}
 		},
 		mounted() {
 			this.dialogVisible = this.modelValue
-			this.drag && this.dialogdrag()
 		},
 		methods: {
 			//关闭
@@ -72,59 +68,6 @@
 			//最大化
 			setFullscreen(){
 				this.isFullscreen = !this.isFullscreen
-			},
-			//绑定拖拽
-			dialogdrag(){
-				const dialogHeaderEl = this.$refs.scDialog.querySelector('.el-dialog__header')
-				const dragDom = this.$refs.scDialog.querySelector('.el-dialog')
-				//dialogHeaderEl.style.cursor = 'move'
-
-				dialogHeaderEl.onmousedown = (e) => {
-					const disX = e.clientX - dialogHeaderEl.offsetLeft
-					const disY = e.clientY - dialogHeaderEl.offsetTop
-					const screenWidth = document.body.clientWidth
-					const screenHeight = document.documentElement.clientHeight
-					const dragDomWidth = dragDom.offsetWidth
-					const dragDomheight = dragDom.offsetHeight
-					let minDragDomLeft = -dragDom.offsetLeft
-					let maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth
-					let minDragDomTop = -dragDom.offsetTop
-					let maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomheight
-
-					if(screenHeight < dragDomheight){
-						return false
-					}
-					dragDom.style.marginBottom = '0px'
-
-					let styL = getComputedStyle(dragDom).left
-					let styT = getComputedStyle(dragDom).top
-					if(styL.includes('%')) {
-						styL = +document.body.clientWidth * (+styL.replace('%', '') / 100)
-						styT = +document.body.clientHeight * (+styT.replace('%', '') / 100)
-					}else {
-						styL = +styL.replace('px', '')
-						styT = +styT.replace('px', '')
-					}
-					document.onmousemove = function (e) {
-						let left = e.clientX - disX
-						let top = e.clientY - disY
-						if (left < minDragDomLeft) {
-							left = minDragDomLeft
-						} else if (left > maxDragDomLeft) {
-							left = maxDragDomLeft
-						}
-						if (top < minDragDomTop) {
-							top = minDragDomTop
-						} else if (top > maxDragDomTop) {
-							top = maxDragDomTop
-						}
-						dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`
-					}
-					document.onmouseup = function () {
-						document.onmousemove = null
-						document.onmouseup = null
-					}
-				}
 			}
 		}
 	}

@@ -5,10 +5,10 @@
 
 export default (error, vm)=>{
 	//过滤HTTP请求错误
-	if(error.status){
+	if(error.status || error.status==0){
 		return false
 	}
-	
+
 	var errorMap = {
 		InternalError: "Javascript引擎内部错误",
 		ReferenceError: "未找到对象",

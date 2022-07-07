@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: 仿钉钉流程设计器
- * @version: 1.1
+ * @version: 1.3
  * @Author: sakuya
  * @Date: 2021年9月14日08:38:35
  * @LastEditors: sakuya
- * @LastEditTime: 2021年10月28日23:07:06
+ * @LastEditTime: 2022年5月14日19:43:46
 -->
 
 <template>
@@ -46,6 +46,9 @@
 		watch:{
 			modelValue(val){
 				this.nodeConfig = val
+			},
+			nodeConfig(val){
+				this.$emit("update:modelValue", val)
 			}
 		},
 		mounted() {
@@ -124,7 +127,7 @@
 		.node-wrap-box:hover:after {border: 1px solid #3296fa;box-shadow: 0 0 6px 0 rgba(50,150,250,.3);}
 	}
 
-	.tags-list {margin-top: 15px;}
+	.tags-list {margin-top: 15px;width: 100%;}
 	.add-node-popover-body {}
 	.add-node-popover-body li {display: inline-block;width: 80px;text-align: center;padding:10px 0;}
 	.add-node-popover-body li i {border: 1px solid var(--el-border-color-light);width:40px;height:40px;border-radius: 50%;text-align: center;line-height: 38px;font-size: 18px;cursor: pointer;}
@@ -135,17 +138,17 @@
 	.node-wrap-drawer__title label:hover {border-bottom: 1px dashed #409eff;}
 	.node-wrap-drawer__title .node-wrap-drawer__title-edit {color: #409eff;margin-left: 10px;vertical-align: middle;}
 
-	[data-theme='dark'] .sc-workflow-design {
+	.dark .sc-workflow-design {
 		.node-wrap-box,.auto-judge {background: #2b2b2b;}
-		.col-box {background: #222225;}
+		.col-box {background: var(--el-bg-color);}
 		.top-left-cover-line,
 		.top-right-cover-line,
 		.bottom-left-cover-line,
-		.bottom-right-cover-line {background-color: #222225;}
-		.node-wrap-box::before,.auto-judge::before {background-color: #222225;}
-		.branch-box .add-branch {background: #222225;}
+		.bottom-right-cover-line {background-color: var(--el-bg-color);}
+		.node-wrap-box::before,.auto-judge::before {background-color: var(--el-bg-color);}
+		.branch-box .add-branch {background: var(--el-bg-color);}
 		.end-node .end-node-text {color: #d0d0d0;}
-		.auto-judge .sort-left:hover, .auto-judge .sort-right:hover {background: #222225;}
+		.auto-judge .sort-left:hover, .auto-judge .sort-right:hover {background: var(--el-bg-color);}
 	}
 
 </style>

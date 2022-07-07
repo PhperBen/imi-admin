@@ -114,4 +114,7 @@
 	.setting-column__list li.ghost {opacity: 0.3;}
 
 	.setting-column__bottom {border-top: 1px solid #EBEEF5;padding-top:15px;text-align: right;}
+	
+	.dark .setting-column__title {border-color: var(--el-border-color-light);}
+	.dark .setting-column__bottom {border-color: var(--el-border-color-light);}
 </style>

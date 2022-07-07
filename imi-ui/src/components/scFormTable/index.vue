@@ -18,7 +18,6 @@
 				</template>
 			</el-table-column>
 			<slot></slot>
-			<el-table-column min-width="1"></el-table-column>
 			<template #empty>
 				{{placeholder}}
 			</template>
@@ -90,6 +89,7 @@
 </script>
 
 <style scoped>
+	.sc-form-table {width: 100%;}
 	.sc-form-table .sc-form-table-handle {text-align: center;}
 	.sc-form-table .sc-form-table-handle span {display: inline-block;}
 	.sc-form-table .sc-form-table-handle button {display: none;}

@@ -13,7 +13,7 @@
 		</div>
 		<add-node v-model="nodeConfig.childNode"></add-node>
 		<el-drawer title="抄送人设置" v-model="drawer" destroy-on-close append-to-body :size="500">
-			<template #title>
+			<template #header>
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}<el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon></label>
 					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>

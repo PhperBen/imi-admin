@@ -11,6 +11,14 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .aminui {display: flex;flex-flow: column;}
 .aminui-wrapper {display: flex;flex:1;overflow: auto;}
 
+/* 全局滚动条样式 */
+.scrollable {-webkit-overflow-scrolling: touch;}
+::-webkit-scrollbar {width: 5px;height: 5px;}
+::-webkit-scrollbar-thumb {background-color: rgba(50, 50, 50, 0.3);}
+::-webkit-scrollbar-thumb:hover {background-color: rgba(50, 50, 50, 0.6);}
+::-webkit-scrollbar-track {background-color: rgba(50, 50, 50, 0.1);}
+::-webkit-scrollbar-track:hover {background-color: rgba(50, 50, 50, 0.2);}
+
 /*布局设置*/
 .layout-setting {position: fixed;width: 40px;height: 40px;border-radius: 3px 0 0 3px;bottom: 100px;right: 0px;z-index: 100;background: #409EFF;display: flex;flex-direction: column;align-items: center;justify-content: center;cursor: pointer;}
 .layout-setting i {font-size: 18px;color: #fff;}
@@ -28,7 +36,6 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-header .nav li.active {background: rgba(255, 255, 255, 0.1);color: #fff;}
 .adminui-header .user-bar .panel-item:hover {background: rgba(255, 255, 255, 0.1)!important;}
 .adminui-header .user-bar .user label{color: #fff;}
-
 
 /* 左侧菜单 */
 .aminui-side-split {width:65px;flex-shrink:0;background: #222b45;display: flex;flex-flow: column;}
@@ -51,7 +58,7 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-side-top {border-bottom: 1px solid #ebeef5;height:50px;line-height: 50px;}
 .adminui-side-top h2 {padding:0 20px;font-size: 17px;color: #3c4a54;}
 .adminui-side-scroll {overflow: auto;overflow-x:hidden;flex: 1;}
-.adminui-side-bottom {border-top: 1px solid #ebeef5;height:35px;cursor: pointer;display: flex;align-items: center;justify-content: center;}
+.adminui-side-bottom {border-top: 1px solid #ebeef5;height:51px;cursor: pointer;display: flex;align-items: center;justify-content: center;}
 .adminui-side-bottom i {font-size: 16px;}
 .adminui-side-bottom:hover {color: var(--el-color-primary);}
 .aminui-side.isCollapse {width: 65px;}
@@ -88,3 +95,6 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .main-maximize-exit {display: none;position: fixed;z-index: 3000;top:-20px;left:50%;margin-left: -20px;border-radius: 50%;width: 40px;height: 40px;cursor: pointer;background: rgba(0,0,0,0.2);text-align: center;}
 .main-maximize-exit i {font-size: 14px;margin-top: 22px;color: #fff;}
 .main-maximize-exit:hover {background: rgba(0,0,0,0.4);}
+
+/*定宽页面*/
+.sc-page {width: 1230px;margin: 0 auto;}

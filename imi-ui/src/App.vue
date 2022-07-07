@@ -1,5 +1,5 @@
 <template>
-	<el-config-provider :locale="$i18n.messages[$i18n.locale].el" :button="{autoInsertSpace: false}">
+	<el-config-provider :locale="config.locale" :size="config.size" :zIndex="config.zIndex" :button="config.button">
 		<router-view></router-view>
 	</el-config-provider>
 </template>
@@ -9,6 +9,18 @@
 
 	export default {
 		name: 'App',
+		data() {
+			return {
+				config: {
+					locale: this.$i18n.messages[this.$i18n.locale].el,
+					size: "default",
+					zIndex: 2000,
+					button: {
+						autoInsertSpace: false
+					}
+				}
+			}
+		},
 		created() {
 			//设置主题颜色
 			const app_color = this.$CONFIG.COLOR || this.$TOOL.data.get('APP_COLOR')
@@ -17,7 +29,9 @@
 				for (let i = 1; i <= 9; i++) {
 					document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(app_color,i/10));
 				}
-				document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(app_color,0.1));
+				for (let i = 1; i <= 9; i++) {
+					document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(app_color,i/10));
+				}
 			}
 		}
 	}
@@ -25,7 +39,6 @@
 
 <style lang="scss">
 	@import '@/style/style.scss';
-	@import '@/style/theme/dark.scss';
 	.msgBox{
 		word-break: break-all !important;
     }

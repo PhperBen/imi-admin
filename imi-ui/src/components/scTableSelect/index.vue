@@ -1,14 +1,14 @@
 <!--
  * @Descripttion: 表格选择器组件
- * @version: 1.2
+ * @version: 1.3
  * @Author: sakuya
  * @Date: 2021年6月10日10:04:07
  * @LastEditors: sakuya
- * @LastEditTime: 2022年2月28日09:39:03
+ * @LastEditTime: 2022年6月6日21:50:36
 -->
 
 <template>
-	<el-select ref="select" v-model="defaultValue" clearable :multiple="multiple" filterable :placeholder="placeholder" :disabled="disabled" :filter-method="filterMethod" @remove-tag="removeTag" @visible-change="visibleChange" @clear="clear">
+	<el-select ref="select" v-model="defaultValue" :size="size" :clearable="clearable" :multiple="multiple" :collapse-tags="collapseTags" :collapse-tags-tooltip="collapseTagsTooltip" :filterable="filterable" :placeholder="placeholder" :disabled="disabled" :filter-method="filterMethod" @remove-tag="removeTag" @visible-change="visibleChange" @clear="clear">
 		<template #empty>
 			<div class="sc-table-select__table" :style="{width: tableWidth+'px'}" v-loading="loading">
 				<div class="sc-table-select__header">
@@ -38,7 +38,12 @@
 			apiObj: { type: Object, default: () => {} },
 			params: { type: Object, default: () => {} },
 			placeholder: { type: String, default: "请选择" },
+			size: { type: String, default: "default" },
+			clearable: { type: Boolean, default: false },
 			multiple: { type: Boolean, default: false },
+			filterable: { type: Boolean, default: false },
+			collapseTags: { type: Boolean, default: false },
+			collapseTagsTooltip: { type: Boolean, default: false },
 			disabled: { type: Boolean, default: false },
 			tableWidth: {type: Number, default: 400},
 			mode: { type: String, default: "popover" },
@@ -119,7 +124,7 @@
 						var setrow = this.tableData.filter(item => item[this.defaultProps.value]===this.defaultValue[this.defaultProps.value] )
 						this.$refs.table.setCurrentRow(setrow[0]);
 					}
-					this.$refs.table.$el.querySelector('.el-table__body-wrapper').scrollTop = 0
+					this.$refs.table.setScrollTop(0)
 				})
 			},
 			//插糟表单提交

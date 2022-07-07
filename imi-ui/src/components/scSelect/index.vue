@@ -76,5 +76,5 @@
 	.sc-select-loading {position: absolute;top:0;left:0;right:0;bottom:0;background: #fff;z-index: 100;border-radius: 5px;border: 1px solid #EBEEF5;display: flex;align-items: center;padding-left:10px;}
 	.sc-select-loading i {font-size: 14px;}
 
-	[data-theme='dark'] .sc-select-loading {background: var(--el-color-white);border-color: var(--el-border-color-base) ;}
+	.dark .sc-select-loading {background: var(--el-bg-color-overlay);border-color: var(--el-border-color-light);}
 </style>

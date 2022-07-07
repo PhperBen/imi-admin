@@ -61,7 +61,7 @@
 				map && map.forEach(item => {
 					item.meta = item.meta?item.meta:{};
 					//处理隐藏
-					if(item.meta.hidden){
+					if(item.meta.hidden || item.meta.type=="button"){
 						return false
 					}
 					//处理http

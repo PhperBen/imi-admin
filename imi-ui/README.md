@@ -5,7 +5,10 @@
 
 <p align="center">
 	<a href="https://v3.vuejs.org/" target="_blank">
-		<img src="https://img.shields.io/badge/vue.js-3.x-green" alt="vue">
+		<img src="https://img.shields.io/badge/VueCLI-5-green" alt="VueCLI">
+	</a>
+	<a href="https://v3.vuejs.org/" target="_blank">
+		<img src="https://img.shields.io/badge/Vue.js-3.x-green" alt="Vue">
 	</a>
 	<a href="https://element-plus.gitee.io/#/zh-CN/component/changelog" target="_blank">
 		<img src="https://img.shields.io/badge/element--plus-latest-blue" alt="element plus">
@@ -24,8 +27,18 @@ SCUI的宗旨是 让一切复杂的东西傻瓜化。
 
 ![logo](https://lolicode.gitee.io/scui-doc/g_1.jpg)
 
+## 演示和文档
+
+| 类型 | 链接 |
+| -------- | -------- |
+| 文档地址 | https://lolicode.gitee.io/scui-doc/ |
+| 演示地址  | https://lolicode.gitee.io/scui-doc/demo/#/login |
+
+
+
 ## 特点
-- **组件** 多个独家组件、业务模板和代码生成器
+
+- **组件** 多个独家组件、业务模板
 - **权限** 完整的鉴权体系和高精度权限控制
 - **布局** 提供多套布局模式，满足各种视觉需求
 - **API** 完善的API管理，使用真实网络MOCK
@@ -33,10 +46,6 @@ SCUI的宗旨是 让一切复杂的东西傻瓜化。
 - **性能** 在减少带宽请求和前端算力上多次优化，并且持续着
 - **其他** 多功能视图标签、动态权限菜单、控制台组态化、统一异常处理等等
 
-## 演示和文档
-
-- <a href="https://lolicode.gitee.io/scui-doc/demo/#/login" target="_blank">演示</a>
-- <a href="https://lolicode.gitee.io/scui-doc/" target="_blank">文档</a>
 
 ## 部分截图
 
@@ -58,8 +67,9 @@ npm run serve
 ```
 启动完成后浏览器访问 http://localhost:2800
 
-## 感谢
-![fastmock](https://www.fastmock.site/resource/images/logo.png)
+## 鸣谢
+
+<img src="https://www.fastmock.site/resource/images/logo.png" style="height:40px"/>
 
 ## 支持
 如果觉得本项目还不错或在工作中有所启发，请在Gitee(码云)帮开发者点亮星星，这是对开发者最大的支持和鼓励！

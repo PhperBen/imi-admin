@@ -1,5 +1,8 @@
 <template>
 	<div class="user-bar">
+		<!-- <div class="panel-item hidden-sm-and-down" @click="search">
+			<el-icon><el-icon-search /></el-icon>
+		</div> -->
 		<div class="screen panel-item hidden-sm-and-down" @click="screen">
 			<el-icon><el-icon-full-screen /></el-icon>
 		</div>
@@ -33,8 +36,8 @@
 						</el-scrollbar>
 					</el-main>
 					<el-footer>
-						<el-button type="primary" size="small">消息中心</el-button>
-						<el-button size="small" @click="markRead">全部设为已读</el-button>
+						<el-button type="primary">消息中心</el-button>
+						<el-button @click="markRead">全部设为已读</el-button>
 					</el-footer>
 				</el-container>
 			</el-drawer>
@@ -53,13 +56,31 @@
 			</template>
 		</el-dropdown>
 	</div>
+
+	<el-dialog v-model="searchVisible" :width="700"  title="搜索" custom-class="drawerBG" center destroy-on-close>
+		<search @success="searchVisible=false"></search>
+	</el-dialog>
+
+	<el-drawer v-model="tasksVisible" :size="450"  title="任务中心" custom-class="drawerBG" destroy-on-close>
+		<tasks></tasks>
+	</el-drawer>
+
 </template>
 
 <script>
+	import search from './search.vue'
+	import tasks from './tasks.vue'
+
 	export default {
+		components: {
+			search,
+			tasks
+		},
 		data(){
 			return {
 				username: "",
+				searchVisible: false,
+				tasksVisible: false,
 				// msg: false,
 				// msgList: [
 				// 	{
@@ -154,6 +175,14 @@
 			//标记已读
 			markRead(){
 				this.msgList = []
+			},
+			//搜索
+			search(){
+				this.searchVisible = true
+			},
+			//任务
+			tasks(){
+				this.tasksVisible = true
 			}
 		}
 	}
@@ -176,7 +205,7 @@
 	.msg-list__main p {font-size: 12px;color: #999;line-height: 1.8;margin-top: 5px;}
 	.msg-list__time {width: 100px;text-align: right;color: #999;}
 
-	[data-theme='dark'] .msg-list__main h2 {color: #d0d0d0;}
-	[data-theme='dark'] .msg-list li {border-top:1px solid #363636;}
-	[data-theme='dark'] .msg-list li a:hover {background: #383838;}
+	.dark .msg-list__main h2 {color: #d0d0d0;}
+	.dark .msg-list li {border-top:1px solid #363636;}
+	.dark .msg-list li a:hover {background: #383838;}
 </style>

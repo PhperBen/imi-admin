@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: scContextmenu组件
- * @version: 1.0
+ * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年7月23日09:25:57
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2022年5月30日20:17:42
  * @other: 代码完全开源，欢迎参考，也欢迎PR
 -->
 
@@ -34,17 +34,10 @@
 		},
 		watch: {
 			visible(value) {
-				var _this = this;
-				var cm = function(e){
-					let sp = _this.$refs.contextmenu
-					if(sp&&!sp.contains(e.target)){
-						_this.closeMenu()
-					}
-				}
 				if (value) {
-					document.body.addEventListener('click', e=>cm(e))
+					document.body.addEventListener('click', this.cm, true)
 				}else{
-					document.body.removeEventListener('click',  e=>cm(e))
+					document.body.removeEventListener('click', this.cm, true)
 				}
 			}
 		},
@@ -52,6 +45,12 @@
 
 		},
 		methods: {
+			cm(e){
+				let sp = this.$refs.contextmenu
+				if(sp&&!sp.contains(e.target)){
+					this.closeMenu()
+				}
+			},
 			menuClick(command){
 				this.closeMenu()
 				this.$emit('command', command)
@@ -89,7 +88,7 @@
 </script>
 
 <style>
-	.sc-contextmenu {position: fixed;z-index: 3000;}
+	.sc-contextmenu {position: fixed;z-index: 3000;font-size: 12px;}
 	.sc-contextmenu__menu {display: inline-block;min-width: 120px;border: 1px solid #e4e7ed;background: #fff;box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);z-index: 3000;list-style-type: none;padding: 10px 0;}
 	.sc-contextmenu__menu > hr {margin:5px 0;border: none;height: 1px;font-size: 0px;background-color: #ebeef5;}
 	.sc-contextmenu__menu > li {margin:0;cursor: pointer;line-height: 30px;padding: 0 17px 0 10px;color: #606266;display: flex;justify-content: space-between;white-space: nowrap;text-decoration: none;position: relative;}

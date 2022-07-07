@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
 	//动态标题
 	document.title = to.meta.title ? `${to.meta.title} - ${config.APP_NAME}` : `${config.APP_NAME}`
 
-	let token = tool.data.get("TOKEN");
+	let token = tool.cookie.get("TOKEN");
 
 	if(to.path === "/login"){
 		//删除路由(替换当前layout路由)
@@ -44,6 +44,11 @@ router.beforeEach(async (to, from, next) => {
 		//删除路由(404)
 		routes_404_r()
 		isGetRouter = false;
+		next();
+		return false;
+	}
+
+	if(routes.findIndex(r => r.path === to.path) >= 0){
 		next();
 		return false;
 	}

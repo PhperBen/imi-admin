@@ -11,7 +11,7 @@ axios.defaults.timeout = sysConfig.TIMEOUT
 // HTTP request 拦截器
 axios.interceptors.request.use(
 	(config) => {
-		let token = tool.data.get("TOKEN");
+		let token = tool.cookie.get("TOKEN");
 		if(token){
 			config.headers[sysConfig.TOKEN_NAME] = sysConfig.TOKEN_PREFIX + token
 		}

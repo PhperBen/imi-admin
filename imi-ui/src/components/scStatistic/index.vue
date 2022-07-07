@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: 统计数值组件
- * @version: 1.0
+ * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年6月23日13:11:32
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2022年5月14日19:55:09
 -->
 
 <template>
@@ -66,5 +66,5 @@
 	.sc-statistic-content-suffix {margin-left: 5px;font-size: 12px;}
 	.sc-statistic-description {margin-top: 10px;color: #999;}
 
-	[data-theme='dark'] .sc-statistic-content {color: #d0d0d0;}
+	.dark .sc-statistic-content {color: #d0d0d0;}
 </style>

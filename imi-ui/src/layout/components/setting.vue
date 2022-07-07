@@ -3,13 +3,12 @@
 		<el-alert title="以下配置可实时预览，开发者可在 config/index.js 中配置默认值，非常不建议在生产环境下开放布局设置" type="error" :closable="false"></el-alert>
 		<el-divider></el-divider>
 		<el-form-item :label="$t('user.nightmode')">
-			<el-switch v-model="theme" active-value="dark" inactive-value="default"></el-switch>
+			<el-switch v-model="dark"></el-switch>
 		</el-form-item>
 		<el-form-item :label="$t('user.language')">
 			<el-select v-model="lang">
 				<el-option label="简体中文" value="zh-cn"></el-option>
 				<el-option label="English" value="en"></el-option>
-				<el-option label="日本語" value="ja"></el-option>
 			</el-select>
 		</el-form-item>
 		<el-divider></el-divider>
@@ -45,7 +44,7 @@
 				menuIsCollapse: this.$store.state.global.menuIsCollapse,
 				layoutTags: this.$store.state.global.layoutTags,
 				lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
-				theme: this.$TOOL.data.get('APP_THEME') || 'default',
+				dark: this.$TOOL.data.get('APP_DARK') || false,
 				colorList: ['#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
 				colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF'
 			}
@@ -60,9 +59,14 @@
 			layoutTags(){
 				this.$store.commit("TOGGLE_layoutTags")
 			},
-			theme(val){
-				document.body.setAttribute('data-theme', val)
-				this.$TOOL.data.set("APP_THEME", val);
+			dark(val){
+				if(val){
+					document.documentElement.classList.add("dark")
+					this.$TOOL.data.set("APP_DARK", val)
+				}else{
+					document.documentElement.classList.remove("dark")
+					this.$TOOL.data.remove("APP_DARK")
+				}
 			},
 			lang(val){
 				this.$i18n.locale = val
@@ -73,7 +77,9 @@
 				for (let i = 1; i <= 9; i++) {
 					document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(val,i/10));
 				}
-				document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(val,0.1));
+				for (let i = 1; i <= 9; i++) {
+					document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(val,i/10));
+				}
 				this.$TOOL.data.set("APP_COLOR", val);
 			}
 		}

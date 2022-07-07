@@ -1,132 +1,116 @@
 <template>
 	<div class="sc-upload-multiple">
-		<div class="sc-upload-list">
-			<ul>
-				<li v-for="(file, index) in fileList" :key="index">
-					<div v-if="file.status!='success'" class="sc-upload-item" v-loading="true" element-loading-background="rgba(0, 0, 0, 0.5)">
-						<el-image class="image" :src="file.tempImg" fit="cover" :z-index="9999"></el-image>
+		<el-upload ref="uploader" list-type="picture-card" 
+			:auto-upload="autoUpload" 
+			:disabled="disabled" 
+			:action="action" 
+			:name="name" 
+			:data="data" 
+			:http-request="request" 
+			:file-list="defaultFileList" 
+			:show-file-list="showFileList" 
+			:accept="accept" 
+			:multiple="multiple" 
+			:limit="limit" 
+			:before-upload="before" 
+			:on-success="success" 
+			:on-error="error" 
+			:on-preview="handlePreview" 
+			:on-exceed="handleExceed">
+			<slot>
+				<el-icon><el-icon-plus/></el-icon>
+			</slot>
+			<template #tip>
+				<div v-if="tip" class="el-upload__tip">{{tip}}</div>
+			</template>
+			<template #file="{ file }">
+				<div class="sc-upload-list-item">
+					<el-image class="el-upload-list__item-thumbnail" :src="file.url" fit="cover" :preview-src-list="preview" :initial-index="preview.findIndex(n=>n==file.url)" hide-on-click-modal append-to-body :z-index="9999">
+						<template #placeholder>
+							<div class="sc-upload-multiple-image-slot">
+								Loading...
+							</div>
+						</template>
+					</el-image>
+					<div v-if="!disabled && file.status=='success'" class="sc-upload__item-actions">
+						<span class="del" @click="handleRemove(file)"><el-icon><el-icon-delete /></el-icon></span>
 					</div>
-					<div v-else class="sc-upload-item">
-						<div class="mask">
-							<span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
-						</div>
-						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
-							<template #placeholder>
-								<div class="image-slot">
-									<el-icon><el-icon-more-filled /></el-icon>
-								</div>
-							</template>
-						</el-image>
+					<div v-if="file.status=='ready' || file.status=='uploading'" class="sc-upload__item-progress">
+						<el-progress :percentage="file.percentage" :text-inside="true" :stroke-width="16"/>
 					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="sc-upload-uploader" @click="fileSelect && showfileSelect()">
-			<el-upload ref="upload" class="uploader" :disabled="fileSelect" :action="action" :accept="accept" multiple  :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
-				<div class="file-empty">
-					<el-icon><component :is="icon" /></el-icon>
-					<h4 v-if="title">{{title}}</h4>
 				</div>
-			</el-upload>
-		</div>
-		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close>
-			<sc-file-select multiple @submit="fileSelectSubmit">
-				<template #do>
-					<el-button @click="fileSelectDialogVisible=false" >取 消</el-button>
-				</template>
-			</sc-file-select>
-		</el-dialog>
+			</template>
+		</el-upload>
 		<span style="display:none!important"><el-input v-model="value"></el-input></span>
-
 	</div>
 </template>
 
 <script>
-	import { defineAsyncComponent } from 'vue'
-	import config from "@/config/upload";
-	const scFileSelect = defineAsyncComponent(() => import('@/components/scFileSelect'))
+	import config from "@/config/upload"
+	import Sortable from 'sortablejs'
 
 	export default {
 		props: {
 			modelValue: { type: String, default: "" },
+			tip: { type: String, default: "" },
 			action: { type: String, default: "" },
 			apiObj: { type: Object, default: () => {} },
+			name: { type: String, default: config.filename },
+			data: { type: Object, default: () => {} },
 			accept: { type: String, default: "image/gif, image/jpeg, image/png" },
-			maxSize: { type: Number, default: config.maxSize },
-			title: { type: String, default: "" },
-			icon: { type: String, default: "el-icon-plus" },
-			fileSelect: { type: Boolean, default: false }
-		},
-		components: {
-			scFileSelect
+			maxSize: { type: Number, default: config.maxSizeFile },
+			limit: { type: Number, default: 0 },
+			autoUpload: { type: Boolean, default: true },
+			showFileList: { type: Boolean, default: true },
+			multiple: { type: Boolean, default: true },
+			disabled: { type: Boolean, default: false },
+			draggable: { type: Boolean, default: false },
+			onSuccess: { type: Function, default: () => { return true } }
 		},
 		data(){
 			return {
 				value: "",
-				defaultFileList: [],
-				fileList: [],
-				fileSelectDialogVisible: false,
+				defaultFileList: []
 			}
 		},
 		watch:{
-			modelValue(){
-				this.$refs.upload.uploadFiles=this.modelValuetoArr
-				this.fileList = this.modelValuetoArr
-				this.value = this.modelValue
+			modelValue(val){
+				if (val != this.toStr(this.defaultFileList)) {
+					this.defaultFileList = this.toArr(val)
+					this.value = val
+				}
 			},
-			fileList: {
-				handler(){
-					if(this.isAllSuccess){
-						this.$emit('update:modelValue', this.fileListtoStr);
-					}
+			defaultFileList: {
+				handler(val){
+					this.$emit('update:modelValue', this.toStr(val))
+					this.value = this.toStr(val)
 				},
 				deep: true
 			}
 		},
 		computed: {
-			modelValuetoArr(){
-				return this.toArr(this.modelValue)
-			},
-			fileListtoStr(){
-				return this.toStr(this.fileList)
-			},
 			preview(){
-				return this.fileList.map(v => v.url)
-			},
-			isAllSuccess(){
-				var all_length = this.fileList.length;
-				var success_length = 0
-				this.fileList.forEach(item => {
-					if(item.status == "success"){
-						success_length += 1
-					}
-				})
-				return success_length == all_length
+				return this.defaultFileList.map(v => v.url)
 			}
 		},
 		mounted() {
-			this.defaultFileList = this.toArr(this.modelValue);
-			this.fileList = this.toArr(this.modelValue)
 			this.value = this.modelValue
+			this.defaultFileList = this.toArr(this.modelValue)
+			if(!this.disabled && this.draggable){
+				this.rowDrop()
+			}
 		},
 		methods: {
-			showfileSelect(){
-				this.fileSelectDialogVisible = true
-			},
-			fileSelectSubmit(val){
-				const newval = [...this.modelValue.split(","),...val].join(",")
-				this.$emit('update:modelValue', newval);
-				this.fileSelectDialogVisible = false
-			},
 			//默认值转换为数组
 			toArr(str){
 				var _arr = [];
 				var arr = str.split(",");
 				arr.forEach(item => {
 					if(item){
+						var urlArr = item.split('/');
+						var fileName = urlArr[urlArr.length - 1]
 						_arr.push({
-							name: "F",
-							status: "success",
+							name: fileName,
 							url: item
 						})
 					}
@@ -135,42 +119,67 @@
 			},
 			//数组转换为原始值
 			toStr(arr){
-				var _arr = [];
-				arr.forEach(item => {
-					_arr.push(item.url)
+				return arr.map(v => v.url).join(",")
+			},
+			//拖拽
+			rowDrop(){
+				const _this = this
+				const itemBox = this.$refs.uploader.$el.querySelector('.el-upload-list')
+				Sortable.create(itemBox, {
+					handle: ".el-upload-list__item",
+					animation: 200,
+					ghostClass: "ghost",
+					onEnd({ newIndex, oldIndex }) {
+						const tableData = _this.defaultFileList
+						const currRow = tableData.splice(oldIndex, 1)[0]
+						tableData.splice(newIndex, 0, currRow)
+					}
 				})
-				var str = _arr.join(",")
-				return str;
 			},
 			before(file){
+				if(!['image/jpeg','image/png','image/gif'].includes(file.type)){
+					this.$message.warning(`选择的文件类型 ${file.type} 非图像类文件`);
+					return false;
+				}
 				const maxSize = file.size / 1024 / 1024 < this.maxSize;
 				if (!maxSize) {
 					this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`);
 					return false;
 				}
 			},
-			change(file, fileList){
-				file.tempImg = URL.createObjectURL(file.raw);
-				this.fileList = fileList
-			},
 			success(res, file){
-				var response = config.parseData(res);
+				var os = this.onSuccess(res, file)
+				if(os!=undefined && os==false){
+					return false
+				}
+				var response = config.parseData(res)
+				file.name = response.fileName
 				file.url = response.src
-			},
-			progress(){
-
-			},
-			remove(){
-
 			},
 			error(err){
 				this.$notify.error({
-					title: '上传文件错误',
+					title: '上传文件未成功',
 					message: err
 				})
 			},
-			del(index){
-				this.fileList.splice(index, 1);
+			beforeRemove(uploadFile){
+				return this.$confirm(`是否移除 ${uploadFile.name} ?`, '提示', {
+					type: 'warning',
+				}).then(() => {
+					return true
+				}).catch(() => {
+					return false
+				})
+			},
+			handleRemove(file){
+				this.$refs.uploader.handleRemove(file)
+				//this.defaultFileList.splice(this.defaultFileList.findIndex(item => item.uid===file.uid), 1)
+			},
+			handleExceed(){
+				this.$message.warning(`当前设置最多上传 ${this.limit} 个文件，请移除后上传!`)
+			},
+			handlePreview(uploadFile){
+				window.open(uploadFile.url)
 			},
 			request(param){
 				var apiObj = config.apiObj;
@@ -178,9 +187,22 @@
 					apiObj = this.apiObj;
 				}
 				const data = new FormData();
-				data.append("file", param.file);
-				apiObj.post(data).then(res => {
-					param.onSuccess(res)
+				data.append(param.filename, param.file);
+				for (const key in param.data) {
+					data.append(key, param.data[key]);
+				}
+				apiObj.post(data, {
+					onUploadProgress: e => {
+						const complete = parseInt(((e.loaded / e.total) * 100) | 0, 10)
+						param.onProgress({percent: complete})
+					}
+				}).then(res => {
+					var response = config.parseData(res);
+					if(response.code == config.successCode){
+						param.onSuccess(res)
+					}else{
+						param.onError(response.msg || "未知错误")
+					}
 				}).catch(err => {
 					param.onError(err)
 				})
@@ -190,38 +212,18 @@
 </script>
 
 <style scoped>
-
-	.el-form-item.is-error .sc-upload-uploader {border: 1px dashed #F56C6C;}
-
-	.sc-upload-multiple {display: inline-block;}
-
-
-	.sc-upload-list {display: inline-block;}
-	.sc-upload-list li {list-style: none;display: inline-block;width: 120px;height: 120px;margin-right: 10px;vertical-align: top;box-sizing: border-box;}
-
-	.sc-upload-item {position: relative;width: 100%;height: 100%;}
-	.sc-upload-item .mask {display: none;position: absolute;top:0px;right:0px;line-height: 1;z-index: 1;}
-	.sc-upload-item .mask span {display: inline-block;width: 25px;height:25px;line-height: 23px;text-align: center;cursor: pointer;color: #fff;}
-	.sc-upload-item .mask span i {font-size: 12px;}
-	.sc-upload-item .mask .del {background: #F56C6C;}
-
-	.sc-upload-item:hover .mask {display: inline-block;}
-
-
-	.sc-upload-list .image {width: 100%;height: 100%;}
-
-	.sc-upload-list .image-slot {display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;background: #f5f7fa;color: #909399;}
-	.sc-upload-list .image-slot i {font-size: 20px;}
-
-	.sc-upload-uploader {border: 1px dashed #d9d9d9;width: 120px;height: 120px;display: inline-block;vertical-align: top;box-sizing: border-box;}
-	.sc-upload-uploader:hover {border: 1px dashed #409eff;}
-	.sc-upload-uploader .uploader {width: 100%;height: 100%;}
-	.sc-upload-uploader:deep(.el-upload) {width: 100%;height: 100%;}
-
-
-	.sc-upload-uploader .file-empty {width: 100%;height: 100%;line-height: 1;display: flex;flex-direction: column;align-items: center;justify-content: center;}
-	.sc-upload-uploader .file-empty i {font-size: 28px;color: #8c939d;}
-	.sc-upload-uploader .file-empty h4 {font-size: 12px;font-weight: normal;color: #8c939d;margin-top: 10px;}
-
-
+	.el-form-item.is-error .sc-upload-multiple:deep(.el-upload--picture-card) {border-color: var(--el-color-danger);}
+	:deep(.el-upload-list__item) {transition:none;border-radius: 0;}
+	.sc-upload-multiple:deep(.el-upload-list__item.el-list-leave-active) {position: static!important;}
+	.sc-upload-multiple:deep(.el-upload--picture-card) {border-radius: 0;}
+	.sc-upload-list-item {width: 100%;height: 100%;position: relative;}
+	.sc-upload-multiple .el-image {display: block;}
+	.sc-upload-multiple .el-image:deep(img) {-webkit-user-drag: none;}
+	.sc-upload-multiple-image-slot {display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;font-size: 12px;}
+	.sc-upload-multiple .el-upload-list__item:hover .sc-upload__item-actions{display: block;}
+	.sc-upload__item-actions {position: absolute;top:0;right: 0;display: none;}
+	.sc-upload__item-actions span {display: flex;justify-content: center;align-items: center;;width: 25px;height:25px;cursor: pointer;color: #fff;}
+	.sc-upload__item-actions span i {font-size: 12px;}
+	.sc-upload__item-actions .del {background: #F56C6C;}
+	.sc-upload__item-progress {position: absolute;width: 100%;height: 100%;top: 0;left: 0;background-color: var(--el-overlay-color-lighter);}
 </style>

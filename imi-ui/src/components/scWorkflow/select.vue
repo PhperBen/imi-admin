@@ -40,7 +40,7 @@
 									<label>{{item.name}}</label>
 								</span>
 								<span class="delete">
-									<el-button type="text" icon="el-icon-delete" circle size="mini" @click="deleteSelected(index)"></el-button>
+									<el-button type="danger" icon="el-icon-delete" circle size="small" @click="deleteSelected(index)"></el-button>
 								</span>
 							</li>
 						</el-scrollbar>
@@ -70,7 +70,7 @@
 									<label>{{item.name}}</label>
 								</span>
 								<span class="delete">
-									<el-button type="text" icon="el-icon-delete" circle size="mini" @click="deleteSelected(index)"></el-button>
+									<el-button type="danger" icon="el-icon-delete" circle size="small" @click="deleteSelected(index)"></el-button>
 								</span>
 							</li>
 						</el-scrollbar>

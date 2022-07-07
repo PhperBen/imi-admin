@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: 过滤器V2
- * @version: 2.4
+ * @version: 2.5
  * @Author: sakuya
  * @Date: 2021年7月30日14:48:41
  * @LastEditors: sakuya
- * @LastEditTime: 2022年2月8日15:28:24
+ * @LastEditTime: 2022年5月13日21:15:44
 -->
 
 <template>
@@ -76,7 +76,7 @@
 											</td>
 										</tr>
 									</table>
-									<el-button type="text" icon="el-icon-plus" @click="addFilter">增加过滤项</el-button>
+									<el-button type="primary" text icon="el-icon-plus" @click="addFilter">增加过滤项</el-button>
 								</div>
 							</el-scrollbar>
 						</el-tab-pane>
@@ -302,9 +302,9 @@
 	.root:deep(.el-tabs__content) {flex: 1;background: #f6f8f9;}
 	.root:deep(.el-tabs__content) .el-tab-pane{overflow: auto;height:100%;}
 
-	[data-theme='dark'] .root:deep(.el-tabs__content) {background: none;}
-	[data-theme='dark'] .sc-filter-main {background: none;border-color:var(--el-border-color-base);}
-	[data-theme='dark'] .sc-filter-main table td .del {background: none;}
-	[data-theme='dark'] .sc-filter-main table td .del:hover {background: #F56C6C;}
-	[data-theme='dark'] .nodata {border-color:var(--el-border-color-base);}
+	.dark .root:deep(.el-tabs__content) {background: var(--el-bg-color-overlay);}
+	.dark .sc-filter-main {background: var(--el-bg-color);border-color:var(--el-border-color-light);}
+	.dark .sc-filter-main table td .del {background: none;}
+	.dark .sc-filter-main table td .del:hover {background: #F56C6C;}
+	.dark .nodata {border-color:var(--el-border-color-light);}
 </style>

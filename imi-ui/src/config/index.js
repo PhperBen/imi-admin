@@ -1,18 +1,18 @@
 const DEFAULT_CONFIG = {
 	//标题
-	APP_NAME: "imi-admin",
+	APP_NAME: process.env.VUE_APP_TITLE,
 
 	//首页地址
 	DASHBOARD_URL: "/dashboard",
 
 	//版本号
-	APP_VER: "1.4.1",
+	APP_VER: "1.6.4",
 
 	//内核版本号
-	CORE_VER: "1.4.1",
+	CORE_VER: "1.6.4",
 
 	//接口地址
-	API_URL: "http://127.0.0.1:8088/super",
+	API_URL: process.env.NODE_ENV === 'development' && process.env.VUE_APP_PROXY === 'true' ? "/api" : process.env.VUE_APP_API_BASEURL,
 
 	//请求超时
 	TIMEOUT: 10000,
@@ -47,6 +47,12 @@ const DEFAULT_CONFIG = {
 
 	//主题颜色
 	COLOR: '',
+
+	//是否加密localStorage, 为空不加密，可填写AES(模式ECB,移位Pkcs7)加密
+	LS_ENCRYPTION: '',
+
+	//localStorageAES加密秘钥，位数建议填写8的倍数
+	LS_ENCRYPTION_key: '2XNN4K8LC0ELVWN4',
 
 	//控制台首页默认布局
 	DEFAULT_GRID: {

@@ -1,6 +1,6 @@
 <?php
 
-use Imi\Log\LogLevel;
+use function Imi\env;
 
 $rootPath = dirname(__DIR__) . '/';
 
@@ -216,7 +216,7 @@ return [
         // 上传目录
         'root' => "/public/uploads",
         // 获取图片Domain（oss则填oss地址）
-        'domain' => "http://127.0.0.1:8088/uploads",
+        'domain' => env("UPLOAD_DOMAIN"),
         // Aliyun oss配置
         'aliyun' => [
             'accessId' => '',
