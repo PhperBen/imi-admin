@@ -198,6 +198,7 @@ class AutocodeService extends AbstractService
 
     protected function getSql($class, $name, $alias, $operate, $sort): string
     {
+        $class = str_replace("\\", "\\\\", $class);
         $pid = SoAuthRule::find(['name' => 'Autocode']);
         $pid = $pid ? $pid->getId() : false;
         $sql = 'SET @id = (SELECT max(id) from `so_auth_rule`) + 1;' . "\n";
