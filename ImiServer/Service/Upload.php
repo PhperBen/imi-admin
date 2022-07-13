@@ -22,9 +22,9 @@ class Upload
 
     protected $config = [];
 
-    public function __construct()
+    public function __construct($config = [])
     {
-        $this->config = Config::get('@app.beans.Upload');
+        $this->config = $config ?: Config::get('@app.beans.Upload');
     }
 
     /**
