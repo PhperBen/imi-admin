@@ -13,7 +13,7 @@ export default {
 		return {
 			//id: res.data.id,
 			//fileName: res.data.data,
-			url: res.data
+			url: res.data.url
 		}
 	},
 	listParseData: function (res) {
