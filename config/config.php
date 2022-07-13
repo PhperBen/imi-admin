@@ -27,6 +27,17 @@ return [
                 'replaceDot' => false,
             ],
         ],
+        'so' => [
+            // 缓存驱动类
+            'handlerClass' => \Imi\Cache\Handler\Redis::class,
+            // 驱动实例配置
+            'option' => [
+                'poolName' => '',
+                'prefix' => '', // 缓存键前缀
+                'formatHandlerClass' => \Imi\Util\Format\Json::class, // 数据读写修改器
+                'replaceDot' => false,
+            ],
+        ],
     ],
 
     'components' => [
