@@ -21,11 +21,11 @@
 				<el-table-column label="操作" fixed="right" align="right" width="140">
 					<template #default="scope">
                         <div v-if="scope.row.rules == '*'">超级管理</div>
-						<el-button type="text" v-auth="'auth.group.update'" v-if="scope.row.rules !== '*'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+						<el-button text v-auth="'auth.group.update'" v-if="scope.row.rules !== '*'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 						<el-divider direction="vertical" v-if="scope.row.rules !== '*'"></el-divider>
-						<el-popconfirm title="确定删除吗？" v-auth="'auth.group.delete'" v-if="scope.row.rules !== '*'" @confirm="table_del(scope.row, scope.$index)">
+						<el-popconfirm title="确定删除吗？" v-if="scope.row.rules !== '*'" @confirm="table_del(scope.row, scope.$index)">
 							<template #reference>
-								<el-button type="text" size="small">删除</el-button>
+								<el-button text size="small" v-auth="'auth.group.delete'">删除</el-button>
 							</template>
 						</el-popconfirm>
 					</template>
