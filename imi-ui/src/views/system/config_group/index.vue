@@ -21,11 +21,11 @@
 				<!-- <el-table-column label="时间" prop="create_time" align="right" :formatter="this.$TABLE.datetime"></el-table-column> -->
 				<el-table-column label="操作" fixed="right" align="right" width="140">
 					<template #default="scope">
-						<el-button type="text" v-auth="'system.config_group.update'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+						<el-button text v-auth="'system.config_group.update'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 						<el-divider direction="vertical"></el-divider>
-						<el-popconfirm title="确定删除吗？" v-auth="'system.config_group.delete'" @confirm="table_del(scope.row, scope.$index)">
+						<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 							<template #reference>
-								<el-button type="text" size="small">删除</el-button>
+								<el-button text size="small" v-auth="'system.config_group.delete'">删除</el-button>
 							</template>
 						</el-popconfirm>
 					</template>
