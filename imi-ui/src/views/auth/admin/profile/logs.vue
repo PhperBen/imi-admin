@@ -19,7 +19,7 @@
 						<el-table-column label="时间" prop="create_time" :formatter="this.$TABLE.datetime"></el-table-column>
 						<el-table-column label="操作" fixed="right" align="right" width="100">
 							<template #default="scope">
-								<el-button type="text" size="small" @click="this.loginfo(scope.row)">查看详情</el-button>
+								<el-button text size="small" @click="this.loginfo(scope.row)">查看详情</el-button>
 							</template>
 						</el-table-column>
 					</scTable>
