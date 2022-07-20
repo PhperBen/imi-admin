@@ -176,7 +176,7 @@ class AdminService extends AbstractService
         $password = $this->request->post('password');
         if ($password) {
             $data['salt'] = Random::letterAndNumber(6);
-            $data['password'] = md5(md5($data['password']) . $data['salt']);
+            $data['password'] = md5(md5($password) . $data['salt']);
         } else {
             if (isset($data['password'])) {
                 unset($data['password']);
