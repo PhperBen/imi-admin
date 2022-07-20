@@ -45,11 +45,11 @@
 
                 <el-table-column label="操作" fixed="right" align="right" width="140">
                     <template #default="scope">
-                        <el-button type="text" v-auth="'user.update'" size="small" @click="update(scope.row)">编辑
+                        <el-button text v-auth="'user.update'" size="small" @click="update(scope.row)">编辑
                         </el-button>
                         <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
                             <template #reference>
-                                <el-button type="text" v-auth="'user.delete'" size="small">删除</el-button>
+                                <el-button text v-auth="'user.delete'" size="small">删除</el-button>
                             </template>
                         </el-popconfirm>
                     </template>
