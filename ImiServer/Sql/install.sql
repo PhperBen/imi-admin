@@ -223,11 +223,11 @@ INSERT INTO `so_auth_rule` (`id`, `sort`, `status`, `pid`, `name`, `alias`, `ico
 (98, 98, 1, 95, '操作日志', 'auth.admin.operatelog', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\Auth\\AdminController::operatelog', 'button', NULL, 1639728267, 1639728281),
 (99, 46, 1, 0, '用户', NULL, 'el-icon-avatar', NULL, 'menu', '/user', 1639731459, 1639731482),
 (101, 101, 1, 99, '用户列表', NULL, 'el-icon-user-filled', NULL, 'menu', '/user/index', 1639731569, 1639731674),
-(102, 102, 1, 101, '创建', 'user.create', NULL, 'ImiAppApiServerBackendControllerUserController::create', 'button', NULL, 1639731569, 0),
-(103, 103, 1, 101, '编辑', 'user.update', NULL, 'ImiAppApiServerBackendControllerUserController::update', 'button', NULL, 1639731569, 0),
-(104, 104, 1, 101, '读取', 'user.read', NULL, 'ImiAppApiServerBackendControllerUserController::read', 'button', NULL, 1639731569, 0),
-(105, 105, 1, 101, '删除', 'user.delete', NULL, 'ImiAppApiServerBackendControllerUserController::delete', 'button', NULL, 1639731569, 0),
-(106, 106, 1, 101, '操作', 'user.operate', NULL, 'ImiAppApiServerBackendControllerUserController::operate', 'button', NULL, 1639731569, 0);
+(102, 102, 1, 101, '创建', 'user.create', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\UserController::create', 'button', NULL, 1639731569, 0),
+(103, 103, 1, 101, '编辑', 'user.update', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\UserController::update', 'button', NULL, 1639731569, 0),
+(104, 104, 1, 101, '读取', 'user.read', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\UserController::read', 'button', NULL, 1639731569, 0),
+(105, 105, 1, 101, '删除', 'user.delete', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\UserController::delete', 'button', NULL, 1639731569, 0),
+(106, 106, 1, 101, '操作', 'user.operate', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\UserController::operate', 'button', NULL, 1639731569, 0);
 
 -- --------------------------------------------------------
 
