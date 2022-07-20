@@ -51,9 +51,9 @@
 						<el-table-column label="操作" fixed="right" align="right" width="140">
 							<template #default="scope">
 								<el-button text v-auth="'auth.admin.update'" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-								<el-popconfirm title="确定删除吗？" v-auth="'auth.admin.delete'" @confirm="table_del(scope.row, scope.$index)">
+								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 									<template #reference>
-										<el-button text size="small">删除</el-button>
+										<el-button text size="small" v-auth="'auth.admin.delete'">删除</el-button>
 									</template>
 								</el-popconfirm>
 							</template>
