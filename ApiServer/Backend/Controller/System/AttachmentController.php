@@ -21,7 +21,7 @@ class AttachmentController extends CommonController
 {
     /**
      * @Inject("SystemAttachmentService")
-     * 
+     *
      * @var \ImiApp\ApiServer\Backend\Service\System\AttachmentService
      */
     protected $service;
@@ -34,7 +34,16 @@ class AttachmentController extends CommonController
     public function create(): ResponseInterface
     {
         $create = $this->service->pull($this->request->getUploadedFiles());
-        return $create ? $this->response->success('上传成功', $create) : $this->response->error($this->service->getError());
+        if (!$create) {
+            return $this->response->error($this->service->getError());
+        }
+        if ($ocr = $this->request->post('ocr')) {
+            $create['ocr'] = [];
+            $create['replace'] = [];
+            $data = ocr($create['url'], $ocr);
+            $data && $create['ocr'] = $data;
+        }
+        return $this->response->success('上传成功', $create);
     }
 
     /**
