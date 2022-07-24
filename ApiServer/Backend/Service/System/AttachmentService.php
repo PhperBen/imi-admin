@@ -13,6 +13,7 @@ use Imi\Bean\Annotation\Bean;
 use ImiApp\ImiServer\Exception\ServiceException;
 use Imi\Aop\Annotation\Inject;
 use ImiApp\ImiServer\Service\Upload;
+use League\Flysystem\FilesystemException;
 use Phpben\Imi\Auth\AuthManager;
 
 /**
@@ -52,11 +53,22 @@ class AttachmentService extends AbstractService
             $this->setError('未上传内容');
             return false;
         }
-        $upload = $this->upload->pull($file);
+        $config = Config::get('@app.beans.Upload');
+        try {
+            if ($config['save'] == "aliyun" && $file->getClientMediaType() == 'application/x-x509-ca-cert') {
+                $config['aliyun']['bucket'] = $config['aliyun']['privateBucket'];
+                $private = true;
+            }
+        } catch (\Throwable $e) {
+
+        }
+        $_upload = new Upload($config);
+        $upload = $_upload->pull($file);
         if (!$upload) {
-            $this->setError($this->upload->getError());
+            $this->setError($_upload->getError());
             return false;
         }
+        isset($private) && $upload['url'] = $upload['path'];
         $data = array_merge([
             'type' => Config::get('@app.beans.Upload.save'),
             'admin_id' => $this->auth->user()->id,
@@ -67,7 +79,7 @@ class AttachmentService extends AbstractService
         } else {
             $this->model::query()->insert($data);
         }
-        return ['url' => $upload['url'], 'filename' => $upload['filename']];
+        return ['url' => isset($private) ? $upload['path'] : $upload['url'], 'filename' => $upload['filename']];
     }
 
     public function _before_delete(&$ids)
@@ -78,7 +90,10 @@ class AttachmentService extends AbstractService
                 unset($ids[$k]);
                 continue;
             }
-            $this->upload->delete($path->toArray()['path']);
+            try {
+                $this->upload->delete($path->toArray()['path']);
+            } catch (\Throwable $e) {
+            }
         }
     }
 }
