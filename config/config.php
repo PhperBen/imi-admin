@@ -101,6 +101,8 @@ return [
                 'config' => [
                     'maxResources' => 10,
                     'minResources' => 1,
+                    'checkStateWhenGetResource' => false,
+                    'heartbeatInterval' => 60
                 ],
             ],
             'resource' => [
