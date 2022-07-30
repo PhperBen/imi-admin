@@ -62,6 +62,7 @@ return [
         'configs' => [
             // 'worker_num'        =>  8,
             // 'task_worker_num'   =>  16,
+            // package_max_length'    => 50 * 1024 * 1024, // 上传大文件50M
         ],
     ] : [],
 
