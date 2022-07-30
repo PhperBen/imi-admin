@@ -25,12 +25,18 @@ trait Service
         try {
             $pageSize = (int)$this->request->request('pageSize', 20);
             $page = (int)$this->request->request('page', 1);
-            $order = method_exists($this->model, 'getOrderRaw') ? $this->model::getOrderRaw() : $this->model::getPk() . ' desc';
+            $order = (string)$this->request->request('order');
+            $prop = (string)$this->request->request('prop');
+            $orderBy = ($order && $prop) ? $prop . ' ' . str_replace(['descending', 'ascending'], ['desc', 'asc'], $order) : $this->model::getPk() . ' desc';
             $query = $this->where();
             if (method_exists($this, '_before_read')) {
                 $this->_before_read($query);
             }
-            $data = $isPage ? $query->orderRaw($order)->paginate($page, $pageSize) : $query->orderRaw($order)->select();
+            $query = $query->orderRaw($orderBy);
+            if (method_exists($this->model, 'getOrderRaw')) {
+                $query = $query->orderRaw($this->model::getOrderRaw());
+            }
+            $data = $isPage ? $query->paginate($page, $pageSize) : $query->orderRaw($order)->select();
             $data = [
                 'list' => $isPage ? $data->getList() : $data->getArray(), // 列表数据
                 'total' => $isPage ? $data->getTotal() : $data->getRowCount(), // 总记录数
