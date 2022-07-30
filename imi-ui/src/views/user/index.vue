@@ -33,7 +33,7 @@
                 <el-table-column label="手机号码" prop="mobile" >
 
 				</el-table-column>
-                <el-table-column label="余额" prop="money" >
+                <el-table-column label="余额" prop="money" sortable>
 
 				</el-table-column>
                 <el-table-column label="创建时间" prop="create_time"  align="right" width="180" :formatter="this.$TABLE.datetime">
