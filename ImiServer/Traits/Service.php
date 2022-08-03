@@ -27,7 +27,7 @@ trait Service
             $page = (int)$this->request->request('page', 1);
             $order = (string)$this->request->request('order');
             $prop = (string)$this->request->request('prop');
-            $orderBy = ($order && $prop) ? $prop . ' ' . str_replace(['descending', 'ascending'], ['desc', 'asc'], $order) : $this->model::getPk() . ' desc';
+            $orderBy = ($order && $prop) ? $prop . ' ' . str_replace(['descending', 'ascending'], ['desc', 'asc'], $order) : $this->model::getSortPk() . ' desc';
             $query = $this->where();
             if (method_exists($this, '_before_read')) {
                 $this->_before_read($query);
