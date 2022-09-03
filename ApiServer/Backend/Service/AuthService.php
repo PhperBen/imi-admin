@@ -42,7 +42,13 @@ class AuthService extends AbstractService
         $query = SoAuthRule::query()->where("status", '=', 1)->where("type", '!=', 'button');
         !($ids === ['*']) && $query = $query->whereIn('id', $ids);
         $list = $query->field('id', 'pid', 'name', 'path', 'type', 'icon')->order('sort', 'desc')->select()->getArray();
-        return $this->_getMenu($list);
+        $list = $this->_getMenu($list);
+        foreach ($list as $key => &$item) {
+            if ($key == 0 && isset($item['children']) && $item['children']) {
+                $item['children'][0]['meta']['affix'] = true;
+            }
+        }
+        return $list;
     }
 
     /**
