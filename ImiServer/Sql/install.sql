@@ -174,8 +174,8 @@ CREATE TABLE `so_auth_rule` (
 --
 
 INSERT INTO `so_auth_rule` (`id`, `sort`, `status`, `pid`, `name`, `alias`, `icon`, `rule`, `type`, `path`, `create_time`, `update_time`) VALUES
-(1, 99, 1, 0, '面板', NULL, 'el-icon-odometer', NULL, 'menu', '/dashboard', 1, 1639130106),
-(2, 93, 1, 1, '数据统计', NULL, 'el-icon-stopwatch', NULL, 'menu', '/dashboard/index', 1, 1639130232),
+(1, 99, 1, 0, '面板', NULL, 'el-icon-odometer', NULL, 'menu', '/home', 1, 1639130106),
+(2, 93, 1, 1, '数据统计', NULL, 'el-icon-stopwatch', NULL, 'menu', '/dashboard', 1, 1639130232),
 (3, 99, 1, 0, '系统', NULL, 'el-icon-more-filled', NULL, 'menu', '/system', 1, 1639396627),
 (4, 48, 1, 3, '配置管理', NULL, 'el-icon-setting', NULL, 'menu', '/system/config', 1, 1639130288),
 (5, 5, 1, 2, '读取', 'dashboard.index', NULL, 'ImiApp\\ApiServer\\Backend\\Controller\\DashboardController::index', 'button', NULL, 1, 0),
